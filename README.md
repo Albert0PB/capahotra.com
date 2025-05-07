@@ -6,7 +6,7 @@
 
 #### Creación del proyecto RILT
 
-```bash
+```console
 laravel new # crear el proyecto Laravel
 
 npm i # instalación de los paquetes JS

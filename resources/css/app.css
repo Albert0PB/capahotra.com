@@ -1,4 +1,8 @@
 @import 'tailwindcss';
+@import "flowbite/src/themes/default";
+@import "./variables.css";
+
+@plugin "flowbite/plugin";
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
@@ -7,7 +11,38 @@
 @source '../**/*.js';
 @source "../views";
 
+@source "../../node_modules/flowbite";
+
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+html {
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+}
+
+h1, h2, .subtitle, h3 {
+    color: var(--color-neutral-bright);
+}
+
+h1 {
+    font-size: var(--font-size-h1);
+    font-weight: 800;
+}
+
+h2 {
+    font-size: var(--font-size-h2);
+    font-weight: 800;
+}
+
+.subtitle {
+    font-size: var(--font-size-h2);
+    font-weight: 400;
+}
+
+h3 {
+    font-size: var(--font-size-h3);
+    font-weight: 600;
 }

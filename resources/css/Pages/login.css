@@ -1,0 +1,65 @@
+.page-login {
+    background: linear-gradient(to bottom right, var(--color-primary), var(--color-secondary));
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: var(--color-neutral-bright);
+    border-radius: 2%;
+    box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.25);
+    height: 70%;
+    width: 30%;
+}
+
+.login-form button {
+    cursor: pointer;
+    background-color: var(--color-neutral-dark-2);
+    color: var(--color-neutral-bright);
+    padding: 0.75rem 2.5rem;
+    font-size: var(--font-size-base);
+    border-radius: 30px;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border-bottom: var(--color-neutral-dark-2) 2px solid;
+    width: 50%;
+}
+
+.input-icon {
+    margin-right: 0.5rem;
+    flex-shrink: 0;
+}
+
+.login-form input {
+    background-color: transparent;
+    border: 0;
+}
+
+.login-form input:focus {
+    border-color: transparent;
+    box-shadow: none;
+    outline: none;
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.links a {
+    color: color-mix(in srgb, var(--color-neutral-dark-2), transparent 60%);
+}
