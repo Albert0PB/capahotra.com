@@ -38,6 +38,11 @@
     width: 50%;
 }
 
+.input-group.password {
+    margin-bottom: -1rem;
+}
+
+
 .input-icon {
     margin-right: 0.5rem;
     flex-shrink: 0;
@@ -52,6 +57,23 @@
     border-color: transparent;
     box-shadow: none;
     outline: none;
+}
+
+.remember-me {
+    display: flex;
+    justify-items: flex-start;
+    width: 50%;
+    align-items: center;
+}
+
+.remember-me input {
+    border: var(--color-neutral-dark) 2px solid;
+    margin-right: 0.5rem;
+}
+
+.remember-me input:focus {
+    border: var(--color-neutral-dark) 2px solid;
+    margin-right: 0.5rem;
 }
 
 .links {

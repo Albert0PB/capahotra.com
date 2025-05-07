@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm, Link } from "@inertiajs/react";
 import { Mail, Lock } from "lucide-react";
-import "../../../css/Pages/login.css"
+import "../../../css/Pages/login.css";
 
 import Logo from "../../Components/Auth/Logo";
 
@@ -32,7 +32,7 @@ export default function Login() {
                 </div>
                 {errors.email && <span>{errors.email}</span>}
 
-                <div className="input-group">
+                <div className="input-group password">
                     <Lock className="input-icon" />
                     <input
                         type="password"
@@ -43,11 +43,26 @@ export default function Login() {
                 </div>
                 {errors.password && <span>{errors.password}</span>}
 
+                <div className="remember-me">
+                    <label>
+                        <input
+                            type="checkbox"
+                            checked={data.remember}
+                            onChange={(e) =>
+                                setData("remember", e.target.checked)
+                            }
+                        />
+                        Remember me
+                    </label>
+                </div>
+
                 <button disabled={processing}>Login</button>
 
                 <div className="links">
                     <Link href="/forgot-password">Forgot password?</Link>
-                    <Link href="/register">New to Capahotra? <u>Register now</u></Link>
+                    <Link href="/register">
+                        New to Capahotra? <u>Register now</u>
+                    </Link>
                 </div>
             </form>
         </div>
