@@ -1,0 +1,231 @@
+/* Main dashboard styles */
+.page-dashboard {
+    background-color: var(--color-neutral-dark);
+    color: var(--color-neutral-bright);
+}
+
+.dashboard-content {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    overflow-x: hidden;
+}
+
+.dashboard-title {
+    font-size: var(--font-size-h1);
+    font-weight: bolder;
+}
+
+.dashboard-date {
+    font-size: var(--font-size-subtitle);
+    font-weight: light;
+    margin-bottom: 5vh;
+}
+
+.dashboard-subtitle {
+    font-size: var(--font-size-h2);
+    font-weight: bolder;
+}
+
+/* First row - Topper */
+.dashboard-fr {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.dashboard-header-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-header-right {
+    display: flex;
+    align-items: flex-start;
+}
+
+/* Sidebar */
+.ps-sidebar-container {
+  background-color: var(--color-neutral-dark) !important;
+  color: var(--color-neutral-bright) !important;
+}
+
+.ps-menu-button {
+  background-color: var(--color-neutral-dark) !important;
+  color: var(--color-neutral-bright) !important;
+}
+
+.ps-submenu-content {
+  background-color: var(--color-neutral-dark) !important;
+}
+
+.ps-menu-button:hover {
+  background-color: var(--color-neutral-dark-3) !important;
+}
+
+.ps-active {
+  background-color: var(--color-neutral-dark-3) !important;
+}
+
+/* Second row - Main content */
+.dashboard-sr {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.dashboard-sr-lh {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 45%;
+}
+
+.dashboard-sr-rh {
+    width: 45%;
+}
+
+/* Current month displayer */
+.current-month-displayer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
+}
+
+/* Recent Movements */
+.recent-movements-table-container {
+    background-color: var(--color-neutral-dark);
+    padding: 0;
+    width: 100%;
+    height: auto;
+}
+
+.recent-movements-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.recent-movements-table-title {
+    color: var(--color-neutral-bright);
+    font-size: var(--font-size-h3);
+    font-weight: 600;
+    margin: 0 0 1rem 0;
+    text-align: left;
+    caption-side: top;
+}
+
+.recent-movements-table-element {
+    border-bottom: 1px solid var(--color-neutral-dark-3);
+    padding: 0;
+}
+
+.recent-movements-table-element:hover {
+    background-color: var(--color-neutral-dark-3);
+}
+
+.recent-movements-table-element td {
+    padding: .6rem 1rem;
+    font-size: var(--font-size-base);
+    vertical-align: middle;
+}
+
+.recent-movements-table-element-labelid {
+    color: var(--color-neutral-bright);
+    width: 40%;
+}
+
+.recent-movements-table-element-currency {
+    color: var(--color-neutral-bright);
+    width: 2%;
+    text-align: left;
+}
+
+.recent-movements-table-element-amount {
+    font-weight: 700;
+    width: 30%;
+    text-align: right;
+}
+
+.positive {
+    color: var(--color-success);
+}
+.negative {
+    color: var(--color-error);
+}
+
+.recent-movements-table-element-date {
+    color: var(--color-neutral-bright);
+    font-size: var(--font-size-base);
+    text-align: right;
+    font-style: italic;
+}
+
+.recent-movements-table-element td:not(:last-child) {
+    border-right: 1px solid transparent;
+}
+
+.income-expense-chart {
+    background-color: var(--color-neutral-dark);
+    border-radius: 0;
+}
+
+/* Financial News Displayer */
+.financial-news-displayer {
+    background-color: var(--color-neutral-dark);
+    color: var(--color-neutral-bright);
+    overflow-x: hidden;
+}
+
+.financial-news-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.news-card {
+    background-color: var(--color-neutral-dark);
+    border-radius: 8px;
+    overflow: hidden;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.news-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.news-content {
+    padding: 1rem;
+}
+
+.news-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.news-description {
+    font-size: 0.95rem;
+    margin-bottom: 0.75rem;
+}
+
+.news-meta {
+    font-size: 0.8rem;
+    color: var(--color-neutral-bright);
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+}
+
+.news-link {
+    color: var(--color-accent);
+    font-weight: 600;
+    text-decoration: none;
+}

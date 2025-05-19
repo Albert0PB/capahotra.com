@@ -3,7 +3,7 @@ import { useForm, Link } from "@inertiajs/react";
 import { Mail, Lock } from "lucide-react";
 import "../../../css/Pages/login.css";
 
-import Logo from "../../Components/Auth/Logo";
+import Logo from "../../Components/Logo";
 
 export default function Login() {
     const { data, setData, post, processing, errors } = useForm({
@@ -14,7 +14,11 @@ export default function Login() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post("/login");
+        post("/login", {
+            onSuccess: () => {
+                window.location.href = "/dashboard";
+            },
+        });
     };
 
     return (
@@ -58,7 +62,7 @@ export default function Login() {
 
                 <button disabled={processing}>Login</button>
 
-                <div className="links">
+                <div className="login-links">
                     <Link href="/forgot-password">Forgot password?</Link>
                     <Link href="/register">
                         New to Capahotra? <u>Register now</u>

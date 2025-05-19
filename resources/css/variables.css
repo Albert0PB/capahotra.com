@@ -8,11 +8,13 @@
     --color-neutral-dark-3: #3E3F4A;
     --color-error: #E64D4D;
     --color-success: #48E16F;
+    --color-warning: #F1FA8C;
 
     /* Typographies */
     --font-general: 'Inter', sans-serif;
     --font-numeric: 'IBM Plex Sans', sans-serif;
     
+    --font-size-h1-main: 5rem; /* 80px */
     --font-size-h1: 3rem; /* 48px */
     --font-size-h2: 2.25rem; /* 36px */
     --font-size-h3: 2rem; /* 32px */

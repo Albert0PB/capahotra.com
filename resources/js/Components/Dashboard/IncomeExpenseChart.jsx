@@ -1,92 +1,91 @@
-// components/IncomeExpenseChart.jsx
-import React from 'react';
-import {
-  Chart as ChartJS,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  Tooltip,
-  Legend,
-} from 'chart.js';
+import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
-import { callback } from 'chart.js/helpers';
-
-const rootStyles = getComputedStyle(document.documentElement);
-
-const incomeColor = rootStyles.getPropertyValue('--color-success').trim();
-const expensesColor = rootStyles.getPropertyValue('--color-error').trim();
-const brightColor = rootStyles.getPropertyValue('--color-neutral-bright').trim();
+import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend } from 'chart.js';
 
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 const IncomeExpenseChart = ({ dataPoints }) => {
-  const labels = dataPoints.map((item) => item.date);
-  const incomeData = dataPoints.map((item) => item.Income);
-  const expensesData = dataPoints.map((item) => item.Expenses);
+    const [colors, setColors] = useState({
+        income: '#48E16F',
+        expenses: '#ff0000',
+        bright: '#cccccc',
+    });
 
-  const data = {
-    labels,
-    datasets: [
-      {
-        label: 'Income',
-        data: incomeData,
-        backgroundColor: incomeColor, 
-      },
-      {
-        label: 'Expenses',
-        data: expensesData,
-        backgroundColor: expensesColor,
-      },
-    ],
-  };
+    useEffect(() => {
+        const rootStyles = getComputedStyle(document.documentElement);
+        setColors({
+            income: rootStyles.getPropertyValue('--color-success').trim(),
+            expenses: rootStyles.getPropertyValue('--color-error').trim(),
+            bright: rootStyles.getPropertyValue('--color-neutral-bright').trim(),
+        });
+    }, []);
 
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        display: false,
-      },
-      tooltip: {
-        bodyFont: {
-          family: 'IBM Plex Sans',
-        },
-      },
-    },
-    scales: {
-      x: {
-        ticks: {
-          color: brightColor,
-          font: {
-            family: 'Inter',
-            size: 14,
-          },
-        },
-        grid: {
-          display: false
-        },
-      },
-      y: {
-        ticks: {
-          color: brightColor,
-          font: {
-            family: 'IBM Plex Sans',
-            size: 14,
-          },
-          callback: (value) => `€ ${value}`,
-        },
-        grid: {
-          color: brightColor,
-        },
-      },
-    },
-  };
-  
+    const labels = dataPoints.map((item) => item.date);
+    const incomeData = dataPoints.map((item) => item.Income);
+    const expensesData = dataPoints.map((item) => item.Expenses);
 
-  return (
-    <div className="w-full max-w-4xl p-4 bg-white rounded-2xl shadow-md income-expense-chart" style={{ backgroundColor: 'var(--color-neutral-dark'}}>
-      <Bar data={data} options={options} style={{ backgroundColor: 'var(--color-neutral-dark'}} />
-    </div>
-  );
+    const data = {
+        labels,
+        datasets: [
+            {
+                label: 'Income',
+                data: incomeData,
+                backgroundColor: colors.income,
+            },
+            {
+                label: 'Expenses',
+                data: expensesData,
+                backgroundColor: colors.expenses,
+            },
+        ],
+    };
+
+    const options = {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: false,
+            },
+            tooltip: {
+                bodyFont: {
+                    family: 'IBM Plex Sans',
+                },
+            },
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: colors.bright,
+                    font: {
+                        family: 'Inter',
+                        size: 14,
+                    },
+                },
+                grid: {
+                    display: false
+                },
+            },
+            y: {
+                ticks: {
+                    color: colors.bright,
+                    font: {
+                        family: 'IBM Plex Sans',
+                        size: 14,
+                    },
+                    callback: (value) => `€ ${value}`,
+                },
+                grid: {
+                    color: colors.bright,
+                },
+            },
+        },
+    };
+
+    return (
+        <div className="income-expense-chart">
+            <Bar data={data} options={options} />
+        </div>
+    );
 };
 
 export default IncomeExpenseChart;

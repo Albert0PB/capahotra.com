@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Inertia\Inertia;
 use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
@@ -40,8 +41,6 @@ class FortifyServiceProvider extends ServiceProvider
             'token' => $request->route('token'),
             'email' => $request->email,
         ]));
-        Fortify::verifyEmailView(fn() => inertia('Auth/EmailVerification'));
-
 
         RateLimiter::for('login', function (Request $request) {
             $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())) . '|' . $request->ip());

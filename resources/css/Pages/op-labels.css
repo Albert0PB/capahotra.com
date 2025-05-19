@@ -1,0 +1,94 @@
+.page-oplabels {
+    background-color: var(--color-neutral-dark);
+    color: var(--color-neutral-bright);
+    padding: 0;
+    margin: 0;
+}
+
+.oplabels-content {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    overflow-x: hidden;
+    width: 100%;
+}
+
+/* Header */
+
+.operative-layout-title {
+    font-size: var(--font-size-h1);
+    font-weight: bolder;
+}
+
+.operative-layout-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.operative-layout-header-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.operative-layout-header-right {
+    display: flex;
+    align-items: flex-start;
+}
+
+/* Bar Chart */
+
+.summary-section {
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.page-oplabels .summary-section-container {
+    width: 50%;
+}
+
+.summary-section div {
+    padding: 0;
+}
+
+.summary-section h2 {
+    text-align: center;
+}
+
+/* Main section */
+
+.main-section table {
+    overflow: hidden;
+}
+
+.main-section table tr {
+    border-left: var(--color-neutral-dark-2) 5px solid;
+    border-right: var(--color-neutral-dark-2) 5px solid;
+}
+
+.main-section table tr:last-child {
+    border-bottom: var(--color-neutral-dark-2) 5px solid;
+}
+
+.main-section table thead {
+    background-color: var(--color-neutral-dark-2);
+}
+
+.main-section table thead tr {
+    border: 0;
+}
+
+.main-section form {
+    background-color: var(--color-neutral-dark-2);
+}
+
+.main-section label {
+    color: var(--color-neutral-bright);
+}
+
+.main-section input {
+    color: var(--color-neutral-dark-3);
+}

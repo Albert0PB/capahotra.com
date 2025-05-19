@@ -3,9 +3,14 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+
+use App\Models\Label;
+use App\Models\Movement;
+use App\Models\MonthlyForecast;
 
 class User extends Authenticatable
 {
@@ -44,5 +49,20 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function labels()
+    {
+        return $this->hasMany(Label::class);
+    }
+
+    public function movements()
+    {
+        return $this->hasMany(Movement::class);
+    }
+
+    public function monthlyForecasts()
+    {
+        return $this->hasMany(MonthlyForecast::class);
     }
 }

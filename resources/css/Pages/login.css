@@ -35,7 +35,7 @@
     padding: 0.5rem;
     margin-bottom: 1rem;
     border-bottom: var(--color-neutral-dark-2) 2px solid;
-    width: 50%;
+    width: 65%;
 }
 
 .input-group.password {
@@ -48,15 +48,25 @@
     flex-shrink: 0;
 }
 
-.login-form input {
+.login-form input:not([type="checkbox"]) {
     background-color: transparent;
     border: 0;
+}
+
+.login-form input[type="email"],
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    width: 80%;
 }
 
 .login-form input:focus {
     border-color: transparent;
     box-shadow: none;
     outline: none;
+}
+
+.login-form span {
+    color: var(--color-error);
 }
 
 .remember-me {
@@ -76,12 +86,12 @@
     margin-right: 0.5rem;
 }
 
-.links {
+.login-links {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-.links a {
+.login-links a {
     color: color-mix(in srgb, var(--color-neutral-dark-2), transparent 60%);
 }

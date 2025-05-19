@@ -1,0 +1,16 @@
+.logo-container {
+    width: 90px;
+    height: 90px;
+    background-color: var(--color-neutral-dark-2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo-img {
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 55px;
+    height: 55px;
+}
