@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Label;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class LabelController extends Controller
 {
@@ -23,7 +24,14 @@ class LabelController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:100',
+            'name' => [
+                'required',
+                'string',
+                'max:100',
+                Rule::unique('labels')->where(function ($query) {
+                    return $query->where('user_id', Auth::id());
+                }),
+            ],
         ]);
 
         $label = Auth::user()->labels()->create($validated);

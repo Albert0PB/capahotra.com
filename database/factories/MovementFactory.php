@@ -1,5 +1,6 @@
 <?php
 namespace Database\Factories;
+
 use App\Models\Bank;
 use App\Models\Label;
 use App\Models\MovementType;
@@ -19,21 +20,29 @@ class MovementFactory extends Factory
      */
     public function definition(): array
     {
-        $user = User::all()->random();
+        // Asegurarse que haya al menos un usuario
+        $user = User::first() ?? User::factory()->create();
+
+        // Último movimiento para calcular balance anterior
         $lastMovement = Movement::where('user_id', $user->id)->latest()->first();
         $previousBalance = $lastMovement ? $lastMovement->balance : 0;
-        
+
+        // Determinar tipo ingreso o gasto
         if ($previousBalance < 500) {
             $isIncome = $this->faker->boolean(80);
         } else {
             $isIncome = $this->faker->boolean(50);
         }
-        
+
+        // Obtener el tipo de movimiento según el código
         $movementType = MovementType::where('code', $isIncome ? 'I' : 'E')->first();
-        
+        if (!$movementType) {
+            $movementType = MovementType::factory()->create(['code' => $isIncome ? 'I' : 'E']);
+        }
+
+        // Calcular el monto según sea ingreso o gasto
         if (!$isIncome) {
             $maxAmount = min($previousBalance, 2500);
-            
             if ($maxAmount < 100) {
                 $amount = $this->faker->randomFloat(2, 1, $maxAmount ?: 1);
             } else {
@@ -42,20 +51,34 @@ class MovementFactory extends Factory
         } else {
             $amount = $this->faker->randomFloat(2, 100, 2500);
         }
-        
+
+        // Calcular balance actual
         $actualBalance = $isIncome ? $previousBalance + $amount : $previousBalance - $amount;
-        $date = $this->faker->dateTimeThisYear('+8 months', 'Europe/Madrid');
-        
+
+        // Asegurar que existan bancos
+        $bank = Bank::first() ?? Bank::factory()->create();
+
+        // Asegurar que exista alguna etiqueta para ese usuario
+        $label = Label::where('user_id', $user->id)->first();
+        if (!$label) {
+            $label = Label::factory()->create(['user_id' => $user->id]);
+        }
+
+        $transactionDate = $this->faker->dateTimeBetween('2025-01-01', '2025-12-31');
+        $valueDate = $transactionDate;
+
         return [
             'movement_type_id' => $movementType->id,
             'user_id' => $user->id,
-            'bank_id' => Bank::all()->random()->id,
-            'label_id' => Label::where('user_id', $user->id)->get()->random()->id,
-            'transaction_date' => $date,
-            'value_date' => $date,
+            'bank_id' => $bank->id,
+            'label_id' => $label->id,
+            'transaction_date' => $transactionDate,
+            'value_date' => $valueDate,
             'comment' => $this->faker->sentence(),
             'amount' => $amount,
-            'balance' => $actualBalance
+            'balance' => $actualBalance,
         ];
     }
+
+
 }

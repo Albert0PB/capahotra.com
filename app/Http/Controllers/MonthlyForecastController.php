@@ -62,9 +62,9 @@ class MonthlyForecastController extends Controller
      */
     public function update(Request $request, MonthlyForecast $monthlyForecast)
     {
-        try {
-            $this->authorizeForecast($monthlyForecast);
+        $this->authorizeForecast($monthlyForecast);
 
+        try {
             $validated = $request->validate([
                 'label_id' => 'sometimes|required|exists:labels,id',
                 'year'     => 'sometimes|required|integer|min:2000|max:2100',

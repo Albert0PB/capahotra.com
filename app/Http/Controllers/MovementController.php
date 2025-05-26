@@ -16,7 +16,7 @@ class MovementController extends Controller
     {
         $user = Auth::user();
         return response()->json(
-            $user->movements()->with('label')->orderBy('date', 'desc')->get()
+            $user->movements()->with('label')->orderBy('transaction_date', 'desc')->get()
         );
     }
 
@@ -27,9 +27,12 @@ class MovementController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'label_id' => 'required|exists:labels,id',
+            'movement_type_id' => 'required|exists:movement_types,id',
+            'bank_id' => 'required|exists:banks,id',
             'amount' => 'required|numeric',
-            'date' => 'required|date',
-            'description' => 'nullable|string|max:255',
+            'transaction_date' => 'required|date',
+            'value_date' => 'required|date',
+            'comment' => 'nullable|string|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -41,9 +44,13 @@ class MovementController extends Controller
         $movement = Movement::create([
             'user_id' => Auth::id(),
             'label_id' => $request->label_id,
+            'movement_type_id' => $request->movement_type_id,
+            'bank_id' => $request->bank_id,
             'amount' => $request->amount,
-            'date' => $request->date,
-            'description' => $request->description,
+            'transaction_date' => $request->transaction_date,
+            'value_date' => $request->value_date,
+            'comment' => $request->comment,
+            'balance' => 0,
         ]);
 
         return response()->json($movement, 201);
@@ -68,8 +75,8 @@ class MovementController extends Controller
         $validator = Validator::make($request->all(), [
             'label_id' => 'required|exists:labels,id',
             'amount' => 'required|numeric',
-            'date' => 'required|date',
-            'description' => 'nullable|string|max:255',
+            'transaction_date' => 'required|date',
+            'comment' => 'nullable|string|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -81,8 +88,8 @@ class MovementController extends Controller
         $movement->update([
             'label_id' => $request->label_id,
             'amount' => $request->amount,
-            'date' => $request->date,
-            'description' => $request->description,
+            'transaction_date' => $request->transaction_date,
+            'comment' => $request->comment,
         ]);
 
         return response()->json($movement);
@@ -108,4 +115,5 @@ class MovementController extends Controller
             abort(403, 'Unauthorized action.');
         }
     }
+
 }

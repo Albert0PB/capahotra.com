@@ -19,4 +19,9 @@ class Label extends Model
         return $this->hasMany(Movement::class);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }

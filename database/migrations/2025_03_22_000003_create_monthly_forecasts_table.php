@@ -19,7 +19,7 @@ return new class extends Migration
             $table->smallInteger('year', false, true);
             $table->smallInteger('month', false, true);
             $table->decimal('amount', 8, 2);
-            $table->string('comment', 255);
+            $table->string('comment', 255)->nullable();
             $table->timestamps();
             $table->unique(['label_id', 'user_id', 'month', 'year'], 'unique_forecast_per_label_month_year');
             $table->index('user_id');

@@ -13,22 +13,25 @@ class LabelFactory extends Factory
      */
     public function definition(): array
     {
-        static $usedCombinations = [];
         $availableNames = ['Ocio', 'Comidas', 'Bizum', 'Nómina', 'Alquiler', 'Compras', 'Seguros'];
 
-        do
-        {
-            $user = User::all()->random();
-            $user_id = $user->id;
-            $name = $this->faker->randomElement($availableNames);
-            $combinationKey = "{$user_id}_{$name}";
-        } while( in_array($combinationKey, $usedCombinations) );
+        $user = User::first() ?? User::factory()->create();
 
-        $usedCombinations[] = $combinationKey;
+        // Obtener los nombres que ese usuario ya tiene
+        $usedNames = Label::where('user_id', $user->id)->pluck('name')->all();
+        $namesLeft = array_diff($availableNames, $usedNames);
+
+        if (empty($namesLeft)) {
+            // Si ya no quedan nombres únicos, crea un nombre aleatorio
+            $name = $this->faker->unique()->word;
+        } else {
+            $name = $this->faker->randomElement($namesLeft);
+        }
 
         return [
             'user_id' => $user->id,
-            'name' => $name
+            'name' => $name,
         ];
     }
+
 }

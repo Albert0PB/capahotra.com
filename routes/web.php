@@ -16,30 +16,40 @@ use App\Http\Controllers\LabelController;
 use App\Http\Controllers\MovementController;
 use App\Http\Controllers\MonthlyForecastController;
 
-define("INCOME_ID", 1);
-define("EXPENSE_ID", 2);
-
-function retrieveLastFourMonthsData($userId)
+if( !defined('INCOME_ID') )
 {
-    $fullData = [];
-    $currentMonthData = null;
+    define('INCOME_ID', 1);
+}
 
-    for ($i = 3; $i >= 0; $i--) {
-        $date = Carbon::now()->subMonths($i);
-        $startOfMonth = $date->copy()->startOfMonth();
-        $endOfMonth = $date->copy()->endOfMonth();
+if( !defined('EXPENSE_ID') )
+{
+    define('EXPENSE_ID', 2);
+}
 
-        $income = Movement::where('user_id', $userId)
+if( !function_exists('retrieveLastFourMonthsData') )
+{
+
+    function retrieveLastFourMonthsData($userId)
+    {
+        $fullData = [];
+        $currentMonthData = null;
+        
+        for ($i = 3; $i >= 0; $i--) {
+            $date = Carbon::now()->subMonths($i);
+            $startOfMonth = $date->copy()->startOfMonth();
+            $endOfMonth = $date->copy()->endOfMonth();
+            
+            $income = Movement::where('user_id', $userId)
             ->where('movement_type_id', INCOME_ID)
             ->whereBetween('transaction_date', [$startOfMonth, $endOfMonth])
             ->sum('amount');
-
-        $expenses = Movement::where('user_id', $userId)
+            
+            $expenses = Movement::where('user_id', $userId)
             ->where('movement_type_id', EXPENSE_ID)
             ->whereBetween('transaction_date', [$startOfMonth, $endOfMonth])
             ->sum('amount');
-
-        $monthData = [
+            
+            $monthData = [
             'date' => $date->format('F'),
             'Income' => $income,
             'Expenses' => $expenses
@@ -48,57 +58,66 @@ function retrieveLastFourMonthsData($userId)
         $fullData[] = $monthData;
         if ($i === 0) $currentMonthData = $monthData;
     }
-
+    
     return [
         'currentMonthData' => $currentMonthData,
         'fullData' => $fullData
     ];
 }
-
-function getFinancialNews(int $limit = 5): array
-{
-    $feedUrl = 'https://www.cnbc.com/id/100003114/device/rss/rss.html';
-    $feed = Feeds::make($feedUrl);
-    $items = $feed->get_items(0, $limit);
-    $link = $feed->get_permalink();
-    $host = parse_url($link, PHP_URL_HOST);
-
-    $news = [];
-
-    foreach ($items as $item) {
-        $enclosure = $item->get_enclosure();
-        $image = $enclosure ? $enclosure->get_link() : null;
-
-        $news[] = [
-            'title'       => $item->get_title(),
-            'description' => $item->get_description(),
-            'link'        => $item->get_permalink(),
-            'date'        => $item->get_date('Y-m-d H:i:s'),
-            'image'       => $image,
-            'source'     => str_replace('www.', '', $host)
-        ];
-    }
-
-    return $news;
 }
 
-function getLabelsData()
+if( !function_exists('getFinancialNews') )
 {
-    $yearStart = now()->startOfYear();
-    $labels = Label::withSum([
-        'movements' => function ($query) use ($yearStart) {
-            $query->where('transaction_date', '>=', $yearStart);
+
+    function getFinancialNews(int $limit = 5): array
+    {
+        $feedUrl = 'https://www.cnbc.com/id/100003114/device/rss/rss.html';
+        $feed = Feeds::make($feedUrl);
+        $items = $feed->get_items(0, $limit);
+        $link = $feed->get_permalink();
+        $host = parse_url($link, PHP_URL_HOST);
+        
+        $news = [];
+        
+        foreach ($items as $item) {
+            $enclosure = $item->get_enclosure();
+            $image = $enclosure ? $enclosure->get_link() : null;
+            
+            $news[] = [
+                'title'       => $item->get_title(),
+                'description' => $item->get_description(),
+                'link'        => $item->get_permalink(),
+                'date'        => $item->get_date('Y-m-d H:i:s'),
+                'image'       => $image,
+                'source'     => str_replace('www.', '', $host)
+            ];
         }
-    ], 'amount')
+        
+        return $news;
+    }
+}
+
+if( !function_exists('getLabelsData') )
+{
+
+    function getLabelsData()
+    {
+        $yearStart = now()->startOfYear();
+        $labels = Label::withSum([
+            'movements' => function ($query) use ($yearStart) {
+                $query->where('transaction_date', '>=', $yearStart);
+            }
+        ], 'amount')
         ->withCount([
             'movements' => function ($query) use ($yearStart) {
                 $query->where('transaction_date', '>=', $yearStart);
             }
-        ])
-        ->where('user_id', Auth::id())
-        ->get();
-
-    return $labels;
+            ])
+            ->where('user_id', Auth::id())
+            ->get();
+            
+            return $labels;
+        }
 }
 
 Route::fallback(function () {

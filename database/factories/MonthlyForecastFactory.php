@@ -15,31 +15,32 @@ class MonthlyForecastFactory extends Factory
      * @return array<string, mixed>
      */
     public function definition(): array
-    {
-        static $usedCombinations = [];
-        
-        $users = User::all();
-        $labels = Label::all();
-        
-        do {
-            $user_id = $users->random()->id;
-            $label_id = $labels->random()->id;
-            $year = 2025;
-            $month = $this->faker->numberBetween(0, 11);
-            
-            $combinationKey = "{$label_id}_{$user_id}_{$month}_{$year}";
-            
-        } while (in_array($combinationKey, $usedCombinations));
-        
-        $usedCombinations[] = $combinationKey;
-        
-        return [
-            'label_id' => $label_id,
-            'user_id' => $user_id,
-            'year' => $year,
-            'month' => $month,
-            'amount' => $this->faker->randomFloat(2, 100, 2500),
-            'comment' => $this->faker->sentence()
-        ];
-    }
+{
+    static $usedCombinations = [];
+
+    $users = User::all();
+    $labels = Label::all();
+
+    do {
+        $user_id = $users->random()->id;
+        $label_id = $labels->random()->id;
+        $year = 2025;
+        $month = $this->faker->numberBetween(0, 11);
+
+        $combinationKey = "{$label_id}_{$user_id}_{$month}_{$year}";
+
+    } while (in_array($combinationKey, $usedCombinations));
+
+    $usedCombinations[] = $combinationKey;
+
+    return [
+        'label_id' => $label_id,
+        'user_id' => $user_id,
+        'year' => $year,
+        'month' => $month,
+        'amount' => $this->faker->randomFloat(2, 100, 2500),
+        'comment' => $this->faker->sentence()
+    ];
+}
+
 }
