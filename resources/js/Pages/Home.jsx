@@ -1,19 +1,52 @@
 import React from "react";
+import { Link } from "@inertiajs/react";
 
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 
-import "../../css/Pages/home.css";
-
-export default function Home()
-{
+export default function Home() {
     return (
-        <div className="page-home">
+        <div className="min-h-screen flex flex-col">
             <Header />
-            <div className="main-home">
-                <h1 className="home-title">Your finances: the <span className="text-[var(--color-secondary)]"><em>feline</em></span> way</h1>
-            </div>
+            
+            {/* Main Content */}
+            <main className="flex-1 bg-gradient-to-b from-[var(--color-neutral-dark)] to-[var(--color-primary)] flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 xl:py-24">
+                <div className="max-w-4xl mx-auto text-center">
+                    
+                    {/* Main Title */}
+                    <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-[4rem] font-bold text-[var(--color-neutral-bright)] leading-tight mb-8 sm:mb-12">
+                        Your finances: the{" "}
+                        <span className="text-[var(--color-secondary)] font-extrabold">
+                            <em>feline</em>
+                        </span>{" "}
+                        way
+                    </h1>
+
+                    {/* Subtitle */}
+                    <p className="text-lg sm:text-xl lg:text-2xl text-[var(--color-neutral-bright)]/90 mb-8 sm:mb-12 max-w-2xl mx-auto leading-relaxed">
+                        Manage your money with the purr-fect balance of simplicity and power. 
+                        Track expenses, plan budgets, and achieve your financial goals.
+                    </p>
+
+                    {/* CTA Buttons */}
+                    <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
+                        <Link
+                            href="/register"
+                            className="w-full sm:w-auto bg-[var(--color-secondary)] text-[var(--color-neutral-bright)] px-8 py-4 rounded-full text-lg lg:text-xl font-semibold hover:bg-[var(--color-secondary)]/90 transition-all duration-200 transform hover:scale-105"
+                        >
+                            Get Started Free
+                        </Link>
+                        <Link
+                            href="/login"
+                            className="w-full sm:w-auto border-2 border-[var(--color-neutral-bright)] text-[var(--color-neutral-bright)] px-8 py-4 rounded-full text-lg lg:text-xl font-semibold hover:bg-[var(--color-neutral-bright)] hover:text-[var(--color-neutral-dark)] transition-all duration-200"
+                        >
+                            Sign In
+                        </Link>
+                    </div>
+                </div>
+            </main>
+
             <Footer />
         </div>
-    )
+    );
 }

@@ -7,10 +7,7 @@ import FinancialNewsDisplayer from "../Components/Dashboard/FinancialNewsDisplay
 import NavSidebar from "../Components/NavSidebar";
 
 import { format } from "date-fns";
-import { format as formatWithSuffix } from "date-fns/format";
 import { enUS } from "date-fns/locale";
-
-import "../../css/Pages/dashboard.css";
 
 function getFormattedDate() {
     return format(new Date(), "do MMMM yyyy", { locale: enUS });
@@ -25,36 +22,47 @@ export default function Dashboard({
     const date = getFormattedDate();
 
     return (
-        <div className="min-h-screen w-full bg-[var(--color-neutral-dark)] page-dashboard">
-            <div className="dashboard-content">
-                <div className="dashboard-fr">
-                    <div className="dashboard-header-left">
-                        <h1 className="dashboard-title">
+        <div className="min-h-screen w-full bg-[var(--color-neutral-dark)] text-[var(--color-neutral-bright)]">
+            <div className="p-4 sm:p-6 lg:p-8 flex flex-col gap-4 sm:gap-6 lg:gap-8 overflow-x-hidden">
+                
+                {/* Header Section */}
+                <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-0 w-full">
+                    <div className="flex flex-col">
+                        <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-[3rem] font-extrabold text-[var(--color-neutral-bright)] mb-2">
                             Your global position
                         </h1>
-                        <div className="dashboard-date">{date}</div>
-                        <h2 className="dashboard-subtitle">This month:</h2>
+                        <div className="text-lg sm:text-xl lg:text-2xl xl:text-[2rem] font-light text-[var(--color-neutral-bright)] mb-4 sm:mb-8">
+                            {date}
+                        </div>
+                        <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-[2.25rem] font-extrabold text-[var(--color-neutral-bright)]">
+                            This month:
+                        </h2>
                     </div>
-                    <div className="dashboard-header-right">
+                    <div className="flex items-start">
                         <NavSidebar />
                     </div>
                 </div>
-                <div className="dashboard-sr">
-                    <div className="dashboard-sr-lh">
-                        <CurrentMonthDisplayer
-                            currentMonthData={currentMonthData}
-                        />
+
+                {/* Main Content Section */}
+                <div className="flex flex-col xl:flex-row w-full gap-6 lg:gap-8">
+                    
+                    {/* Left Column */}
+                    <div className="flex-1 flex flex-col gap-4 sm:gap-6 xl:max-w-none">
+                        <CurrentMonthDisplayer currentMonthData={currentMonthData} />
                         <IncomeExpenseChart dataPoints={lastFourMonthsData} />
                     </div>
-                    <div className="dashboard-sr-rh">
-                        <RecentMovementsTable
-                            recentMovements={recentMovements}
-                        />
+                    
+                    {/* Right Column */}
+                    <div className="w-full xl:w-2/5 xl:max-w-[45%]">
+                        <RecentMovementsTable recentMovements={recentMovements} />
                     </div>
                 </div>
-                <div className="dashboard-tr">
+
+                {/* Financial News Section */}
+                <div className="w-full">
                     <FinancialNewsDisplayer news={financialNews} />
                 </div>
+
             </div>
         </div>
     );

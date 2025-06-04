@@ -1,12 +1,96 @@
 import React from "react";
+import { Link } from "@inertiajs/react";
 
-import "../../css/Components/footer.css";
-
-export default function Footer()
-{
+export default function Footer() {
     return (
-        <div className="footer">
+        <footer className="bg-[var(--color-neutral-dark)] py-6 sm:py-8 lg:py-12 px-4 sm:px-6 lg:px-12">
+            <div className="max-w-6xl mx-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    
+                    {/* Brand Section */}
+                    <div className="lg:col-span-2">
+                        <div className="flex items-center mb-4">
+                            <img 
+                                src="/images/white-logo-00.png"
+                                alt="Capahotra logo"
+                                className="w-8 h-8 mr-3"
+                            />
+                            <span className="text-[var(--color-neutral-bright)] text-xl font-semibold">
+                                Capahotra
+                            </span>
+                        </div>
+                        <p className="text-[var(--color-neutral-bright)]/70 text-sm sm:text-base max-w-md">
+                            Your finances: the <em>feline</em> way. 
+                            Manage your money with the purr-fect balance of simplicity and power.
+                        </p>
+                    </div>
 
-        </div>
-    )
+                    {/* Quick Links */}
+                    <div>
+                        <h3 className="text-[var(--color-neutral-bright)] font-semibold mb-4">
+                            Quick Links
+                        </h3>
+                        <ul className="space-y-2">
+                            <li>
+                                <Link 
+                                    href="/services"
+                                    className="text-[var(--color-neutral-bright)]/70 hover:text-[var(--color-primary)] transition-colors duration-200 text-sm sm:text-base"
+                                >
+                                    Services
+                                </Link>
+                            </li>
+                            <li>
+                                <Link 
+                                    href="/about-us"
+                                    className="text-[var(--color-neutral-bright)]/70 hover:text-[var(--color-primary)] transition-colors duration-200 text-sm sm:text-base"
+                                >
+                                    About Us
+                                </Link>
+                            </li>
+                            <li>
+                                <a 
+                                    href="https://github.com/iesgrancapitan-proyectos/202425daw-junio-nombreproyecto-Albert0PB/wiki"
+                                    className="text-[var(--color-neutral-bright)]/70 hover:text-[var(--color-primary)] transition-colors duration-200 text-sm sm:text-base"
+                                >
+                                    Documentation
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    {/* Account */}
+                    <div>
+                        <h3 className="text-[var(--color-neutral-bright)] font-semibold mb-4">
+                            Account
+                        </h3>
+                        <ul className="space-y-2">
+                            <li>
+                                <Link 
+                                    href="/login"
+                                    className="text-[var(--color-neutral-bright)]/70 hover:text-[var(--color-primary)] transition-colors duration-200 text-sm sm:text-base"
+                                >
+                                    Log In
+                                </Link>
+                            </li>
+                            <li>
+                                <Link 
+                                    href="/register"
+                                    className="text-[var(--color-neutral-bright)]/70 hover:text-[var(--color-primary)] transition-colors duration-200 text-sm sm:text-base"
+                                >
+                                    Register
+                                </Link>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                {/* Bottom Section */}
+                <div className="mt-8 pt-6 border-t border-[var(--color-neutral-dark-3)] flex flex-col sm:flex-row justify-between items-center">
+                    <p className="text-[var(--color-neutral-bright)]/60 text-sm">
+                        © 2025 Capahotra. All rights reserved.
+                    </p>
+                </div>
+            </div>
+        </footer>
+    );
 }

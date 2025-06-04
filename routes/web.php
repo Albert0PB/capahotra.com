@@ -11,10 +11,12 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Movement;
 use App\Models\Label;
 use App\Models\MonthlyForecast;
+use App\Models\Bank;
 
 use App\Http\Controllers\LabelController;
 use App\Http\Controllers\MovementController;
 use App\Http\Controllers\MonthlyForecastController;
+use App\Http\Controllers\BankStatementController;
 
 if( !defined('INCOME_ID') )
 {
@@ -129,6 +131,11 @@ Route::middleware('auth')->prefix('/api')->group(function () {
     Route::apiResource('movements', MovementController::class);
     Route::apiResource('monthly-forecasts', MonthlyForecastController::class);
 
+    Route::prefix('bank-statements')->group(function () {
+        Route::post('process', [BankStatementController::class, 'processPdf']);
+        Route::post('save', [BankStatementController::class, 'saveMovements']);
+    });
+
     Route::get('monthly-forecasts-summary', function () {
         try {
             $userId = Auth::id();
@@ -211,6 +218,76 @@ Route::middleware(['auth',])->get('/dashboard', function () {
 });
 
 Route::middleware('auth')->prefix('/operations')->group(function () {
+    
+        Route::get("/", function () {
+        try {
+            $user = Auth::user();
+
+            $currentBalance = Movement::where('user_id', $user->id)
+                ->latest('transaction_date')
+                ->value('balance') ?? 0;
+
+            $totalMovements = Movement::where('user_id', $user->id)->count();
+            $totalLabels = Label::where('user_id', $user->id)->count();
+            $totalForecasts = MonthlyForecast::where('user_id', $user->id)->count();
+
+            $currentMonth = now()->month;
+            $currentYear = now()->year;
+
+            $thisMonthIncome = Movement::where('user_id', $user->id)
+                ->where('movement_type_id', 1)
+                ->whereMonth('transaction_date', $currentMonth)
+                ->whereYear('transaction_date', $currentYear)
+                ->sum('amount');
+
+            $thisMonthExpenses = Movement::where('user_id', $user->id)
+                ->where('movement_type_id', 2)
+                ->whereMonth('transaction_date', $currentMonth)
+                ->whereYear('transaction_date', $currentYear)
+                ->sum('amount');
+
+            $recentMovements = Movement::where('user_id', $user->id)
+                ->with('label')
+                ->orderBy('transaction_date', 'desc')
+                ->limit(5)
+                ->get();
+
+            $upcomingForecasts = MonthlyForecast::where('user_id', $user->id)
+                ->where('month', $currentMonth - 1) 
+                ->where('year', $currentYear)
+                ->with('label')
+                ->get();
+
+            $userLabels = Label::where('user_id', $user->id)
+                ->withCount('movements')
+                ->orderBy('movements_count', 'desc')
+                ->get();
+
+            return Inertia::render('Operations/OperativePanel', [
+                'summaryData' => [
+                    'currentBalance' => $currentBalance,
+                    'totalMovements' => $totalMovements,
+                    'totalLabels' => $totalLabels,
+                    'totalForecasts' => $totalForecasts,
+                    'thisMonthIncome' => abs($thisMonthIncome),
+                    'thisMonthExpenses' => abs($thisMonthExpenses),
+                ],
+                'recentMovements' => $recentMovements,
+                'upcomingForecasts' => $upcomingForecasts,
+                'userLabels' => $userLabels,
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Error in operations hub route: ' . $e->getMessage());
+            
+            return Inertia::render('Operations/OperativePanel', [
+                'summaryData' => [],
+                'recentMovements' => [],
+                'upcomingForecasts' => [],
+                'userLabels' => [],
+            ]);
+        }
+    });
+
     Route::get("labels", function () {
         $user = Auth::user();
 
@@ -237,5 +314,40 @@ Route::middleware('auth')->prefix('/operations')->group(function () {
     });
 
 
-    Route::get("movements", function () {});
+    Route::get("movements", function () {
+        $user = Auth::user();
+
+        $movements = $user->movements()->with(['label', 'bank', 'movementType'])
+            ->orderBy('transaction_date', 'desc')
+            ->get();
+
+        $userLabels = $user->labels()->get();
+
+        $banks = Bank::all();
+
+        return Inertia::render('Operations/OpMovements', [
+            'movements' => $movements,
+            'userLabels' => $userLabels,
+            'banks' => $banks,
+        ]);
+    });
 });
+
+Route::post('/debug-file', function(Request $request) {
+    if (!$request->hasFile('pdf_file')) {
+        return response()->json(['error' => 'No file uploaded']);
+    }
+    
+    $file = $request->file('pdf_file');
+    
+    return response()->json([
+        'name' => $file->getClientOriginalName(),
+        'size' => $file->getSize(),
+        'mime_type' => $file->getMimeType(),
+        'extension' => $file->getClientOriginalExtension(),
+        'is_valid' => $file->isValid(),
+        'path' => $file->getPathname(),
+        'real_path' => $file->getRealPath(),
+        'error' => $file->getError(),
+    ]);
+})->middleware('auth');

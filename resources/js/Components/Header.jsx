@@ -1,29 +1,119 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "@inertiajs/react";
+import { Menu, X } from "lucide-react";
 
-import "../../css/Components/header.css";
+export default function Header() {
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-export default function Header()
-{
+    const toggleMobileMenu = () => {
+        setIsMobileMenuOpen(!isMobileMenuOpen);
+    };
+
     return (
-        <div className="header">
-            <div className="logo-header">
-                <img 
-                    src="/images/white-logo-00.png"
-                    alt="white capahotra logo"
-                />
-            </div>
-            <div className="links">
-                <div className="links-left">
-                    <Link href={"/services"}>Services</Link>
-                    <Link href={"/about-us"}>About Us</Link>
-                    <Link href={"/docs"}>Docs</Link>
+        <header className="bg-[var(--color-neutral-dark)] px-4 sm:px-6 lg:px-12 xl:px-16 py-4 lg:py-8">
+            <div className="flex justify-between items-center">
+                
+                {/* Logo */}
+                <div className="flex-shrink-0">
+                    <img 
+                        src="/images/white-logo-00.png"
+                        alt="white capahotra logo"
+                        className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12"
+                    />
                 </div>
-                <div className="links-right">
-                    <Link href={"/login"}>Log In</Link>
-                    <Link href={"/register"}>Register</Link>
-                </div>
+
+                {/* Desktop Navigation */}
+                <nav className="hidden lg:flex items-center justify-between flex-1 ml-8">
+                    <div className="flex space-x-8 xl:space-x-12">
+                        <Link 
+                            href="/services"
+                            className="text-[var(--color-neutral-bright)] text-base xl:text-[1.5rem] hover:text-[var(--color-primary)] transition-colors duration-200"
+                        >
+                            Services
+                        </Link>
+                        <Link 
+                            href="/about-us"
+                            className="text-[var(--color-neutral-bright)] text-base xl:text-[1.5rem] hover:text-[var(--color-primary)] transition-colors duration-200"
+                        >
+                            About Us
+                        </Link>
+                        <a 
+                            href="https://github.com/iesgrancapitan-proyectos/202425daw-junio-nombreproyecto-Albert0PB/wiki"
+                            className="text-[var(--color-neutral-bright)] text-base xl:text-[1.5rem] hover:text-[var(--color-primary)] transition-colors duration-200"
+                        >
+                            Docs
+                        </a>
+                    </div>
+                    
+                    <div className="flex items-center space-x-6 xl:space-x-8">
+                        <Link 
+                            href="/login"
+                            className="text-[var(--color-neutral-bright)] text-base xl:text-[1.5rem] hover:text-[var(--color-primary)] transition-colors duration-200"
+                        >
+                            Log In
+                        </Link>
+                        <Link 
+                            href="/register"
+                            className="bg-[var(--color-primary)] text-[var(--color-neutral-bright)] px-4 py-2 xl:px-6 xl:py-3 rounded-full text-base xl:text-[1.5rem] hover:bg-[var(--color-secondary)] transition-colors duration-200"
+                        >
+                            Register
+                        </Link>
+                    </div>
+                </nav>
+
+                {/* Mobile Menu Button */}
+                <button
+                    onClick={toggleMobileMenu}
+                    className="lg:hidden text-[var(--color-neutral-bright)] p-2"
+                    aria-label="Toggle mobile menu"
+                >
+                    {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                </button>
             </div>
-        </div>
-    )
+
+            {/* Mobile Navigation */}
+            {isMobileMenuOpen && (
+                <nav className="lg:hidden mt-4 pb-4 border-t border-[var(--color-neutral-dark-3)] pt-4">
+                    <div className="flex flex-col space-y-4">
+                        <Link 
+                            href="/services"
+                            className="text-[var(--color-neutral-bright)] text-base hover:text-[var(--color-primary)] transition-colors duration-200"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                            Services
+                        </Link>
+                        <Link 
+                            href="/about-us"
+                            className="text-[var(--color-neutral-bright)] text-base hover:text-[var(--color-primary)] transition-colors duration-200"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                            About Us
+                        </Link>
+                        <Link 
+                            href="/docs"
+                            className="text-[var(--color-neutral-bright)] text-base hover:text-[var(--color-primary)] transition-colors duration-200"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                            Docs
+                        </Link>
+                        <hr className="border-[var(--color-neutral-dark-3)]" />
+                        <Link 
+                            href="/login"
+                            className="text-[var(--color-neutral-bright)] text-base hover:text-[var(--color-primary)] transition-colors duration-200"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                            Log In
+                        </Link>
+                        <Link 
+                            href="/register"
+                            className="bg-[var(--color-primary)] text-[var(--color-neutral-bright)] px-4 py-2 rounded-full text-base hover:bg-[var(--color-secondary)] transition-colors duration-200 text-center"
+                            onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                            Register
+                        </Link>
+                    </div>
+                </nav>
+            )}
+        </header>
+    );
 }

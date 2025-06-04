@@ -1,6 +1,5 @@
 @import 'tailwindcss';
 @import "flowbite/src/themes/default";
-@import "./variables.css";
 
 @plugin "flowbite/plugin";
 
@@ -18,31 +17,26 @@
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
-html {
-    font-size: 16px;
-    font-family: 'Inter', sans-serif;
-}
+:root {
+    /* Page colors */
+    --color-primary: #6272A4;
+    --color-secondary: #9776C7;
+    --color-neutral-bright: #F8F8F2;
+    --color-neutral-dark: #282A36;
+    --color-neutral-dark-2: #181920;
+    --color-neutral-dark-3: #3E3F4A;
+    --color-error: #E64D4D;
+    --color-success: #48E16F;
+    --color-warning: #F1FA8C;
 
-h1, h2, .subtitle, h3 {
-    color: var(--color-neutral-bright);
-}
-
-h1 {
-    font-size: var(--font-size-h1);
-    font-weight: 800;
-}
-
-h2 {
-    font-size: var(--font-size-h2);
-    font-weight: 800;
-}
-
-.subtitle {
-    font-size: var(--font-size-h2);
-    font-weight: 400;
-}
-
-h3 {
-    font-size: var(--font-size-h3);
-    font-weight: 600;
+    /* Typographies */
+    --font-general: 'Inter', sans-serif;
+    --font-numeric: 'IBM Plex Sans', sans-serif;
+    
+    --font-size-h1-main: 5rem; /* 80px */
+    --font-size-h1: 3rem; /* 48px */
+    --font-size-h2: 2.25rem; /* 36px */
+    --font-size-h3: 2rem; /* 32px */
+    --font-size-subtitle: 2rem; /* 32px */
+    --font-size-base: 1.5rem; /* 24px */
 }

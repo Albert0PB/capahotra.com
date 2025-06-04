@@ -42,6 +42,7 @@ const IncomeExpenseChart = ({ dataPoints }) => {
 
     const options = {
         responsive: true,
+        maintainAspectRatio: false,
         plugins: {
             legend: {
                 display: false,
@@ -58,7 +59,7 @@ const IncomeExpenseChart = ({ dataPoints }) => {
                     color: colors.bright,
                     font: {
                         family: 'Inter',
-                        size: 14,
+                        size: window.innerWidth < 640 ? 10 : window.innerWidth < 1024 ? 12 : 14,
                     },
                 },
                 grid: {
@@ -70,7 +71,7 @@ const IncomeExpenseChart = ({ dataPoints }) => {
                     color: colors.bright,
                     font: {
                         family: 'IBM Plex Sans',
-                        size: 14,
+                        size: window.innerWidth < 640 ? 10 : window.innerWidth < 1024 ? 12 : 14,
                     },
                     callback: (value) => `€ ${value}`,
                 },
@@ -82,8 +83,10 @@ const IncomeExpenseChart = ({ dataPoints }) => {
     };
 
     return (
-        <div className="income-expense-chart">
-            <Bar data={data} options={options} />
+        <div className="bg-[var(--color-neutral-dark)] rounded-none w-full">
+            <div className="h-64 sm:h-72 lg:h-80 xl:h-96">
+                <Bar data={data} options={options} />
+            </div>
         </div>
     );
 };

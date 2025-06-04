@@ -6,7 +6,6 @@ use App\Models\Label;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class LabelSeeder extends Seeder
 {
@@ -15,6 +14,12 @@ class LabelSeeder extends Seeder
      */
     public function run(): void
     {
-        Label::factory()->count(55)->create();
+        if (User::count() < 5) {
+            User::factory()->count(5)->create();
+        }
+
+        for ($i = 0; $i < 55; $i++) {
+            Label::factory()->create();
+        }
     }
 }

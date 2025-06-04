@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Label;
+use App\Models\Bank;
+use App\Models\MovementType;
 
 class Movement extends Model
 {
@@ -26,5 +28,15 @@ class Movement extends Model
     public function label()
     {
         return $this->belongsTo(Label::class);
+    }
+
+    public function bank()
+    {
+        return $this->belongsTo(Bank::class);
+    }
+
+    public function movementType()
+    {
+        return $this->belongsTo(MovementType::class);
     }
 }

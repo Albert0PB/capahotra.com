@@ -1,25 +1,35 @@
 import React from 'react';
-import '../../../css/Components/Dashboard/currentMonthDisplayer.css';
 
 const CurrentMonthDisplayer = ({ currentMonthData }) => {
-
     const balance = currentMonthData['Balance'];
     const income = currentMonthData['Income'];
     const expenses = currentMonthData['Expenses'];
 
     return (
-        <div className='current-month-displayer'>
-            <div className='current-month-balance current-month-display-element'>
-                <h3>Balance</h3>
-                <div className="value-balance numeric">€ {balance}</div>
+        <div className="flex flex-col sm:flex-row w-full justify-between gap-4 sm:gap-8 lg:gap-12">
+            <div className="flex-1 max-w-none sm:max-w-[200px]">
+                <h3 className="text-[var(--color-neutral-bright)] text-lg sm:text-xl lg:text-2xl xl:text-[2rem] font-semibold font-[var(--font-general)] mb-2">
+                    Balance
+                </h3>
+                <div className="text-[var(--color-neutral-bright)] text-xl sm:text-2xl lg:text-3xl xl:text-[2.25rem] font-bold font-[var(--font-numeric)]">
+                    € {balance}
+                </div>
             </div>
-            <div className="current-month-income current-month-display-element">
-                <h3>Income</h3>
-                <div className="value-income numeric">€ {income}</div>
+            <div className="flex-1 max-w-none sm:max-w-[200px]">
+                <h3 className="text-[var(--color-neutral-bright)] text-lg sm:text-xl lg:text-2xl xl:text-[2rem] font-semibold font-[var(--font-general)] mb-2">
+                    Income
+                </h3>
+                <div className="text-[var(--color-success)] text-xl sm:text-2xl lg:text-3xl xl:text-[2.25rem] font-bold font-[var(--font-numeric)]">
+                    € {income}
+                </div>
             </div>
-            <div className="current-month-expenses current-month-display-element">
-                <h3>Expenses</h3>
-                <div className="value-expenses numeric">€ {expenses}</div>
+            <div className="flex-1 max-w-none sm:max-w-[200px]">
+                <h3 className="text-[var(--color-neutral-bright)] text-lg sm:text-xl lg:text-2xl xl:text-[2rem] font-semibold font-[var(--font-general)] mb-2">
+                    Expenses
+                </h3>
+                <div className="text-[var(--color-error)] text-xl sm:text-2xl lg:text-3xl xl:text-[2.25rem] font-bold font-[var(--font-numeric)]">
+                    € {expenses}
+                </div>
             </div>
         </div>
     );
