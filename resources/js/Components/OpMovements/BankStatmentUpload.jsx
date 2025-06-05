@@ -114,7 +114,7 @@ export default function BankStatementUpload({
             </h2>
             <button
               onClick={onClose}
-              className="text-[var(--color-neutral-bright)]/60 hover:text-[var(--color-neutral-bright)] transition-colors"
+              className="cursor-pointer text-[var(--color-neutral-bright)]/60 hover:text-[var(--color-neutral-bright)] transition-colors"
             >
               <FaTimes size={20} />
             </button>
@@ -128,7 +128,7 @@ export default function BankStatementUpload({
               <select
                 value={selectedBank}
                 onChange={(e) => setSelectedBank(e.target.value)}
-                className="w-full p-3 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
+                className="cursor-pointer w-full p-3 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
                 required
                 disabled={isProcessing}
               >
@@ -200,7 +200,7 @@ export default function BankStatementUpload({
               <button
                 type="button"
                 onClick={resetForm}
-                className="flex-1 px-4 py-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-neutral-dark)] transition-colors disabled:opacity-50"
+                className="cursor-pointer flex-1 px-4 py-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-neutral-dark)] transition-colors disabled:opacity-50"
                 disabled={isProcessing}
               >
                 Reset
@@ -208,7 +208,7 @@ export default function BankStatementUpload({
               <button
                 type="submit"
                 disabled={isProcessing || !selectedFile || !selectedBank}
-                className="flex-1 px-4 py-2 bg-[var(--color-primary)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-secondary)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+                className="cursor-pointer flex-1 px-4 py-2 bg-[var(--color-primary)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-secondary)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
               >
                 {isProcessing ? (
                   <>
@@ -230,15 +230,9 @@ export default function BankStatementUpload({
                   <FaCheckCircle className="text-[var(--color-success)]" />
                   <span className="font-medium">Powered by Advanced Python Processing</span>
                 </div>
-                <ul className="space-y-1 mb-3">
-                  <li>• Supports BBVA PDF bank statements</li>
-                  <li>• Handles password-protected PDFs</li>
-                  <li>• Automatic movement categorization</li>
-                  <li>• Text-based and table extraction</li>
-                </ul>
                 <p className="font-medium mb-1 text-[var(--color-warning)]">Tips:</p>
                 <ul className="space-y-1">
-                  <li>• Download PDF directly from BBVA online banking</li>
+                  <li>• Download PDF directly from your bank app</li>
                   <li>• Ensure PDF contains transaction details</li>
                   <li>• Processing may take 10-30 seconds</li>
                 </ul>

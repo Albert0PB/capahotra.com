@@ -71,7 +71,7 @@ export default function LabelsForm({ label, onSuccess, onCancel }) {
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-neutral-dark)] transition-colors duration-200"
+            className="cursor-pointer px-4 py-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-neutral-dark)] transition-colors duration-200"
           >
             Cancel
           </button>
@@ -79,7 +79,7 @@ export default function LabelsForm({ label, onSuccess, onCancel }) {
         <button
           type="submit"
           disabled={loading}
-          className="px-4 py-2 bg-[var(--color-primary)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-secondary)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+          className="cursor-pointer px-4 py-2 bg-[var(--color-primary)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-secondary)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
         >
           {loading ? "Saving..." : label ? "Update" : "Create"}
         </button>

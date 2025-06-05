@@ -6,7 +6,6 @@ export default function OperativePanelRecentActivity({
   onViewAllMovements,
   onViewAllForecasts
 }) {
-  // Helper function to safely convert to number
   const safeNumber = (value) => {
     const num = parseFloat(value);
     return isNaN(num) ? 0 : num;
@@ -14,18 +13,18 @@ export default function OperativePanelRecentActivity({
 
   const getMovementTypeColor = (typeId) => {
     switch(typeId) {
-      case 1: return 'text-[var(--color-success)]'; // Income
-      case 2: return 'text-[var(--color-error)]';   // Expense
-      case 3: return 'text-[var(--color-warning)]'; // Correction
+      case 1: return 'text-[var(--color-success)]';
+      case 2: return 'text-[var(--color-error)]';
+      case 3: return 'text-[var(--color-warning)]';
       default: return 'text-[var(--color-neutral-bright)]';
     }
   };
 
   const getMovementTypeIcon = (typeId) => {
     switch(typeId) {
-      case 1: return '↗️'; // Income
-      case 2: return '↘️'; // Expense  
-      case 3: return '🔄'; // Correction
+      case 1: return '↗️';
+      case 2: return '↘️';  
+      case 3: return '🔄';
       default: return '💰';
     }
   };
@@ -33,7 +32,6 @@ export default function OperativePanelRecentActivity({
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       
-      {/* Recent Movements */}
       <div className="bg-[var(--color-neutral-dark-2)] rounded-lg p-6">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold text-[var(--color-neutral-bright)]">
@@ -41,7 +39,7 @@ export default function OperativePanelRecentActivity({
           </h2>
           <button
             onClick={onViewAllMovements}
-            className="text-[var(--color-primary)] hover:text-[var(--color-secondary)] text-sm font-medium transition-colors duration-200"
+            className="cursor-pointer text-[var(--color-primary)] hover:text-[var(--color-secondary)] text-sm font-medium transition-colors duration-200"
           >
             View All →
           </button>
@@ -86,7 +84,6 @@ export default function OperativePanelRecentActivity({
         </div>
       </div>
 
-      {/* Upcoming Forecasts */}
       <div className="bg-[var(--color-neutral-dark-2)] rounded-lg p-6">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold text-[var(--color-neutral-bright)]">
@@ -94,7 +91,7 @@ export default function OperativePanelRecentActivity({
           </h2>
           <button
             onClick={onViewAllForecasts}
-            className="text-[var(--color-secondary)] hover:text-[var(--color-primary)] text-sm font-medium transition-colors duration-200"
+            className="cursor-pointer text-[var(--color-secondary)] hover:text-[var(--color-primary)] text-sm font-medium transition-colors duration-200"
           >
             View All →
           </button>

@@ -55,7 +55,6 @@ export default function OpLabels({
         <div className="min-h-screen w-full bg-[var(--color-neutral-dark)] text-[var(--color-neutral-bright)]">
             <div className="p-4 sm:p-6 lg:p-8 flex flex-col gap-6 lg:gap-8 overflow-x-hidden w-full">
                 
-                {/* Header */}
                 <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-0 w-full">
                     <div className="flex flex-col">
                         <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-[3rem] font-extrabold text-[var(--color-neutral-bright)]">
@@ -67,17 +66,14 @@ export default function OpLabels({
                     </div>
                 </div>
 
-                {/* Summary Section */}
                 <div className="flex justify-center w-full">
                     <div className="w-full lg:w-3/4 xl:w-1/2">
                         <LabelsSummary labelsData={labelsData} />
                     </div>
                 </div>
 
-                {/* Main Content */}
                 <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 lg:gap-8">
                     
-                    {/* Table Section */}
                     <div className="xl:col-span-2">
                         <LabelsTable 
                             labels={userLabels} 
@@ -88,7 +84,6 @@ export default function OpLabels({
                         />
                     </div>
                     
-                    {/* Form Section */}
                     <div className="xl:col-span-1">
                         <LabelsForm 
                             label={editingLabel}

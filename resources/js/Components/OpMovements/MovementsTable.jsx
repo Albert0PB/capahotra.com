@@ -1,4 +1,3 @@
-// MovementsTable.jsx - Versión final con edición inline
 import React, { useState, useMemo, useEffect } from "react";
 import { FaEdit, FaTrash, FaCheck, FaTimes, FaSearch } from "react-icons/fa";
 import axios from "axios";
@@ -29,13 +28,11 @@ export default function MovementsTable({
   const [sortConfig, setSortConfig] = useState({ key: 'transaction_date', direction: 'desc' });
   const itemsPerPage = 15;
 
-  // Helper function to safely convert to number
   const safeNumber = (value) => {
     const num = parseFloat(value);
     return isNaN(num) ? 0 : num;
   };
 
-  // Create enriched data with label and bank names
   const enrichedData = useMemo(() => {
     return movements.map(movement => {
       const label = userLabels.find(l => l.id === movement.label_id);
@@ -52,7 +49,6 @@ export default function MovementsTable({
     });
   }, [movements, userLabels, banks]);
 
-  // Filter data
   const filteredData = useMemo(() => {
     let filtered = enrichedData;
 
@@ -83,7 +79,6 @@ export default function MovementsTable({
     return filtered;
   }, [enrichedData, searchTerm, filterType, filterLabel, filterDateFrom, filterDateTo]);
 
-  // Sort data
   const sortedData = useMemo(() => {
     if (!sortConfig.key) return filteredData;
 
@@ -112,12 +107,10 @@ export default function MovementsTable({
     });
   }, [filteredData, sortConfig]);
 
-  // Pagination
   const totalPages = Math.ceil(sortedData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedData = sortedData.slice(startIndex, startIndex + itemsPerPage);
 
-  // Reset to first page when filters change
   useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm, filterType, filterLabel, filterDateFrom, filterDateTo]);
@@ -187,7 +180,6 @@ export default function MovementsTable({
 
   return (
     <div className="bg-[var(--color-neutral-dark)] rounded-lg">
-      {/* Filters and Search */}
       <div className="p-4 border-b border-[var(--color-neutral-dark-3)] space-y-4">
         <div className="relative">
           <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[var(--color-neutral-bright)]/60" />
@@ -208,7 +200,7 @@ export default function MovementsTable({
             <select
               value={filterType}
               onChange={(e) => setFilterType(e.target.value)}
-              className="w-full p-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+              className="cursor-pointer w-full p-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
             >
               <option value="">All Types</option>
               <option value="1">Income</option>
@@ -224,7 +216,7 @@ export default function MovementsTable({
             <select
               value={filterLabel}
               onChange={(e) => setFilterLabel(e.target.value)}
-              className="w-full p-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+              className="cursor-pointer w-full p-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
             >
               <option value="">All Labels</option>
               {userLabels.map(label => (
@@ -260,7 +252,7 @@ export default function MovementsTable({
           <div className="flex items-end">
             <button
               onClick={clearFilters}
-              className="w-full p-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
+              className="cursor-pointer w-full p-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
             >
               Clear Filters
             </button>
@@ -268,7 +260,6 @@ export default function MovementsTable({
         </div>
       </div>
 
-      {/* Table */}
       <div className="overflow-x-auto">
         <table className="min-w-full table-auto">
           <thead className="bg-[var(--color-neutral-dark-2)]">
@@ -425,14 +416,14 @@ export default function MovementsTable({
                       <>
                         <button
                           onClick={handleEditConfirm}
-                          className="text-[var(--color-success)] hover:text-[var(--color-success)]/80 p-1 transition-colors duration-200"
+                          className="cursor-pointer text-[var(--color-success)] hover:text-[var(--color-success)]/80 p-1 transition-colors duration-200"
                           title="Confirm"
                         >
                           <FaCheck size={14} />
                         </button>
                         <button
                           onClick={handleEditCancel}
-                          className="text-[var(--color-error)] hover:text-[var(--color-error)]/80 p-1 transition-colors duration-200"
+                          className="cursor-pointer text-[var(--color-error)] hover:text-[var(--color-error)]/80 p-1 transition-colors duration-200"
                           title="Cancel"
                         >
                           <FaTimes size={14} />
@@ -442,14 +433,14 @@ export default function MovementsTable({
                       <>
                         <button
                           onClick={() => handleEditStart(movement)}
-                          className="text-[var(--color-primary)] hover:text-[var(--color-secondary)] p-1 transition-colors duration-200"
+                          className="cursor-pointer text-[var(--color-primary)] hover:text-[var(--color-secondary)] p-1 transition-colors duration-200"
                           title="Edit"
                         >
                           <FaEdit size={14} />
                         </button>
                         <button
                           onClick={() => onDelete && onDelete(movement)}
-                          className="text-[var(--color-error)] hover:text-[var(--color-error)]/80 p-1 transition-colors duration-200"
+                          className="cursor-pointer text-[var(--color-error)] hover:text-[var(--color-error)]/80 p-1 transition-colors duration-200"
                           title="Delete"
                         >
                           <FaTrash size={14} />
@@ -464,7 +455,6 @@ export default function MovementsTable({
         </table>
       </div>
 
-      {/* Pagination */}
       {totalPages > 1 && (
         <div className="p-4 border-t border-[var(--color-neutral-dark-3)]">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
@@ -536,7 +526,6 @@ export default function MovementsTable({
         </div>
       )}
 
-      {/* No results message */}
       {sortedData.length === 0 && (
         <div className="p-8 text-center text-[var(--color-neutral-bright)]/70">
           {searchTerm || filterType || filterLabel || filterDateFrom || filterDateTo

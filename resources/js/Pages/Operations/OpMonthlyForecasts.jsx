@@ -76,7 +76,6 @@ export default function OpMonthlyForecasts({
     <div className="min-h-screen w-full bg-[var(--color-neutral-dark)] text-[var(--color-neutral-bright)]">
       <div className="p-4 sm:p-6 lg:p-8 flex flex-col gap-6 lg:gap-8 overflow-x-hidden w-full">
         
-        {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-0 w-full">
           <div className="flex flex-col">
             <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-[3rem] font-extrabold text-[var(--color-neutral-bright)]">
@@ -91,7 +90,6 @@ export default function OpMonthlyForecasts({
           </div>
         </div>
 
-        {/* Summary Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="bg-[var(--color-neutral-dark-2)] p-4 rounded-lg">
             <h3 className="text-sm font-medium text-[var(--color-neutral-bright)]/70 mb-1">
@@ -127,10 +125,8 @@ export default function OpMonthlyForecasts({
           </div>
         </div>
 
-        {/* Main Content */}
         <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 lg:gap-8">
           
-          {/* Table Section */}
           <div className="xl:col-span-3">
             <MonthlyForecastsTable 
               forecasts={forecasts}
@@ -142,7 +138,6 @@ export default function OpMonthlyForecasts({
             />
           </div>
           
-          {/* Form Section */}
           <div className="xl:col-span-1">
             <MonthlyForecastsForm 
               editingForecast={editingForecast}

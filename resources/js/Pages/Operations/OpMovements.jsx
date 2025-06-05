@@ -1,4 +1,3 @@
-// OpMovements.jsx - Versión con formulario siempre visible
 import React, { useState, useEffect } from "react";
 import MovementsForm from "../../Components/OpMovements/MovementsForm";
 import MovementsTable from "../../Components/OpMovements/MovementsTable";
@@ -20,11 +19,9 @@ export default function OpMovements({
   const [editingMovement, setEditingMovement] = useState(null);
   const [loading, setLoading] = useState(false);
   
-  // Estados para funcionalidad PDF
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [extractedMovements, setExtractedMovements] = useState(null);
 
-  // Helper function to safely convert to number
   const safeNumber = (value) => {
     const num = parseFloat(value);
     return isNaN(num) ? 0 : num;
@@ -89,7 +86,6 @@ export default function OpMovements({
     fetchMovements();
   };
 
-  // Funciones para manejo de PDF
   const handleUploadSuccess = (movements) => {
     setExtractedMovements(movements);
     setShowUploadModal(false);
@@ -97,14 +93,13 @@ export default function OpMovements({
 
   const handleReviewSave = (savedMovements) => {
     setExtractedMovements(null);
-    fetchMovements(); // Refresh the movements list
+    fetchMovements();
   };
 
   const handleReviewCancel = () => {
     setExtractedMovements(null);
   };
 
-  // Calculate statistics with safe number conversion
   const currentBalance = movements.length > 0 
     ? safeNumber(movements.reduce((latest, movement) => {
         const latestDate = new Date(latest.transaction_date);
@@ -135,7 +130,6 @@ export default function OpMovements({
     <div className="min-h-screen w-full bg-[var(--color-neutral-dark)] text-[var(--color-neutral-bright)]">
       <div className="p-4 sm:p-6 lg:p-8 flex flex-col gap-6 lg:gap-8 overflow-x-hidden w-full">
         
-        {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-0 w-full">
           <div className="flex flex-col">
             <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-[3rem] font-extrabold text-[var(--color-neutral-bright)]">
@@ -150,7 +144,6 @@ export default function OpMovements({
           </div>
         </div>
 
-        {/* Summary Stats */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="bg-[var(--color-neutral-dark-2)] p-4 rounded-lg">
             <h3 className="text-sm font-medium text-[var(--color-neutral-bright)]/70 mb-1">
@@ -190,17 +183,14 @@ export default function OpMovements({
           </div>
         </div>
 
-        {/* Chart Section */}
         {movements.length > 0 && (
           <div className="w-full">
             <MovementsSummary movements={movements} />
           </div>
         )}
 
-        {/* Main Content - Formulario SIEMPRE visible */}
         <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 lg:gap-8">
           
-          {/* Table Section */}
           <div className="xl:col-span-3">
             <MovementsTable 
               movements={movements}
@@ -213,7 +203,6 @@ export default function OpMovements({
             />
           </div>
           
-          {/* Form Section - SIEMPRE VISIBLE */}
           <div className="xl:col-span-1">
             <MovementsForm 
               editingMovement={editingMovement}
@@ -221,13 +210,11 @@ export default function OpMovements({
               banks={banks}
               onSuccess={handleSuccess}
               onCancel={() => setEditingMovement(null)}
-              // Pasar función para abrir modal de PDF
               onOpenPdfUpload={() => setShowUploadModal(true)}
             />
           </div>
         </div>
 
-        {/* Empty State - Solo mostrar si no hay formulario visible */}
         {movements.length === 0 && !loading && (
           <div className="xl:col-span-3"> {/* Solo ocupa el espacio de la tabla */}
             <div className="bg-[var(--color-neutral-dark-2)] p-8 rounded-lg text-center">
@@ -240,7 +227,7 @@ export default function OpMovements({
               <div className="bg-[var(--color-neutral-dark-3)] p-4 rounded-lg">
                 <h4 className="font-medium text-[var(--color-neutral-bright)] mb-2">Quick Tips:</h4>
                 <ul className="text-sm text-[var(--color-neutral-bright)]/70 text-left space-y-1">
-                  <li>• Upload BBVA PDF statements for automatic processing</li>
+                  <li>• Upload bank PDF statements for automatic processing</li>
                   <li>• Use the form on the right to add individual movements</li>
                   <li>• Use labels to categorize your movements</li>
                   <li>• Track both income and expenses</li>
@@ -250,7 +237,6 @@ export default function OpMovements({
           </div>
         )}
 
-        {/* Loading State */}
         {loading && (
           <div className="xl:col-span-3">
             <div className="bg-[var(--color-neutral-dark-2)] p-8 rounded-lg text-center">
@@ -264,7 +250,6 @@ export default function OpMovements({
 
       </div>
 
-      {/* Modales */}
       {showUploadModal && (
         <BankStatementUpload
           banks={banks}

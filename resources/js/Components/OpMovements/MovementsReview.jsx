@@ -47,7 +47,6 @@ export default function MovementsReview({
     };
     setMovements(updated);
 
-    // Clear validation errors for this field
     if (validationErrors[index] && validationErrors[index][field]) {
       const newValidationErrors = { ...validationErrors };
       delete newValidationErrors[index][field];
@@ -59,7 +58,6 @@ export default function MovementsReview({
   };
 
   const handleSaveAll = async () => {
-    // Validate all movements before saving
     const newValidationErrors = {};
     let hasErrors = false;
 
@@ -109,12 +107,10 @@ export default function MovementsReview({
     const updated = movements.filter((_, i) => i !== index);
     setMovements(updated);
     
-    // Remove validation errors for this index
     if (validationErrors[index]) {
       const newValidationErrors = { ...validationErrors };
       delete newValidationErrors[index];
       
-      // Reindex remaining errors
       const reindexedErrors = {};
       Object.keys(newValidationErrors).forEach(key => {
         const oldIndex = parseInt(key);
@@ -141,7 +137,6 @@ export default function MovementsReview({
 
   const hasValidationErrors = Object.keys(validationErrors).length > 0;
 
-  // Calculate totals
   const totalIncome = movements
     .filter(m => m.movement_type_id === 1)
     .reduce((sum, m) => sum + parseFloat(m.amount || 0), 0);
@@ -177,7 +172,7 @@ export default function MovementsReview({
             </div>
             <button
               onClick={onCancel}
-              className="text-[var(--color-neutral-bright)]/60 hover:text-[var(--color-neutral-bright)] transition-colors"
+              className="cursor-pointer text-[var(--color-neutral-bright)]/60 hover:text-[var(--color-neutral-bright)] transition-colors"
             >
               <FaTimes size={20} />
             </button>
@@ -248,7 +243,7 @@ export default function MovementsReview({
                     </div>
                     <button
                       onClick={() => removeMovement(index)}
-                      className="text-[var(--color-error)] hover:text-[var(--color-error)]/80 p-1"
+                      className="cursor-pointer text-[var(--color-error)] hover:text-[var(--color-error)]/80 p-1"
                       title="Remove movement"
                     >
                       <FaTrash size={14} />
@@ -300,7 +295,7 @@ export default function MovementsReview({
                       <select
                         value={movement.movement_type_id}
                         onChange={(e) => handleMovementChange(index, 'movement_type_id', e.target.value)}
-                        className="w-full p-2 bg-[var(--color-neutral-dark)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark)] rounded text-sm"
+                        className="cursor-pointer w-full p-2 bg-[var(--color-neutral-dark)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark)] rounded text-sm"
                       >
                         <option value={1}>Income</option>
                         <option value={2}>Expense</option>
@@ -339,7 +334,7 @@ export default function MovementsReview({
                       <select
                         value={movement.label_id || ""}
                         onChange={(e) => handleMovementChange(index, 'label_id', e.target.value)}
-                        className={`w-full p-2 bg-[var(--color-neutral-dark)] text-[var(--color-neutral-bright)] border rounded text-sm ${
+                        className={`cursor-pointer w-full p-2 bg-[var(--color-neutral-dark)] text-[var(--color-neutral-bright)] border rounded text-sm ${
                           movementErrors.label_id 
                             ? 'border-[var(--color-error)]' 
                             : 'border-[var(--color-neutral-dark)]'
@@ -464,14 +459,14 @@ export default function MovementsReview({
               <button
                 onClick={onCancel}
                 disabled={isSaving}
-                className="px-6 py-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-neutral-dark)] disabled:opacity-50 transition-colors"
+                className="cursor-pointer px-6 py-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-neutral-dark)] disabled:opacity-50 transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSaveAll}
                 disabled={isSaving || movements.length === 0 || hasValidationErrors}
-                className="px-6 py-2 bg-[var(--color-primary)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-secondary)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
+                className="cursor-pointer px-6 py-2 bg-[var(--color-primary)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-secondary)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
               >
                 {isSaving ? (
                   <>

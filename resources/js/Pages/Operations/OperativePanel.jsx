@@ -10,13 +10,11 @@ export default function OperativePanel({
   upcomingForecasts = [],
   userLabels = []
 }) {
-  // Helper function to safely convert to number
   const safeNumber = (value) => {
     const num = parseFloat(value);
     return isNaN(num) ? 0 : num;
   };
 
-  // Calculate summary statistics
   const currentBalance = summaryData.currentBalance ? safeNumber(summaryData.currentBalance) : 0;
   const totalMovements = summaryData.totalMovements || 0;
   const totalLabels = summaryData.totalLabels || 0;
@@ -25,7 +23,6 @@ export default function OperativePanel({
   const thisMonthExpenses = summaryData.thisMonthExpenses ? safeNumber(summaryData.thisMonthExpenses) : 0;
   const thisMonthNet = thisMonthIncome - thisMonthExpenses;
 
-  // Navigation functions
   const navigateToLabels = () => {
     router.visit('/operations/labels');
   };
@@ -42,7 +39,6 @@ export default function OperativePanel({
     <div className="min-h-screen w-full bg-[var(--color-neutral-dark)] text-[var(--color-neutral-bright)]">
       <div className="p-4 sm:p-6 lg:p-8 flex flex-col gap-6 lg:gap-8 overflow-x-hidden w-full">
         
-        {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-0 w-full">
           <div className="flex flex-col">
             <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-[3rem] font-extrabold text-[var(--color-neutral-bright)]">
@@ -57,7 +53,6 @@ export default function OperativePanel({
           </div>
         </div>
 
-        {/* Quick Overview Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="bg-[var(--color-neutral-dark-2)] p-4 rounded-lg">
             <h3 className="text-sm font-medium text-[var(--color-neutral-bright)]/70 mb-1">
@@ -100,10 +95,8 @@ export default function OperativePanel({
           </div>
         </div>
 
-        {/* Main Hub Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           
-          {/* Labels Management Card */}
           <OperativePanelSummaryCard
             title="Labels Management"
             description="Organize your financial categories"
@@ -117,7 +110,6 @@ export default function OperativePanel({
             accentColor="var(--color-primary)"
           />
 
-          {/* Forecasts Card */}
           <OperativePanelSummaryCard
             title="Monthly Forecasts"
             description="Plan and track your budget"
@@ -131,7 +123,6 @@ export default function OperativePanel({
             accentColor="var(--color-secondary)"
           />
 
-          {/* Movements Card */}
           <OperativePanelSummaryCard
             title="Movements"
             description="Track your income and expenses"
@@ -146,7 +137,6 @@ export default function OperativePanel({
           />
         </div>
 
-        {/* Recent Activity */}
         <div className="w-full">
           <OperativePanelRecentActivity 
             recentMovements={recentMovements}

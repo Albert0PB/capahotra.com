@@ -25,7 +25,6 @@ export default function MonthlyForecastsTable({
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
   const itemsPerPage = 10;
 
-  // Fetch summary data with execution information
   useEffect(() => {
     const fetchSummary = async () => {
       try {
@@ -38,7 +37,6 @@ export default function MonthlyForecastsTable({
     fetchSummary();
   }, [forecasts]);
 
-  // Create enriched data combining forecasts with summary info
   const enrichedData = useMemo(() => {
     return forecasts.map(forecast => {
       const summaryItem = summaryData.find(item => 
@@ -58,7 +56,6 @@ export default function MonthlyForecastsTable({
     });
   }, [forecasts, summaryData, userLabels]);
 
-  // Filter and search
   const filteredData = useMemo(() => {
     let filtered = enrichedData;
 
@@ -80,7 +77,6 @@ export default function MonthlyForecastsTable({
     return filtered;
   }, [enrichedData, searchTerm, filterYear, filterMonth]);
 
-  // Sort data
   const sortedData = useMemo(() => {
     if (!sortConfig.key) return filteredData;
 
@@ -99,12 +95,10 @@ export default function MonthlyForecastsTable({
     });
   }, [filteredData, sortConfig]);
 
-  // Pagination
   const totalPages = Math.ceil(sortedData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedData = sortedData.slice(startIndex, startIndex + itemsPerPage);
 
-  // Reset to first page when filters change
   useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm, filterYear, filterMonth]);
@@ -158,7 +152,6 @@ export default function MonthlyForecastsTable({
     return "text-[var(--color-error)]";
   };
 
-  // Get unique years for filter
   const availableYears = useMemo(() => {
     const years = [...new Set(enrichedData.map(item => item.year))].sort();
     return years;
@@ -174,7 +167,6 @@ export default function MonthlyForecastsTable({
 
   return (
     <div className="bg-[var(--color-neutral-dark)] rounded-lg">
-      {/* Filters and Search */}
       <div className="p-4 border-b border-[var(--color-neutral-dark-3)] space-y-4">
         <div className="relative">
           <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[var(--color-neutral-bright)]/60" />
@@ -195,7 +187,7 @@ export default function MonthlyForecastsTable({
             <select
               value={filterYear}
               onChange={(e) => setFilterYear(e.target.value)}
-              className="w-full p-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+              className="cursor-pointer w-full p-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
             >
               <option value="">All Years</option>
               {availableYears.map(year => (
@@ -211,7 +203,7 @@ export default function MonthlyForecastsTable({
             <select
               value={filterMonth}
               onChange={(e) => setFilterMonth(e.target.value)}
-              className="w-full p-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+              className="cursor-pointer w-full p-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
             >
               <option value="">All Months</option>
               {MONTHS.map((month, index) => (
@@ -222,7 +214,6 @@ export default function MonthlyForecastsTable({
         </div>
       </div>
 
-      {/* Table */}
       <div className="overflow-x-auto">
         <table className="min-w-full table-auto">
           <thead className="bg-[var(--color-neutral-dark-2)]">
@@ -291,7 +282,7 @@ export default function MonthlyForecastsTable({
                     <select
                       value={editFormData.label_id}
                       onChange={(e) => handleEditChange('label_id', e.target.value)}
-                      className="w-full p-1 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark)] rounded text-sm"
+                      className="cursor-pointer w-full p-1 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark)] rounded text-sm"
                     >
                       {userLabels.map((label) => (
                         <option key={label.id} value={label.id}>
@@ -326,7 +317,7 @@ export default function MonthlyForecastsTable({
                     <select
                       value={editFormData.month}
                       onChange={(e) => handleEditChange('month', e.target.value)}
-                      className="w-full p-1 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark)] rounded text-sm"
+                      className="cursor-pointer w-full p-1 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark)] rounded text-sm"
                     >
                       {MONTHS.map((month, index) => (
                         <option key={index} value={index}>{month}</option>
@@ -385,14 +376,14 @@ export default function MonthlyForecastsTable({
                       <>
                         <button
                           onClick={handleEditConfirm}
-                          className="text-[var(--color-success)] hover:text-[var(--color-success)]/80 p-1 transition-colors duration-200"
+                          className="cursor-pointer text-[var(--color-success)] hover:text-[var(--color-success)]/80 p-1 transition-colors duration-200"
                           title="Confirm"
                         >
                           <FaCheck size={14} />
                         </button>
                         <button
                           onClick={handleEditCancel}
-                          className="text-[var(--color-error)] hover:text-[var(--color-error)]/80 p-1 transition-colors duration-200"
+                          className="cursor-pointer text-[var(--color-error)] hover:text-[var(--color-error)]/80 p-1 transition-colors duration-200"
                           title="Cancel"
                         >
                           <FaTimes size={14} />
@@ -402,14 +393,14 @@ export default function MonthlyForecastsTable({
                       <>
                         <button
                           onClick={() => handleEditStart(forecast)}
-                          className="text-[var(--color-primary)] hover:text-[var(--color-secondary)] p-1 transition-colors duration-200"
+                          className="cursor-pointer text-[var(--color-primary)] hover:text-[var(--color-secondary)] p-1 transition-colors duration-200"
                           title="Edit"
                         >
                           <FaEdit size={14} />
                         </button>
                         <button
                           onClick={() => onDelete(forecast)}
-                          className="text-[var(--color-error)] hover:text-[var(--color-error)]/80 p-1 transition-colors duration-200"
+                          className="cursor-pointer text-[var(--color-error)] hover:text-[var(--color-error)]/80 p-1 transition-colors duration-200"
                           title="Delete"
                         >
                           <FaTrash size={14} />
@@ -424,7 +415,6 @@ export default function MonthlyForecastsTable({
         </table>
       </div>
 
-      {/* Pagination */}
       {totalPages > 1 && (
         <div className="p-4 border-t border-[var(--color-neutral-dark-3)]">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
@@ -436,7 +426,7 @@ export default function MonthlyForecastsTable({
               <button
                 onClick={() => setCurrentPage(1)}
                 disabled={currentPage === 1}
-                className="px-3 py-1 text-sm bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
+                className="cursor-pointer px-3 py-1 text-sm bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
               >
                 First
               </button>
@@ -444,12 +434,11 @@ export default function MonthlyForecastsTable({
               <button
                 onClick={() => setCurrentPage(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="px-3 py-1 text-sm bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
+                className="cursor-pointer px-3 py-1 text-sm bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
              >
                Prev
              </button>
 
-             {/* Page numbers */}
              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
                let pageNumber;
                if (totalPages <= 5) {
@@ -466,7 +455,7 @@ export default function MonthlyForecastsTable({
                  <button
                    key={pageNumber}
                    onClick={() => setCurrentPage(pageNumber)}
-                   className={`px-3 py-1 text-sm rounded transition-colors duration-200 ${
+                   className={`cursor-pointer px-3 py-1 text-sm rounded transition-colors duration-200 ${
                      pageNumber === currentPage
                        ? 'bg-[var(--color-primary)] text-[var(--color-neutral-bright)]'
                        : 'bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] hover:bg-[var(--color-neutral-dark-2)]'
@@ -480,7 +469,7 @@ export default function MonthlyForecastsTable({
              <button
                onClick={() => setCurrentPage(currentPage + 1)}
                disabled={currentPage === totalPages}
-               className="px-3 py-1 text-sm bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
+               className="cursor-pointer px-3 py-1 text-sm bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
              >
                Next
              </button>
@@ -488,7 +477,7 @@ export default function MonthlyForecastsTable({
              <button
                onClick={() => setCurrentPage(totalPages)}
                disabled={currentPage === totalPages}
-               className="px-3 py-1 text-sm bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
+               className="cursor-pointer px-3 py-1 text-sm bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
              >
                Last
              </button>
@@ -497,7 +486,6 @@ export default function MonthlyForecastsTable({
        </div>
      )}
 
-     {/* No results message */}
      {sortedData.length === 0 && (
        <div className="p-8 text-center text-[var(--color-neutral-bright)]/70">
          {searchTerm || filterYear || filterMonth !== "" 

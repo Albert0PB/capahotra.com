@@ -25,7 +25,6 @@ export default function Dashboard({
         <div className="min-h-screen w-full bg-[var(--color-neutral-dark)] text-[var(--color-neutral-bright)]">
             <div className="p-4 sm:p-6 lg:p-8 flex flex-col gap-4 sm:gap-6 lg:gap-8 overflow-x-hidden">
                 
-                {/* Header Section */}
                 <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-0 w-full">
                     <div className="flex flex-col">
                         <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-[3rem] font-extrabold text-[var(--color-neutral-bright)] mb-2">
@@ -43,22 +42,18 @@ export default function Dashboard({
                     </div>
                 </div>
 
-                {/* Main Content Section */}
                 <div className="flex flex-col xl:flex-row w-full gap-6 lg:gap-8">
                     
-                    {/* Left Column */}
                     <div className="flex-1 flex flex-col gap-4 sm:gap-6 xl:max-w-none">
                         <CurrentMonthDisplayer currentMonthData={currentMonthData} />
                         <IncomeExpenseChart dataPoints={lastFourMonthsData} />
                     </div>
                     
-                    {/* Right Column */}
                     <div className="w-full xl:w-2/5 xl:max-w-[45%]">
                         <RecentMovementsTable recentMovements={recentMovements} />
                     </div>
                 </div>
 
-                {/* Financial News Section */}
                 <div className="w-full">
                     <FinancialNewsDisplayer news={financialNews} />
                 </div>

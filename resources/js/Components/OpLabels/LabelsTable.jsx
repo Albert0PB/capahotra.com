@@ -79,7 +79,6 @@ export default function LabelsTable({ labels, onDelete, onSuccess }) {
 
   return (
     <div className="bg-[var(--color-neutral-dark)] rounded-lg">
-      {/* Search Bar */}
       <div className="p-4 border-b border-[var(--color-neutral-dark-3)]">
         <div className="relative">
           <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[var(--color-neutral-bright)]/60" />
@@ -93,7 +92,6 @@ export default function LabelsTable({ labels, onDelete, onSuccess }) {
         </div>
       </div>
 
-      {/* Table */}
       <div className="overflow-x-auto">
         <table className="min-w-full table-auto">
           <thead className="bg-[var(--color-neutral-dark-2)]">
@@ -148,14 +146,14 @@ export default function LabelsTable({ labels, onDelete, onSuccess }) {
                       <>
                         <button
                           onClick={handleConfirmEdit}
-                          className="text-[var(--color-success)] hover:text-[var(--color-success)]/80 p-1 transition-colors duration-200"
+                          className="cursor-pointer text-[var(--color-success)] hover:text-[var(--color-success)]/80 p-1 transition-colors duration-200"
                           title="Confirm"
                         >
                           <FaCheck size={14} />
                         </button>
                         <button
                           onClick={handleCancelEdit}
-                          className="text-[var(--color-error)] hover:text-[var(--color-error)]/80 p-1 transition-colors duration-200"
+                          className="cursor-pointer text-[var(--color-error)] hover:text-[var(--color-error)]/80 p-1 transition-colors duration-200"
                           title="Cancel"
                         >
                           <FaTimes size={14} />
@@ -165,14 +163,14 @@ export default function LabelsTable({ labels, onDelete, onSuccess }) {
                       <>
                         <button
                           onClick={() => handleEditClick(label)}
-                          className="text-[var(--color-primary)] hover:text-[var(--color-secondary)] p-1 transition-colors duration-200"
+                          className="cursor-pointer text-[var(--color-primary)] hover:text-[var(--color-secondary)] p-1 transition-colors duration-200"
                           title="Edit"
                         >
                           <FaEdit size={14} />
                         </button>
                         <button
                           onClick={() => onDelete(label)}
-                          className="text-[var(--color-error)] hover:text-[var(--color-error)]/80 p-1 transition-colors duration-200"
+                          className="cursor-pointer text-[var(--color-error)] hover:text-[var(--color-error)]/80 p-1 transition-colors duration-200"
                           title="Delete"
                         >
                           <FaTrash size={14} />
@@ -187,21 +185,18 @@ export default function LabelsTable({ labels, onDelete, onSuccess }) {
         </table>
       </div>
 
-      {/* Pagination */}
       {totalPages > 1 && (
         <div className="p-4 border-t border-[var(--color-neutral-dark-3)]">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-            {/* Info */}
             <div className="text-sm text-[var(--color-neutral-bright)]/70">
               Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, filteredLabels.length)} of {filteredLabels.length} labels
             </div>
 
-            {/* Pagination Controls */}
             <div className="flex items-center gap-1">
               <button
                 onClick={() => handlePageChange(1)}
                 disabled={currentPage === 1}
-                className="px-3 py-1 text-sm bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
+                className="cursor-pointer px-3 py-1 text-sm bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
               >
                 First
               </button>
@@ -209,7 +204,7 @@ export default function LabelsTable({ labels, onDelete, onSuccess }) {
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="px-3 py-1 text-sm bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
+                className="cursor-pointer px-3 py-1 text-sm bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
               >
                 Prev
               </button>
@@ -219,7 +214,7 @@ export default function LabelsTable({ labels, onDelete, onSuccess }) {
                   key={index}
                   onClick={() => typeof page === 'number' && handlePageChange(page)}
                   disabled={page === '...'}
-                  className={`px-3 py-1 text-sm rounded transition-colors duration-200 ${
+                  className={`cursor-pointer px-3 py-1 text-sm rounded transition-colors duration-200 ${
                     page === currentPage
                       ? 'bg-[var(--color-primary)] text-[var(--color-neutral-bright)]'
                       : page === '...'
@@ -234,7 +229,7 @@ export default function LabelsTable({ labels, onDelete, onSuccess }) {
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className="px-3 py-1 text-sm bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
+                className="cursor-pointer px-3 py-1 text-sm bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
               >
                 Next
               </button>
@@ -242,7 +237,7 @@ export default function LabelsTable({ labels, onDelete, onSuccess }) {
               <button
                 onClick={() => handlePageChange(totalPages)}
                 disabled={currentPage === totalPages}
-                className="px-3 py-1 text-sm bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
+                className="cursor-pointer px-3 py-1 text-sm bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
               >
                 Last
               </button>
@@ -251,7 +246,6 @@ export default function LabelsTable({ labels, onDelete, onSuccess }) {
         </div>
       )}
 
-      {/* No results message */}
       {filteredLabels.length === 0 && (
         <div className="p-8 text-center text-[var(--color-neutral-bright)]/70">
           {searchTerm ? `No labels found matching "${searchTerm}"` : "No labels found"}

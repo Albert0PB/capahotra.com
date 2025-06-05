@@ -134,7 +134,7 @@ export default function MovementsForm({
             name="movement_type_id"
             value={formData.movement_type_id}
             onChange={handleChange}
-            className="w-full p-2 sm:p-3 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
+            className="cursor-pointer w-full p-2 sm:p-3 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
             required
           >
             <option value="">Select movement type</option>
@@ -157,7 +157,7 @@ export default function MovementsForm({
             name="label_id"
             value={formData.label_id}
             onChange={handleChange}
-            className="w-full p-2 sm:p-3 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
+            className="cursor-pointer w-full p-2 sm:p-3 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
             required
           >
             <option value="">Select a label</option>
@@ -180,7 +180,7 @@ export default function MovementsForm({
             name="bank_id"
             value={formData.bank_id}
             onChange={handleChange}
-            className="w-full p-2 sm:p-3 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
+            className="cursor-pointer w-full p-2 sm:p-3 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
             required
           >
             <option value="">Select a bank</option>
@@ -289,40 +289,35 @@ export default function MovementsForm({
           )}
         </div>
 
-        {/* Botones del formulario */}
         <div className="flex flex-col gap-3 pt-2">
-          {/* Botón principal del formulario */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full px-4 py-2 bg-[var(--color-primary)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-secondary)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+            className="cursor-pointer w-full px-4 py-2 bg-[var(--color-primary)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-secondary)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
           >
             {loading ? "Saving..." : editingMovement ? "Update Movement" : "Create Movement"}
           </button>
 
-          {/* Divisor */}
           <div className="flex items-center gap-3">
             <div className="flex-1 h-px bg-[var(--color-neutral-dark-3)]"></div>
             <span className="text-xs text-[var(--color-neutral-bright)]/50">OR</span>
             <div className="flex-1 h-px bg-[var(--color-neutral-dark-3)]"></div>
           </div>
 
-          {/* Botón de importar PDF */}
           <button
             type="button"
             onClick={onOpenPdfUpload}
-            className="w-full px-4 py-2 bg-[var(--color-secondary)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-primary)] transition-colors duration-200 flex items-center justify-center gap-2"
+            className="cursor-pointer w-full px-4 py-2 bg-[var(--color-secondary)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-primary)] transition-colors duration-200 flex items-center justify-center gap-2"
           >
             <FaUpload size={14} />
             Import from PDF
           </button>
 
-          {/* Botón de cancelar solo si está editando */}
           {editingMovement && onCancel && (
             <button
               type="button"
               onClick={onCancel}
-              className="w-full px-4 py-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-neutral-dark)] transition-colors duration-200"
+              className="cursor-pointer w-full px-4 py-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-neutral-dark)] transition-colors duration-200"
             >
               Cancel Edit
             </button>

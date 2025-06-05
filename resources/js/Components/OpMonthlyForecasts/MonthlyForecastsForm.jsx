@@ -117,7 +117,7 @@ export default function MonthlyForecastsForm({
           name="label_id"
           value={formData.label_id}
           onChange={handleChange}
-          className="w-full p-2 sm:p-3 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
+          className="cursor-pointer w-full p-2 sm:p-3 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
           required
         >
           <option value="">Select a label</option>
@@ -160,7 +160,7 @@ export default function MonthlyForecastsForm({
             name="month"
             value={formData.month}
             onChange={handleChange}
-            className="w-full p-2 sm:p-3 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
+            className="cursor-pointer w-full p-2 sm:p-3 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
             required
           >
             {MONTHS.map((month) => (
@@ -217,7 +217,7 @@ export default function MonthlyForecastsForm({
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-neutral-dark)] transition-colors duration-200"
+            className="cursor-pointer px-4 py-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-neutral-dark)] transition-colors duration-200"
           >
             Cancel
           </button>
@@ -225,7 +225,7 @@ export default function MonthlyForecastsForm({
         <button
           type="submit"
           disabled={loading}
-          className="px-4 py-2 bg-[var(--color-primary)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-secondary)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+          className="cursor-pointer px-4 py-2 bg-[var(--color-primary)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-secondary)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
         >
           {loading ? "Saving..." : editingForecast ? "Update Forecast" : "Create Forecast"}
         </button>

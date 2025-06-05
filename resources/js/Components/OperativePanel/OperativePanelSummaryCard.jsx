@@ -12,7 +12,6 @@ export default function OperativePanelSummaryCard({
   return (
     <div className="bg-[var(--color-neutral-dark-2)] rounded-lg p-6 hover:bg-[var(--color-neutral-dark-3)] transition-all duration-300 group">
       
-      {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
           <span className="text-3xl">{icon}</span>
@@ -27,7 +26,6 @@ export default function OperativePanelSummaryCard({
         </div>
       </div>
 
-      {/* Stats */}
       <div className="space-y-3 mb-6">
         {stats.map((stat, index) => (
           <div key={index} className="flex justify-between items-center">
@@ -41,10 +39,9 @@ export default function OperativePanelSummaryCard({
         ))}
       </div>
 
-      {/* CTA Button */}
       <button
         onClick={ctaAction}
-        className="w-full py-3 px-4 rounded-lg font-medium transition-all duration-200 group-hover:transform group-hover:translate-y-[-2px]"
+        className="cursor-pointer w-full py-3 px-4 rounded-lg font-medium transition-all duration-200 group-hover:transform group-hover:translate-y-[-2px]"
         style={{
           backgroundColor: accentColor,
           color: 'var(--color-neutral-bright)'

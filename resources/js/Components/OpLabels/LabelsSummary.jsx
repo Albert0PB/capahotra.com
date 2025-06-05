@@ -77,7 +77,7 @@ export default function LabelsSummary({ labelsData }) {
           callback: (value) => `€ ${value}`,
         },
         grid: {
-          color: colors.bright + '20', // Add transparency
+          color: colors.bright + '20',
         },
       },
     },

@@ -44,7 +44,6 @@ const NavSidebar = () => {
 
   return (
     <>
-      {/* Hamburger Button */}
       <button
         onClick={toggleSidebar}
         className="bg-transparent border-none text-[var(--color-neutral-bright)] text-xl sm:text-2xl z-[1001] cursor-pointer hover:text-[var(--color-primary)] transition-colors duration-200"
@@ -53,7 +52,6 @@ const NavSidebar = () => {
         <FaBars />
       </button>
 
-      {/* Overlay */}
       {visible && (
         <div
           onClick={toggleSidebar}
@@ -61,14 +59,12 @@ const NavSidebar = () => {
         />
       )}
 
-      {/* Sidebar */}
       <div
         className={`fixed top-0 right-0 h-screen w-80 bg-[var(--color-neutral-dark)] transition-transform duration-300 ease-in-out z-[1002] flex flex-col shadow-xl ${
           visible ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
         
-        {/* User Section */}
         <div className="p-6 border-b border-[var(--color-neutral-dark-3)]">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-[var(--color-neutral-bright)] font-semibold text-lg">
@@ -102,10 +98,8 @@ const NavSidebar = () => {
           </Link>
         </div>
 
-        {/* Main Navigation */}
         <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
           
-          {/* Dashboard */}
           <Link
             href="/dashboard"
             onClick={closeSidebar}
@@ -115,7 +109,6 @@ const NavSidebar = () => {
             <span className="font-medium">Dashboard</span>
           </Link>
 
-          {/* Operations SubMenu */}
           <div>
             <button
               onClick={() => setOperationsOpen(!operationsOpen)}
@@ -166,7 +159,6 @@ const NavSidebar = () => {
             )}
           </div>
 
-          {/* Financial Tools SubMenu */}
           <div>
             <button
               onClick={() => setToolsOpen(!toolsOpen)}
@@ -218,13 +210,12 @@ const NavSidebar = () => {
           </div>
         </nav>
 
-        {/* Bottom Actions */}
         <div className="p-4 border-t border-[var(--color-neutral-dark-3)]">
           <div className="flex items-center justify-end gap-4">
             
             <button
               onClick={handleLogout}
-              className="flex items-center justify-center w-12 h-12 rounded-lg bg-[var(--color-error)]/20 text-[var(--color-error)] hover:bg-[var(--color-error)] hover:text-[var(--color-neutral-bright)] transition-all duration-200"
+              className="cursor-pointer flex items-center justify-center w-12 h-12 rounded-lg bg-[var(--color-error)]/20 text-[var(--color-error)] hover:bg-[var(--color-error)] hover:text-[var(--color-neutral-bright)] transition-all duration-200"
               title="Logout"
             >
               <FaSignOutAlt size={18} />
