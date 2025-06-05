@@ -20,7 +20,7 @@ export default function NotFound() {
                         </p>
                         
                         <a 
-                            href="/dashboard"
+                            href="/home"
                             className="inline-block px-6 py-3 sm:px-8 sm:py-4 lg:px-10 lg:py-4 bg-[var(--color-neutral-dark)] text-[var(--color-neutral-bright)] rounded-full text-base sm:text-lg lg:text-xl xl:text-[1.5rem] font-medium hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200 no-underline"
                         >
                             Return

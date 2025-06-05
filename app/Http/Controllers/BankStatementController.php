@@ -162,7 +162,7 @@ class BankStatementController extends Controller
         try {
             Log::info("Calling Python API at: " . $pythonApiUrl);
             
-            $response = Http::timeout(60) // Aumentar timeout
+            $response = Http::timeout(60)
                 ->attach('file', file_get_contents($file->getPathname()), $file->getClientOriginalName())
                 ->post($pythonApiUrl . '/extract-movements');
 
