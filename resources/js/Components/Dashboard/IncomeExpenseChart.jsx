@@ -31,11 +31,15 @@ const IncomeExpenseChart = ({ dataPoints }) => {
                 label: 'Income',
                 data: incomeData,
                 backgroundColor: colors.income,
+                borderRadius: 4,
+                borderSkipped: false,
             },
             {
                 label: 'Expenses',
                 data: expensesData,
                 backgroundColor: colors.expenses,
+                borderRadius: 4,
+                borderSkipped: false,
             },
         ],
     };
@@ -43,14 +47,43 @@ const IncomeExpenseChart = ({ dataPoints }) => {
     const options = {
         responsive: true,
         maintainAspectRatio: false,
+        interaction: {
+            intersect: false,
+            mode: 'index',
+        },
         plugins: {
             legend: {
-                display: false,
+                display: true,
+                position: 'bottom',
+                labels: {
+                    color: colors.bright,
+                    font: {
+                        family: 'Inter',
+                        size: 14,
+                    },
+                    usePointStyle: true,
+                    pointStyle: 'rect',
+                    padding: 20,
+                },
             },
             tooltip: {
+                backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                titleColor: colors.bright,
+                bodyColor: colors.bright,
+                borderColor: colors.bright,
+                borderWidth: 1,
+                cornerRadius: 8,
                 bodyFont: {
                     family: 'IBM Plex Sans',
                 },
+                titleFont: {
+                    family: 'Inter',
+                },
+                callbacks: {
+                    label: function(context) {
+                        return `${context.dataset.label}: €${context.parsed.y.toFixed(2)}`;
+                    }
+                }
             },
         },
         scales: {
@@ -59,8 +92,9 @@ const IncomeExpenseChart = ({ dataPoints }) => {
                     color: colors.bright,
                     font: {
                         family: 'Inter',
-                        size: window.innerWidth < 640 ? 10 : window.innerWidth < 1024 ? 12 : 14,
+                        size: window.innerWidth < 640 ? 11 : window.innerWidth < 1024 ? 12 : 14,
                     },
+                    maxRotation: 0,
                 },
                 grid: {
                     display: false
@@ -71,20 +105,29 @@ const IncomeExpenseChart = ({ dataPoints }) => {
                     color: colors.bright,
                     font: {
                         family: 'IBM Plex Sans',
-                        size: window.innerWidth < 640 ? 10 : window.innerWidth < 1024 ? 12 : 14,
+                        size: window.innerWidth < 640 ? 11 : window.innerWidth < 1024 ? 12 : 14,
                     },
-                    callback: (value) => `€ ${value}`,
+                    callback: (value) => `€${value}`,
                 },
                 grid: {
-                    color: colors.bright,
+                    color: `${colors.bright}20`,
+                    drawBorder: false,
                 },
+                beginAtZero: true,
             },
         },
+        layout: {
+            padding: {
+                top: 10,
+                bottom: 10,
+            }
+        }
     };
 
     return (
         <div className="bg-[var(--color-neutral-dark)] rounded-none w-full">
-            <div className="h-64 sm:h-72 lg:h-80 xl:h-96">
+            {/* Altura fija más consistente que se adapta mejor al contenido de la tabla */}
+            <div className="h-72 sm:h-80 lg:h-96">
                 <Bar data={data} options={options} />
             </div>
         </div>

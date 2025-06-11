@@ -29,15 +29,47 @@ const RecentMovementsTable = ({ recentMovements }) => {
         };
     }, [recentMovements]);
 
+    // Helper function to format date responsively
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const isSmallScreen = window.innerWidth < 768; // md breakpoint
+        
+        if (isSmallScreen) {
+            return date.toLocaleDateString('en-US', { 
+                month: 'short', 
+                day: 'numeric' 
+            });
+        } else {
+            return date.toLocaleDateString('en-US', { 
+                month: 'short', 
+                day: 'numeric',
+                year: '2-digit'
+            });
+        }
+    };
+
     return (
         <div className="w-full bg-[var(--color-neutral-dark)] p-0">
-            <div className="overflow-x-auto">
-                <table className="w-full border-collapse">
+            <div className="overflow-hidden"> {/* Cambiado de overflow-x-auto */}
+                <table className="w-full border-collapse table-fixed"> {/* Añadido table-fixed */}
                     <caption className="text-left mb-4">
                         <h3 className="text-[var(--color-neutral-bright)] text-lg sm:text-xl lg:text-2xl xl:text-[2rem] font-semibold mb-0">
                             Recent Movements
                         </h3>
                     </caption>
+                    <thead>
+                        <tr className="border-b-2 border-[var(--color-neutral-dark-3)]">
+                            <th className="py-2 px-2 text-left text-[var(--color-neutral-bright)]/80 text-xs sm:text-sm font-medium uppercase tracking-wider w-[45%]">
+                                Description
+                            </th>
+                            <th className="py-2 px-1 text-right text-[var(--color-neutral-bright)]/80 text-xs sm:text-sm font-medium uppercase tracking-wider w-[30%]">
+                                Amount
+                            </th>
+                            <th className="py-2 px-2 text-right text-[var(--color-neutral-bright)]/80 text-xs sm:text-sm font-medium uppercase tracking-wider w-[25%]">
+                                Date
+                            </th>
+                        </tr>
+                    </thead>
                     <tbody>
                         {recentMovements.map((movement, key) => {
                             const isPositive =
@@ -54,26 +86,27 @@ const RecentMovementsTable = ({ recentMovements }) => {
                                     key={key}
                                     className="border-b border-[var(--color-neutral-dark-3)] hover:bg-[var(--color-neutral-dark-3)] transition-colors duration-200"
                                 >
-                                    <td className="py-2 px-2 pl-0 sm:pl-0 sm:py-3 sm:px-4 text-[var(--color-neutral-bright)] text-sm sm:text-base lg:text-lg xl:text-[1.5rem] w-2/5 truncate">
-                                        <span className="block truncate" title={label}>
+                                    {/* Description column */}
+                                    <td className="py-3 px-2 text-[var(--color-neutral-bright)] text-sm sm:text-base lg:text-lg w-[45%]">
+                                        <div className="truncate" title={label}>
                                             {label}
-                                        </span>
+                                        </div>
                                     </td>
-                                    <td className={`py-2 px-1 sm:py-3 sm:px-2 text-left text-sm sm:text-base lg:text-lg xl:text-[1.5rem] w-auto ${amountColorClass}`}>
-                                        €
+                                    
+                                    {/* Amount column */}
+                                    <td className={`py-3 px-1 text-right text-sm sm:text-base lg:text-lg font-bold w-[30%] ${amountColorClass}`}>
+                                        <div className="flex items-center justify-end">
+                                            <span className="mr-1">€</span>
+                                            <span className="whitespace-nowrap">
+                                                {Math.abs(parseFloat(movement.amount)).toFixed(2)}
+                                            </span>
+                                        </div>
                                     </td>
-                                    <td className={`py-2 px-2 sm:py-3 sm:px-4 font-bold text-right text-sm sm:text-base lg:text-lg xl:text-[1.5rem] w-1/4 ${amountColorClass}`}>
-                                        {Math.abs(parseFloat(movement.amount)).toFixed(2)}
-                                    </td>
-                                    <td className="py-2 px-2 sm:py-3 sm:px-4 text-[var(--color-neutral-bright)] text-right italic text-xs sm:text-sm lg:text-base xl:text-[1.5rem] w-1/4">
-                                        <span className="hidden sm:inline">
-                                            {movement.transaction_date}
-                                        </span>
-                                        <span className="sm:hidden">
-                                            {new Date(movement.transaction_date).toLocaleDateString('en-US', { 
-                                                month: 'short', 
-                                                day: 'numeric' 
-                                            })}
+                                    
+                                    {/* Date column */}
+                                    <td className="py-3 px-2 text-[var(--color-neutral-bright)] text-right italic text-xs sm:text-sm lg:text-base w-[25%]">
+                                        <span className="whitespace-nowrap">
+                                            {formatDate(movement.transaction_date)}
                                         </span>
                                     </td>
                                 </tr>
