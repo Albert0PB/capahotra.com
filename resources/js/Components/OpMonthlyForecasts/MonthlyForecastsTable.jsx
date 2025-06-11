@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { FaEdit, FaTrash, FaCheck, FaTimes, FaSearch, FaFilter } from "react-icons/fa";
+import { FaEdit, FaTrash, FaCheck, FaTimes, FaSearch, FaFilter, FaSort, FaSortUp, FaSortDown, FaChartBar, FaCalendarAlt } from "react-icons/fa";
 import axios from "axios";
 
 const MONTHS = [
@@ -22,7 +22,7 @@ export default function MonthlyForecastsTable({
   const [searchTerm, setSearchTerm] = useState("");
   const [filterYear, setFilterYear] = useState("");
   const [filterMonth, setFilterMonth] = useState("");
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+  const [sortConfig, setSortConfig] = useState({ key: 'year', direction: 'desc' });
   const itemsPerPage = 10;
 
   useEffect(() => {
@@ -110,6 +110,13 @@ export default function MonthlyForecastsTable({
     }));
   };
 
+  const getSortIcon = (field) => {
+    if (sortConfig.key !== field) return <FaSort className="text-[var(--color-neutral-bright)]/30" />;
+    return sortConfig.direction === 'asc' 
+      ? <FaSortUp className="text-[var(--color-primary)]" />
+      : <FaSortDown className="text-[var(--color-primary)]" />;
+  };
+
   const handleEditStart = (forecast) => {
     setEditingId(forecast.id);
     setEditFormData({
@@ -147,32 +154,43 @@ export default function MonthlyForecastsTable({
   };
 
   const getCompletionColor = (completion) => {
-    if (completion >= 100) return "text-[var(--color-success)]";
-    if (completion >= 50) return "text-[var(--color-warning)]";
+    if (completion >= 90) return "text-[var(--color-success)]";
+    if (completion >= 60) return "text-[var(--color-warning)]";
     return "text-[var(--color-error)]";
   };
 
+  const getCompletionBgColor = (completion) => {
+    if (completion >= 90) return "bg-[var(--color-success)]/20";
+    if (completion >= 60) return "bg-[var(--color-warning)]/20";
+    return "bg-[var(--color-error)]/20";
+  };
+
   const availableYears = useMemo(() => {
-    const years = [...new Set(enrichedData.map(item => item.year))].sort();
+    const years = [...new Set(enrichedData.map(item => item.year))].sort((a, b) => b - a);
     return years;
   }, [enrichedData]);
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center p-8">
-        <div className="text-[var(--color-neutral-bright)]">Loading forecasts...</div>
+      <div className="flex justify-center items-center p-8 bg-[var(--color-neutral-dark)] rounded-lg">
+        <div className="flex items-center gap-3 text-[var(--color-neutral-bright)]">
+          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[var(--color-primary)]"></div>
+          Loading forecasts...
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-[var(--color-neutral-dark)] rounded-lg">
+    <div className="bg-[var(--color-neutral-dark)] rounded-lg overflow-hidden">
+      
+      {/* Search and Filters Header */}
       <div className="p-4 border-b border-[var(--color-neutral-dark-3)] space-y-4">
         <div className="relative">
           <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[var(--color-neutral-bright)]/60" />
           <input
             type="text"
-            placeholder="Search by label or comment..."
+            placeholder="Search by category or notes..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-10 pr-4 py-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
@@ -181,7 +199,8 @@ export default function MonthlyForecastsTable({
 
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="flex-1">
-            <label className="block text-sm font-medium text-[var(--color-neutral-bright)] mb-1">
+            <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-2">
+              <FaCalendarAlt className="text-[var(--color-primary)]" />
               Filter by Year
             </label>
             <select
@@ -197,7 +216,8 @@ export default function MonthlyForecastsTable({
           </div>
 
           <div className="flex-1">
-            <label className="block text-sm font-medium text-[var(--color-neutral-bright)] mb-1">
+            <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-2">
+              <FaFilter className="text-[var(--color-secondary)]" />
               Filter by Month
             </label>
             <select
@@ -214,54 +234,77 @@ export default function MonthlyForecastsTable({
         </div>
       </div>
 
+      {/* Table */}
       <div className="overflow-x-auto">
         <table className="min-w-full table-auto">
           <thead className="bg-[var(--color-neutral-dark-2)]">
             <tr>
               <th 
-                className="px-3 py-3 text-left text-[var(--color-neutral-bright)] text-sm font-semibold cursor-pointer hover:bg-[var(--color-neutral-dark-3)]"
+                className="cursor-pointer px-3 py-3 text-left text-[var(--color-neutral-bright)] text-sm font-semibold hover:bg-[var(--color-neutral-dark-3)] transition-colors"
                 onClick={() => handleSort('id')}
               >
-                ID {sortConfig.key === 'id' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                <div className="flex items-center gap-2">
+                  ID
+                  {getSortIcon('id')}
+                </div>
               </th>
               <th 
-                className="px-3 py-3 text-left text-[var(--color-neutral-bright)] text-sm font-semibold cursor-pointer hover:bg-[var(--color-neutral-dark-3)]"
+                className="cursor-pointer px-3 py-3 text-left text-[var(--color-neutral-bright)] text-sm font-semibold hover:bg-[var(--color-neutral-dark-3)] transition-colors"
                 onClick={() => handleSort('label_name')}
               >
-                Label {sortConfig.key === 'label_name' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                <div className="flex items-center gap-2">
+                  Category
+                  {getSortIcon('label_name')}
+                </div>
               </th>
               <th 
-                className="px-3 py-3 text-center text-[var(--color-neutral-bright)] text-sm font-semibold cursor-pointer hover:bg-[var(--color-neutral-dark-3)]"
+                className="cursor-pointer px-3 py-3 text-center text-[var(--color-neutral-bright)] text-sm font-semibold hover:bg-[var(--color-neutral-dark-3)] transition-colors"
                 onClick={() => handleSort('year')}
               >
-                Year {sortConfig.key === 'year' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                <div className="flex items-center justify-center gap-2">
+                  Year
+                  {getSortIcon('year')}
+                </div>
               </th>
               <th 
-                className="px-3 py-3 text-center text-[var(--color-neutral-bright)] text-sm font-semibold cursor-pointer hover:bg-[var(--color-neutral-dark-3)]"
+                className="cursor-pointer px-3 py-3 text-center text-[var(--color-neutral-bright)] text-sm font-semibold hover:bg-[var(--color-neutral-dark-3)] transition-colors"
                 onClick={() => handleSort('month')}
               >
-                Month {sortConfig.key === 'month' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                <div className="flex items-center justify-center gap-2">
+                  Month
+                  {getSortIcon('month')}
+                </div>
               </th>
               <th 
-                className="px-3 py-3 text-right text-[var(--color-neutral-bright)] text-sm font-semibold cursor-pointer hover:bg-[var(--color-neutral-dark-3)]"
+                className="cursor-pointer px-3 py-3 text-right text-[var(--color-neutral-bright)] text-sm font-semibold hover:bg-[var(--color-neutral-dark-3)] transition-colors"
                 onClick={() => handleSort('amount')}
               >
-                Forecasted {sortConfig.key === 'amount' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                <div className="flex items-center justify-end gap-2">
+                  Forecasted
+                  {getSortIcon('amount')}
+                </div>
               </th>
               <th 
-                className="px-3 py-3 text-right text-[var(--color-neutral-bright)] text-sm font-semibold cursor-pointer hover:bg-[var(--color-neutral-dark-3)]"
+                className="cursor-pointer px-3 py-3 text-right text-[var(--color-neutral-bright)] text-sm font-semibold hover:bg-[var(--color-neutral-dark-3)] transition-colors"
                 onClick={() => handleSort('executed_amount')}
               >
-                Executed {sortConfig.key === 'executed_amount' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                <div className="flex items-center justify-end gap-2">
+                  Executed
+                  {getSortIcon('executed_amount')}
+                </div>
               </th>
               <th 
-                className="px-3 py-3 text-center text-[var(--color-neutral-bright)] text-sm font-semibold cursor-pointer hover:bg-[var(--color-neutral-dark-3)]"
+                className="cursor-pointer px-3 py-3 text-center text-[var(--color-neutral-bright)] text-sm font-semibold hover:bg-[var(--color-neutral-dark-3)] transition-colors"
                 onClick={() => handleSort('completion')}
               >
-                Progress {sortConfig.key === 'completion' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                <div className="flex items-center justify-center gap-2">
+                  <FaChartBar className="text-[var(--color-primary)]" />
+                  Progress
+                  {getSortIcon('completion')}
+                </div>
               </th>
               <th className="hidden lg:table-cell px-3 py-3 text-left text-[var(--color-neutral-bright)] text-sm font-semibold">
-                Comment
+                Notes
               </th>
               <th className="px-3 py-3 text-center text-[var(--color-neutral-bright)] text-sm font-semibold">
                 Actions
@@ -275,14 +318,16 @@ export default function MonthlyForecastsTable({
                 className="border-b border-[var(--color-neutral-dark-3)] hover:bg-[var(--color-neutral-dark-3)] transition-colors duration-200"
               >
                 <td className="px-3 py-3 text-[var(--color-neutral-bright)] text-sm">
-                  {forecast.id}
+                  <span className="bg-[var(--color-neutral-dark-3)] px-2 py-1 rounded text-xs">
+                    {forecast.id}
+                  </span>
                 </td>
                 <td className="px-3 py-3">
                   {editingId === forecast.id ? (
                     <select
                       value={editFormData.label_id}
                       onChange={(e) => handleEditChange('label_id', e.target.value)}
-                      className="cursor-pointer w-full p-1 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark)] rounded text-sm"
+                      className="cursor-pointer w-full p-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark)] rounded text-sm"
                     >
                       {userLabels.map((label) => (
                         <option key={label.id} value={label.id}>
@@ -304,7 +349,7 @@ export default function MonthlyForecastsTable({
                       max="2030"
                       value={editFormData.year}
                       onChange={(e) => handleEditChange('year', e.target.value)}
-                      className="w-full p-1 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark)] rounded text-sm text-center"
+                      className="w-full p-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark)] rounded text-sm text-center"
                     />
                   ) : (
                     <span className="text-[var(--color-neutral-bright)] text-sm">
@@ -317,7 +362,7 @@ export default function MonthlyForecastsTable({
                     <select
                       value={editFormData.month}
                       onChange={(e) => handleEditChange('month', e.target.value)}
-                      className="cursor-pointer w-full p-1 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark)] rounded text-sm"
+                      className="cursor-pointer w-full p-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark)] rounded text-sm"
                     >
                       {MONTHS.map((month, index) => (
                         <option key={index} value={index}>{month}</option>
@@ -337,23 +382,23 @@ export default function MonthlyForecastsTable({
                       min="0"
                       value={editFormData.amount}
                       onChange={(e) => handleEditChange('amount', e.target.value)}
-                      className="w-full p-1 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark)] rounded text-sm text-right"
+                      className="w-full p-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark)] rounded text-sm text-right"
                     />
                   ) : (
                     <span className="text-[var(--color-neutral-bright)] text-sm font-medium">
-                      € {parseFloat(forecast.amount).toFixed(2)}
+                      €{parseFloat(forecast.amount).toFixed(2)}
                     </span>
                   )}
                 </td>
                 <td className="px-3 py-3 text-right">
-                  <span className="text-[var(--color-neutral-bright)] text-sm">
-                    € {forecast.executed_amount.toFixed(2)}
+                  <span className="text-[var(--color-success)] text-sm font-medium">
+                    €{forecast.executed_amount.toFixed(2)}
                   </span>
                 </td>
                 <td className="px-3 py-3 text-center">
-                  <span className={`text-sm font-semibold ${getCompletionColor(forecast.completion)}`}>
+                  <div className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold ${getCompletionBgColor(forecast.completion)} ${getCompletionColor(forecast.completion)}`}>
                     {forecast.completion.toFixed(1)}%
-                  </span>
+                  </div>
                 </td>
                 <td className="hidden lg:table-cell px-3 py-3">
                   {editingId === forecast.id ? (
@@ -361,8 +406,8 @@ export default function MonthlyForecastsTable({
                       type="text"
                       value={editFormData.comment}
                       onChange={(e) => handleEditChange('comment', e.target.value)}
-                      className="w-full p-1 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark)] rounded text-sm"
-                      placeholder="Comment..."
+                      className="w-full p-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark)] rounded text-sm"
+                      placeholder="Notes..."
                     />
                   ) : (
                     <span className="text-[var(--color-neutral-bright)]/80 text-sm">
@@ -376,14 +421,14 @@ export default function MonthlyForecastsTable({
                       <>
                         <button
                           onClick={handleEditConfirm}
-                          className="cursor-pointer text-[var(--color-success)] hover:text-[var(--color-success)]/80 p-1 transition-colors duration-200"
+                          className="cursor-pointer text-[var(--color-success)] hover:text-[var(--color-success)]/80 p-2 rounded hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
                           title="Confirm"
                         >
                           <FaCheck size={14} />
                         </button>
                         <button
                           onClick={handleEditCancel}
-                          className="cursor-pointer text-[var(--color-error)] hover:text-[var(--color-error)]/80 p-1 transition-colors duration-200"
+                          className="cursor-pointer text-[var(--color-error)] hover:text-[var(--color-error)]/80 p-2 rounded hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
                           title="Cancel"
                         >
                           <FaTimes size={14} />
@@ -393,14 +438,14 @@ export default function MonthlyForecastsTable({
                       <>
                         <button
                           onClick={() => handleEditStart(forecast)}
-                          className="cursor-pointer text-[var(--color-primary)] hover:text-[var(--color-secondary)] p-1 transition-colors duration-200"
+                          className="cursor-pointer text-[var(--color-primary)] hover:text-[var(--color-secondary)] p-2 rounded hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
                           title="Edit"
                         >
                           <FaEdit size={14} />
                         </button>
                         <button
                           onClick={() => onDelete(forecast)}
-                          className="cursor-pointer text-[var(--color-error)] hover:text-[var(--color-error)]/80 p-1 transition-colors duration-200"
+                          className="cursor-pointer text-[var(--color-error)] hover:text-[var(--color-error)]/80 p-2 rounded hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
                           title="Delete"
                         >
                           <FaTrash size={14} />
@@ -415,6 +460,7 @@ export default function MonthlyForecastsTable({
         </table>
       </div>
 
+      {/* Pagination */}
       {totalPages > 1 && (
         <div className="p-4 border-t border-[var(--color-neutral-dark-3)]">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
@@ -486,6 +532,7 @@ export default function MonthlyForecastsTable({
        </div>
      )}
 
+     {/* Empty State */}
      {sortedData.length === 0 && (
        <div className="p-8 text-center text-[var(--color-neutral-bright)]/70">
          {searchTerm || filterYear || filterMonth !== "" 

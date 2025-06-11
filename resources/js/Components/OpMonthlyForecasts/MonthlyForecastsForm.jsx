@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { FaTags, FaCalendarAlt, FaEuroSign, FaComment, FaSave, FaTimes, FaPlus, FaEdit, FaExclamationTriangle, FaChartBar } from "react-icons/fa";
 import axios from "axios";
 
 const MONTHS = [
@@ -87,149 +88,282 @@ export default function MonthlyForecastsForm({
         setErrors(error.response.data.errors);
       } else {
         console.error("Error saving forecast", error);
-        setErrors({ general: "Error saving forecast. Please try again." });
+        setErrors({ general: ["An unexpected error occurred. Please try again."] });
       }
     } finally {
       setLoading(false);
     }
   };
 
+  const isEditing = !!editingForecast;
+  const selectedLabel = userLabels.find(label => label.id === formData.label_id);
+  const selectedMonth = MONTHS.find(month => month.value === formData.month);
+
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="bg-[var(--color-neutral-dark-2)] p-4 sm:p-6 rounded-lg shadow-lg space-y-4"
-    >
-      <h2 className="text-lg sm:text-xl font-semibold text-[var(--color-neutral-bright)]">
-        {editingForecast ? "Edit Forecast" : "Create New Forecast"}
-      </h2>
-
-      {errors.general && (
-        <div className="p-3 bg-[var(--color-error)]/20 border border-[var(--color-error)] rounded text-[var(--color-error)] text-sm">
-          {errors.general}
-        </div>
-      )}
-
-      <div>
-        <label className="block text-sm font-medium text-[var(--color-neutral-bright)] mb-2">
-          Label *
-        </label>
-        <select
-          name="label_id"
-          value={formData.label_id}
-          onChange={handleChange}
-          className="cursor-pointer w-full p-2 sm:p-3 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
-          required
-        >
-          <option value="">Select a label</option>
-          {userLabels.map((label) => (
-            <option key={label.id} value={label.id}>
-              {label.name}
-            </option>
-          ))}
-        </select>
-        {errors.label_id && (
-          <p className="text-[var(--color-error)] text-sm mt-1">{errors.label_id[0]}</p>
-        )}
-      </div>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium text-[var(--color-neutral-bright)] mb-2">
-            Year *
-          </label>
-          <input
-            type="number"
-            name="year"
-            min="2020"
-            max="2030"
-            value={formData.year}
-            onChange={handleChange}
-            className="w-full p-2 sm:p-3 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
-            required
-          />
-          {errors.year && (
-            <p className="text-[var(--color-error)] text-sm mt-1">{errors.year[0]}</p>
+    <div className="bg-[var(--color-neutral-dark-2)] rounded-lg shadow-lg overflow-hidden">
+      
+      {/* Header */}
+      <div className="p-4 sm:p-6 border-b border-[var(--color-neutral-dark-3)] bg-gradient-to-r from-[var(--color-primary)]/10 to-[var(--color-secondary)]/10">
+        <div className="flex items-center gap-3">
+          {isEditing ? (
+            <FaEdit className="text-[var(--color-warning)] text-xl" />
+          ) : (
+            <FaPlus className="text-[var(--color-success)] text-xl" />
           )}
+          <div>
+            <h2 className="text-lg sm:text-xl font-semibold text-[var(--color-neutral-bright)]">
+              {isEditing ? "Edit Forecast" : "Create New Forecast"}
+            </h2>
+            <p className="text-sm text-[var(--color-neutral-bright)]/70 mt-1">
+              {isEditing 
+                ? "Update your monthly budget forecast" 
+                : "Set up a monthly budget target for a specific category"
+              }
+            </p>
+          </div>
         </div>
+      </div>
 
-        <div>
-          <label className="block text-sm font-medium text-[var(--color-neutral-bright)] mb-2">
-            Month *
-          </label>
-          <select
-            name="month"
-            value={formData.month}
-            onChange={handleChange}
-            className="cursor-pointer w-full p-2 sm:p-3 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
-            required
-          >
-            {MONTHS.map((month) => (
-              <option key={month.value} value={month.value}>
-                {month.label}
-              </option>
-            ))}
-          </select>
-          {errors.month && (
-            <p className="text-[var(--color-error)] text-sm mt-1">{errors.month[0]}</p>
+      {/* Form Content */}
+      <div className="p-4 sm:p-6">
+        
+        {/* Error Display */}
+        {(errors.general || Object.keys(errors).length > 0) && (
+          <div className="mb-4 p-3 bg-[var(--color-error)]/20 border border-[var(--color-error)]/30 rounded-lg">
+            <div className="flex items-center gap-2 mb-1">
+              <FaExclamationTriangle className="text-[var(--color-error)] flex-shrink-0" />
+              <span className="text-[var(--color-error)] text-sm font-medium">
+                Please correct the following errors:
+              </span>
+            </div>
+            <ul className="text-sm text-[var(--color-error)] ml-6">
+              {errors.general && errors.general.map((error, index) => (
+                <li key={`general-${index}`}>• {error}</li>
+              ))}
+              {Object.entries(errors).filter(([key]) => key !== 'general').map(([key, errorArray]) => 
+                Array.isArray(errorArray) && errorArray.map((error, index) => (
+                  <li key={`${key}-${index}`}>• {error}</li>
+                ))
+              )}
+            </ul>
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          
+          {/* Label Selection */}
+          <div>
+            <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
+              <FaTags className="text-[var(--color-primary)]" />
+              Category *
+            </label>
+            <select
+              name="label_id"
+              value={formData.label_id}
+              onChange={handleChange}
+              className={`cursor-pointer w-full p-3 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-colors ${
+                errors.label_id 
+                  ? 'border-[var(--color-error)]' 
+                  : 'border-[var(--color-neutral-dark-3)]'
+              }`}
+              required
+            >
+              <option value="">Select a category</option>
+              {userLabels.map((label) => (
+                <option key={label.id} value={label.id}>
+                  {label.name}
+                </option>
+              ))}
+            </select>
+            {errors.label_id && (
+              <p className="text-[var(--color-error)] text-sm mt-1">{errors.label_id[0]}</p>
+            )}
+          </div>
+
+          {/* Year and Month */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
+                <FaCalendarAlt className="text-[var(--color-secondary)]" />
+                Year *
+              </label>
+              <input
+                type="number"
+                name="year"
+                min="2020"
+                max="2030"
+                value={formData.year}
+                onChange={handleChange}
+                className={`w-full p-3 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-colors ${
+                  errors.year 
+                    ? 'border-[var(--color-error)]' 
+                    : 'border-[var(--color-neutral-dark-3)]'
+                }`}
+                required
+              />
+              {errors.year && (
+                <p className="text-[var(--color-error)] text-sm mt-1">{errors.year[0]}</p>
+              )}
+            </div>
+
+            <div>
+              <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
+                <FaCalendarAlt className="text-[var(--color-secondary)]" />
+                Month *
+              </label>
+              <select
+                name="month"
+                value={formData.month}
+                onChange={handleChange}
+                className={`cursor-pointer w-full p-3 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-colors ${
+                  errors.month 
+                    ? 'border-[var(--color-error)]' 
+                    : 'border-[var(--color-neutral-dark-3)]'
+                }`}
+                required
+              >
+                {MONTHS.map((month) => (
+                  <option key={month.value} value={month.value}>
+                    {month.label}
+                  </option>
+                ))}
+              </select>
+              {errors.month && (
+                <p className="text-[var(--color-error)] text-sm mt-1">{errors.month[0]}</p>
+              )}
+            </div>
+          </div>
+
+          {/* Amount */}
+          <div>
+            <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
+              <FaEuroSign className="text-[var(--color-success)]" />
+              Budget Amount *
+            </label>
+            <div className="relative">
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[var(--color-neutral-bright)]/60">€</span>
+              <input
+                type="number"
+                step="0.01"
+                min="0"
+                name="amount"
+                value={formData.amount}
+                onChange={handleChange}
+                placeholder="0.00"
+                className={`w-full pl-8 pr-3 py-3 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-colors ${
+                  errors.amount 
+                    ? 'border-[var(--color-error)]' 
+                    : 'border-[var(--color-neutral-dark-3)]'
+                }`}
+                required
+              />
+            </div>
+            {errors.amount && (
+              <p className="text-[var(--color-error)] text-sm mt-1">{errors.amount[0]}</p>
+            )}
+          </div>
+
+          {/* Comment */}
+          <div>
+            <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
+              <FaComment className="text-[var(--color-warning)]" />
+              Notes (Optional)
+            </label>
+            <textarea
+              name="comment"
+              value={formData.comment}
+              onChange={handleChange}
+              rows="3"
+              placeholder="Add any notes about this forecast..."
+              className={`w-full p-3 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent resize-vertical transition-colors ${
+                errors.comment 
+                  ? 'border-[var(--color-error)]' 
+                  : 'border-[var(--color-neutral-dark-3)]'
+              }`}
+              maxLength={255}
+            />
+            <div className="mt-1 flex justify-between items-center">
+              {errors.comment && (
+                <p className="text-[var(--color-error)] text-sm">{errors.comment[0]}</p>
+              )}
+              <div className="text-xs text-[var(--color-neutral-bright)]/50 ml-auto">
+                {formData.comment.length}/255
+              </div>
+            </div>
+          </div>
+
+          {/* Preview Card */}
+          {(selectedLabel && formData.amount && selectedMonth) && (
+            <div className="p-4 bg-[var(--color-neutral-dark-3)] rounded-lg border border-[var(--color-neutral-dark)] border-dashed">
+              <p className="text-xs text-[var(--color-neutral-bright)]/70 mb-2 uppercase tracking-wider">Preview</p>
+              <div className="flex items-center gap-3">
+                <FaChartBar className="text-[var(--color-primary)]" />
+                <div>
+                  <div className="flex items-center gap-2 text-[var(--color-neutral-bright)] font-medium">
+                    <span>{selectedLabel.name}</span>
+                    <span className="text-[var(--color-neutral-bright)]/60">•</span>
+                    <span>{selectedMonth.label} {formData.year}</span>
+                  </div>
+                  <div className="text-[var(--color-success)] font-bold">
+                    €{parseFloat(formData.amount || 0).toFixed(2)}
+                  </div>
+                  {formData.comment && (
+                    <div className="text-sm text-[var(--color-neutral-bright)]/70 italic mt-1">
+                      "{formData.comment}"
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
           )}
+
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row justify-end gap-3 pt-4 border-t border-[var(--color-neutral-dark-3)]">
+            {onCancel && (
+              <button
+                type="button"
+                onClick={onCancel}
+                disabled={loading}
+                className="cursor-pointer flex items-center justify-center gap-2 px-4 py-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-neutral-dark)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+              >
+                <FaTimes size={14} />
+                Cancel
+              </button>
+            )}
+            <button
+              type="submit"
+              disabled={loading || !formData.label_id || !formData.amount}
+              className="cursor-pointer flex items-center justify-center gap-2 px-6 py-2 bg-[var(--color-primary)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-secondary)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 font-medium"
+            >
+              {loading ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                  {isEditing ? "Updating..." : "Creating..."}
+                </>
+              ) : (
+                <>
+                  <FaSave size={14} />
+                  {isEditing ? "Update Forecast" : "Create Forecast"}
+                </>
+              )}
+            </button>
+          </div>
+        </form>
+
+        {/* Tips Section */}
+        <div className="mt-6 p-4 bg-[var(--color-neutral-dark-3)] rounded-lg">
+          <h4 className="text-sm font-medium text-[var(--color-neutral-bright)] mb-2 flex items-center gap-2">
+            <FaChartBar className="text-[var(--color-primary)]" />
+            Forecasting Tips
+          </h4>
+          <ul className="text-xs text-[var(--color-neutral-bright)]/70 space-y-1">
+            <li>• Be realistic with your budget amounts based on historical data</li>
+            <li>• Add notes to remember specific considerations for that month</li>
+            <li>• Review and adjust forecasts regularly based on actual spending</li>
+            <li>• Consider seasonal variations in your budget planning</li>
+          </ul>
         </div>
       </div>
-
-      <div>
-        <label className="block text-sm font-medium text-[var(--color-neutral-bright)] mb-2">
-          Amount (€) *
-        </label>
-        <input
-          type="number"
-          step="0.01"
-          min="0"
-          name="amount"
-          value={formData.amount}
-          onChange={handleChange}
-          placeholder="0.00"
-          className="w-full p-2 sm:p-3 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
-          required
-        />
-        {errors.amount && (
-          <p className="text-[var(--color-error)] text-sm mt-1">{errors.amount[0]}</p>
-        )}
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-[var(--color-neutral-bright)] mb-2">
-          Comment
-        </label>
-        <textarea
-          name="comment"
-          value={formData.comment}
-          onChange={handleChange}
-          rows="3"
-          placeholder="Optional comment about this forecast..."
-          className="w-full p-2 sm:p-3 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent resize-vertical"
-        />
-        {errors.comment && (
-          <p className="text-[var(--color-error)] text-sm mt-1">{errors.comment[0]}</p>
-        )}
-      </div>
-
-      <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 pt-2">
-        {onCancel && (
-          <button
-            type="button"
-            onClick={onCancel}
-            className="cursor-pointer px-4 py-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-neutral-dark)] transition-colors duration-200"
-          >
-            Cancel
-          </button>
-        )}
-        <button
-          type="submit"
-          disabled={loading}
-          className="cursor-pointer px-4 py-2 bg-[var(--color-primary)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-secondary)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
-        >
-          {loading ? "Saving..." : editingForecast ? "Update Forecast" : "Create Forecast"}
-        </button>
-      </div>
-    </form>
+    </div>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { Line } from "react-chartjs-2";
+import { FaChartLine, FaArrowUp, FaArrowDown } from "react-icons/fa";
 import {
   Chart as ChartJS,
   LineElement,
@@ -17,8 +18,11 @@ export default function MovementsSummary({ movements }) {
     bright: '#F8F8F2',
     primary: '#6272A4',
     success: '#48E16F',
-    error: '#E64D4D'
+    error: '#E64D4D',
+    warning: '#F1FA8C'
   });
+
+  const [timeRange, setTimeRange] = useState(20); // Default to last 20 movements
 
   useEffect(() => {
     const rootStyles = getComputedStyle(document.documentElement);
@@ -27,6 +31,7 @@ export default function MovementsSummary({ movements }) {
       primary: rootStyles.getPropertyValue('--color-primary').trim(),
       success: rootStyles.getPropertyValue('--color-success').trim(),
       error: rootStyles.getPropertyValue('--color-error').trim(),
+      warning: rootStyles.getPropertyValue('--color-warning').trim(),
     });
   }, []);
 
@@ -36,80 +41,122 @@ export default function MovementsSummary({ movements }) {
     return isNaN(num) ? 0 : num;
   };
 
-  const chartData = useMemo(() => {
+  const { chartData, stats } = useMemo(() => {
     // Ensure movements is an array and has data
     if (!Array.isArray(movements) || movements.length === 0) {
       return {
-        labels: [],
-        datasets: [{
-          label: "Account Balance",
-          data: [],
-          borderColor: colors.primary,
-          backgroundColor: colors.primary + '20',
-          borderWidth: 2,
-          fill: true,
-          tension: 0.4,
-          pointBackgroundColor: colors.primary,
-          pointBorderColor: colors.bright,
-          pointBorderWidth: 2,
-          pointRadius: 4,
-        }],
+        chartData: {
+          labels: [],
+          datasets: [{
+            label: "Account Balance",
+            data: [],
+            borderColor: colors.primary,
+            backgroundColor: colors.primary + '20',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4,
+            pointBackgroundColor: colors.primary,
+            pointBorderColor: colors.bright,
+            pointBorderWidth: 2,
+            pointRadius: 5,
+            pointHoverRadius: 7,
+          }],
+        },
+        stats: {
+          currentBalance: 0,
+          trend: 'neutral',
+          minBalance: 0,
+          maxBalance: 0,
+          averageBalance: 0
+        }
       };
     }
 
-    // Group movements by date and calculate running balance with safe number conversion
+    // Sort movements by date and take the specified range
     const sortedMovements = [...movements]
       .map(movement => ({
         ...movement,
         transaction_date: movement.transaction_date,
-        balance: safeNumber(movement.balance) // Convert to safe number
+        balance: safeNumber(movement.balance)
       }))
       .sort((a, b) => new Date(a.transaction_date) - new Date(b.transaction_date))
-      .slice(-20); // Last 20 movements for performance
+      .slice(-timeRange);
 
     const labels = sortedMovements.map(movement => {
       const date = new Date(movement.transaction_date);
       return date.toLocaleDateString('en-US', { 
         month: 'short', 
-        day: 'numeric' 
+        day: 'numeric',
+        year: sortedMovements.length > 30 ? '2-digit' : undefined
       });
     });
 
     const balanceData = sortedMovements.map(movement => movement.balance);
 
+    // Calculate statistics
+    const currentBalance = balanceData[balanceData.length - 1] || 0;
+    const previousBalance = balanceData[balanceData.length - 2] || currentBalance;
+    const trend = currentBalance > previousBalance ? 'up' : currentBalance < previousBalance ? 'down' : 'neutral';
+    const minBalance = Math.min(...balanceData);
+    const maxBalance = Math.max(...balanceData);
+    const averageBalance = balanceData.reduce((sum, val) => sum + val, 0) / balanceData.length;
+
     return {
-      labels,
-      datasets: [
-        {
-          label: "Account Balance",
-          data: balanceData,
-          borderColor: colors.primary,
-          backgroundColor: colors.primary + '20',
-          borderWidth: 2,
-          fill: true,
-          tension: 0.4,
-          pointBackgroundColor: colors.primary,
-          pointBorderColor: colors.bright,
-          pointBorderWidth: 2,
-          pointRadius: 4,
-        },
-      ],
+      chartData: {
+        labels,
+        datasets: [
+          {
+            label: "Account Balance",
+            data: balanceData,
+            borderColor: colors.primary,
+            backgroundColor: colors.primary + '20',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4,
+            pointBackgroundColor: colors.primary,
+            pointBorderColor: colors.bright,
+            pointBorderWidth: 2,
+            pointRadius: 5,
+            pointHoverRadius: 7,
+          },
+        ],
+      },
+      stats: {
+        currentBalance,
+        trend,
+        minBalance,
+        maxBalance,
+        averageBalance
+      }
     };
-  }, [movements, colors]);
+  }, [movements, colors, timeRange]);
 
   const options = {
     responsive: true,
     maintainAspectRatio: false,
+    interaction: {
+      intersect: false,
+      mode: 'index',
+    },
     plugins: {
       legend: {
         display: false,
       },
       tooltip: {
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        titleColor: colors.bright,
+        bodyColor: colors.bright,
+        borderColor: colors.primary,
+        borderWidth: 1,
+        cornerRadius: 8,
         bodyFont: {
           family: "IBM Plex Sans",
         },
+        titleFont: {
+          family: "Inter",
+        },
         callbacks: {
-          label: (context) => `Balance: € ${safeNumber(context.parsed.y).toFixed(2)}`
+          label: (context) => `Balance: €${safeNumber(context.parsed.y).toFixed(2)}`
         }
       },
     },
@@ -125,6 +172,7 @@ export default function MovementsSummary({ movements }) {
         },
         grid: {
           color: colors.bright + '20',
+          drawBorder: false,
         },
       },
       y: {
@@ -134,24 +182,45 @@ export default function MovementsSummary({ movements }) {
             family: "IBM Plex Sans",
             size: window.innerWidth < 640 ? 10 : window.innerWidth < 1024 ? 12 : 14,
           },
-          callback: (value) => `€ ${safeNumber(value).toFixed(2)}`,
+          callback: (value) => `€${safeNumber(value).toFixed(0)}`,
         },
         grid: {
           color: colors.bright + '20',
+          drawBorder: false,
         },
       },
     },
+    layout: {
+      padding: {
+        top: 10,
+        bottom: 10,
+      }
+    }
+  };
+
+  const getTrendIcon = () => {
+    if (stats.trend === 'up') return <FaArrowUp className="text-[var(--color-success)]" />;
+    if (stats.trend === 'down') return <FaArrowDown className="text-[var(--color-error)]" />;
+    return <FaChartLine className="text-[var(--color-neutral-bright)]/50" />;
+  };
+
+  const getTrendColor = () => {
+    if (stats.trend === 'up') return 'text-[var(--color-success)]';
+    if (stats.trend === 'down') return 'text-[var(--color-error)]';
+    return 'text-[var(--color-neutral-bright)]/70';
   };
 
   // Handle empty state
   if (!Array.isArray(movements) || movements.length === 0) {
     return (
-      <div className="bg-[var(--color-neutral-dark)] p-4 sm:p-6">
-        <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-4 text-[var(--color-neutral-bright)] text-center">
+      <div className="bg-[var(--color-neutral-dark-2)] p-4 sm:p-6 rounded-lg shadow-lg">
+        <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-4 text-[var(--color-neutral-bright)] flex items-center gap-2">
+          <FaChartLine className="text-[var(--color-primary)]" />
           Balance Evolution
         </h2>
         <div className="h-64 sm:h-72 lg:h-80 flex items-center justify-center">
           <div className="text-center text-[var(--color-neutral-bright)]/70">
+            <FaChartLine className="mx-auto h-12 w-12 text-[var(--color-neutral-bright)]/30 mb-4" />
             <p className="text-lg mb-2">No movement data available</p>
             <p className="text-sm">Create some movements to see the balance evolution chart</p>
           </div>
@@ -161,12 +230,112 @@ export default function MovementsSummary({ movements }) {
   }
 
   return (
-    <div className="bg-[var(--color-neutral-dark)] p-4 sm:p-6">
-      <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-4 text-[var(--color-neutral-bright)] text-center">
-        Balance Evolution (Last 20 Movements)
-      </h2>
+    <div className="bg-[var(--color-neutral-dark-2)] p-4 sm:p-6 rounded-lg shadow-lg">
+      
+      {/* Header with Controls */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+        <div>
+          <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold text-[var(--color-neutral-bright)] flex items-center gap-2">
+            <FaChartLine className="text-[var(--color-primary)]" />
+            Balance Evolution
+          </h2>
+          <p className="text-sm text-[var(--color-neutral-bright)]/70 mt-1">
+            Track your account balance over time
+          </p>
+        </div>
+        
+        <div className="flex bg-[var(--color-neutral-dark-3)] rounded-lg p-1">
+          <button
+            onClick={() => setTimeRange(10)}
+            className={`cursor-pointer px-3 py-2 text-sm rounded-md transition-colors duration-200 ${
+              timeRange === 10
+                ? 'bg-[var(--color-primary)] text-[var(--color-neutral-bright)]'
+                : 'text-[var(--color-neutral-bright)]/70 hover:text-[var(--color-neutral-bright)]'
+            }`}
+          >
+            Last 10
+          </button>
+          <button
+            onClick={() => setTimeRange(20)}
+            className={`cursor-pointer px-3 py-2 text-sm rounded-md transition-colors duration-200 ${
+              timeRange === 20
+                ? 'bg-[var(--color-primary)] text-[var(--color-neutral-bright)]'
+                : 'text-[var(--color-neutral-bright)]/70 hover:text-[var(--color-neutral-bright)]'
+            }`}
+          >
+            Last 20
+          </button>
+          <button
+            onClick={() => setTimeRange(50)}
+            className={`cursor-pointer px-3 py-2 text-sm rounded-md transition-colors duration-200 ${
+              timeRange === 50
+                ? 'bg-[var(--color-primary)] text-[var(--color-neutral-bright)]'
+                : 'text-[var(--color-neutral-bright)]/70 hover:text-[var(--color-neutral-bright)]'
+            }`}
+          >
+            Last 50
+          </button>
+        </div>
+      </div>
+
+      {/* Statistics Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-6">
+        <div className="bg-[var(--color-neutral-dark-3)] p-3 rounded-lg">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs text-[var(--color-neutral-bright)]/70 uppercase tracking-wider">Current</p>
+              <p className={`text-lg font-bold ${
+                stats.currentBalance >= 0 ? 'text-[var(--color-success)]' : 'text-[var(--color-error)]'
+              }`}>
+                €{stats.currentBalance.toFixed(2)}
+              </p>
+            </div>
+            {getTrendIcon()}
+          </div>
+        </div>
+        
+        <div className="bg-[var(--color-neutral-dark-3)] p-3 rounded-lg">
+          <p className="text-xs text-[var(--color-neutral-bright)]/70 uppercase tracking-wider">Minimum</p>
+          <p className="text-lg font-bold text-[var(--color-error)]">
+            €{stats.minBalance.toFixed(2)}
+          </p>
+        </div>
+        
+        <div className="bg-[var(--color-neutral-dark-3)] p-3 rounded-lg">
+          <p className="text-xs text-[var(--color-neutral-bright)]/70 uppercase tracking-wider">Maximum</p>
+          <p className="text-lg font-bold text-[var(--color-success)]">
+            €{stats.maxBalance.toFixed(2)}
+          </p>
+        </div>
+        
+        <div className="bg-[var(--color-neutral-dark-3)] p-3 rounded-lg">
+          <p className="text-xs text-[var(--color-neutral-bright)]/70 uppercase tracking-wider">Average</p>
+          <p className="text-lg font-bold text-[var(--color-primary)]">
+            €{stats.averageBalance.toFixed(2)}
+          </p>
+        </div>
+      </div>
+
+      {/* Chart */}
       <div className="h-64 sm:h-72 lg:h-80">
         <Line data={chartData} options={options} />
+      </div>
+
+      {/* Trend Information */}
+      <div className="mt-4 p-3 bg-[var(--color-neutral-dark-3)] rounded-lg">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            {getTrendIcon()}
+            <span className={`text-sm font-medium ${getTrendColor()}`}>
+              {stats.trend === 'up' && 'Balance is trending upward'}
+              {stats.trend === 'down' && 'Balance is trending downward'}
+              {stats.trend === 'neutral' && 'Balance is stable'}
+            </span>
+          </div>
+          <div className="text-xs text-[var(--color-neutral-bright)]/50">
+            Showing last {timeRange} movements
+          </div>
+        </div>
       </div>
     </div>
   );
