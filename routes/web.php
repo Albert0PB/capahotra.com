@@ -195,6 +195,14 @@ Route::get('/', function () {
     return Inertia::render("Home");
 });
 
+Route::get('/services', function() {
+    return Inertia::render("Services");
+});
+
+Route::get('/about-us', function() {
+    return Inertia::render("AboutUs");
+});
+
 Route::middleware(['auth',])->get('/dashboard', function () {
     $userId = Auth::id();
 
