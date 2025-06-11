@@ -10,7 +10,7 @@ export default function DeleteAccountForm({ user }) {
   const { delete: destroy, processing } = useForm();
 
   const handleDeleteAccount = () => {
-    if (confirmationText !== 'DELETE' || !passwordConfirmation) {
+    if (confirmationText !== 'ELIMINAR' || !passwordConfirmation) {
       return;
     }
 
@@ -22,7 +22,7 @@ export default function DeleteAccountForm({ user }) {
         setShowConfirmModal(false);
       },
       onError: () => {
-        alert('There was an error deleting your account. Please try again.');
+        alert('Hubo un error al eliminar tu cuenta. Por favor, inténtalo de nuevo.');
       }
     });
   };
@@ -39,7 +39,7 @@ export default function DeleteAccountForm({ user }) {
     setPasswordConfirmation('');
   };
 
-  const isConfirmationValid = confirmationText === 'DELETE' && passwordConfirmation.length > 0;
+  const isConfirmationValid = confirmationText === 'ELIMINAR' && passwordConfirmation.length > 0;
 
   return (
     <>
@@ -49,10 +49,10 @@ export default function DeleteAccountForm({ user }) {
             <FaTrash className="text-[var(--color-error)] text-xl" />
             <div>
               <h2 className="text-xl font-semibold text-[var(--color-neutral-bright)]">
-                Delete Account
+                Eliminar Cuenta
               </h2>
               <p className="text-sm text-[var(--color-neutral-bright)]/70 mt-1">
-                Permanently delete your account and all associated data.
+                Eliminar permanentemente tu cuenta y todos los datos asociados.
               </p>
             </div>
           </div>
@@ -64,14 +64,14 @@ export default function DeleteAccountForm({ user }) {
               <FaExclamationTriangle className="text-[var(--color-error)] mt-0.5 flex-shrink-0" />
               <div>
                 <h3 className="text-[var(--color-error)] font-medium text-sm mb-2">
-                  Warning: This action cannot be undone!
+                  ¡Advertencia: Esta acción no se puede deshacer!
                 </h3>
                 <ul className="text-sm text-[var(--color-error)]/90 space-y-1">
-                  <li>• Your account will be permanently deleted</li>
-                  <li>• All your movements and financial data will be lost</li>
-                  <li>• All your labels and forecasts will be removed</li>
-                  <li>• You will lose access to all financial tools and reports</li>
-                  <li>• This action is irreversible</li>
+                  <li>• Tu cuenta será eliminada permanentemente</li>
+                  <li>• Todos tus movimientos y datos financieros se perderán</li>
+                  <li>• Todas tus etiquetas y previsiones serán eliminadas</li>
+                  <li>• Perderás acceso a todas las herramientas financieras e informes</li>
+                  <li>• Esta acción es irreversible</li>
                 </ul>
               </div>
             </div>
@@ -79,17 +79,17 @@ export default function DeleteAccountForm({ user }) {
 
           <div className="mb-6 p-4 bg-[var(--color-neutral-dark-3)] rounded-lg">
             <h3 className="text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
-              Account Summary
+              Resumen de la Cuenta
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
               <div>
-                <span className="text-[var(--color-neutral-bright)]/70">Account:</span>
+                <span className="text-[var(--color-neutral-bright)]/70">Cuenta:</span>
                 <p className="text-[var(--color-neutral-bright)] font-medium">{user.email}</p>
               </div>
               <div>
-                <span className="text-[var(--color-neutral-bright)]/70">Member Since:</span>
+                <span className="text-[var(--color-neutral-bright)]/70">Miembro Desde:</span>
                 <p className="text-[var(--color-neutral-bright)] font-medium">
-                  {new Date(user.created_at).toLocaleDateString('en-US', {
+                  {new Date(user.created_at).toLocaleDateString('es-ES', {
                     year: 'numeric',
                     month: 'long',
                     day: 'numeric'
@@ -101,13 +101,13 @@ export default function DeleteAccountForm({ user }) {
 
           <div className="mb-6 p-4 bg-[var(--color-primary)]/10 border border-[var(--color-primary)]/30 rounded-lg">
             <h3 className="text-[var(--color-primary)] font-medium text-sm mb-2">
-              Consider These Alternatives
+              Considera Estas Alternativas
             </h3>
             <ul className="text-sm text-[var(--color-neutral-bright)]/80 space-y-1">
-              <li>• Export your financial data before deletion</li>
-              <li>• Change your password if security is a concern</li>
-              <li>• Update your email address to a different one</li>
-              <li>• Contact support if you're having issues with the application</li>
+              <li>• Exporta tus datos financieros antes de eliminar</li>
+              <li>• Cambia tu contraseña si la seguridad es una preocupación</li>
+              <li>• Actualiza tu dirección de correo a una diferente</li>
+              <li>• Contacta con soporte si tienes problemas con la aplicación</li>
             </ul>
           </div>
 
@@ -117,7 +117,7 @@ export default function DeleteAccountForm({ user }) {
               className="cursor-pointer px-6 py-3 bg-[var(--color-error)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-error)]/80 transition-colors duration-200 flex items-center gap-2 font-medium"
             >
               <FaTrash />
-              Delete Account
+              Eliminar Cuenta
             </button>
           </div>
         </div>
@@ -133,36 +133,36 @@ export default function DeleteAccountForm({ user }) {
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-[var(--color-neutral-bright)]">
-                    Confirm Account Deletion
+                    Confirmar Eliminación de Cuenta
                   </h3>
                   <p className="text-sm text-[var(--color-neutral-bright)]/70">
-                    This action is permanent and cannot be undone.
+                    Esta acción es permanente y no se puede deshacer.
                   </p>
                 </div>
               </div>
 
               <div className="space-y-4">
                 <div className="p-3 bg-[var(--color-error)]/20 border border-[var(--color-error)]/30 rounded text-[var(--color-error)] text-sm">
-                  <strong>Final Warning:</strong> You are about to permanently delete your account and all associated data.
+                  <strong>Advertencia Final:</strong> Estás a punto de eliminar permanentemente tu cuenta y todos los datos asociados.
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-[var(--color-neutral-bright)] mb-2">
-                    Type "DELETE" to confirm *
+                    Escribe "ELIMINAR" para confirmar *
                   </label>
                   <input
                     type="text"
                     value={confirmationText}
                     onChange={(e) => setConfirmationText(e.target.value)}
                     className="w-full p-3 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-error)] focus:border-transparent"
-                    placeholder="Type DELETE here"
+                    placeholder="Escribe ELIMINAR aquí"
                     disabled={processing}
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-medium text-[var(--color-neutral-bright)] mb-2">
-                    Enter your password to confirm *
+                    Introduce tu contraseña para confirmar *
                   </label>
                   <div className="relative">
                     <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[var(--color-neutral-bright)]/60" />
@@ -171,7 +171,7 @@ export default function DeleteAccountForm({ user }) {
                       value={passwordConfirmation}
                       onChange={(e) => setPasswordConfirmation(e.target.value)}
                       className="w-full pl-10 pr-4 py-3 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-error)] focus:border-transparent"
-                      placeholder="Enter your password"
+                      placeholder="Introduce tu contraseña"
                       disabled={processing}
                     />
                   </div>
@@ -185,7 +185,7 @@ export default function DeleteAccountForm({ user }) {
                   className="cursor-pointer flex-1 px-4 py-3 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-neutral-dark)] disabled:opacity-50 transition-colors duration-200 flex items-center justify-center gap-2"
                 >
                   <FaTimes />
-                  Cancel
+                  Cancelar
                 </button>
                 <button
                   onClick={handleDeleteAccount}
@@ -195,12 +195,12 @@ export default function DeleteAccountForm({ user }) {
                   {processing ? (
                     <>
                       <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                      Deleting...
+                      Eliminando...
                     </>
                   ) : (
                     <>
                       <FaTrash />
-                      Delete Forever
+                      Eliminar Para Siempre
                     </>
                   )}
                 </button>

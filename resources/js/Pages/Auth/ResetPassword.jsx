@@ -27,7 +27,7 @@ export default function ResetPassword({ token, email: defaultEmail }) {
                 
                 {/* Title */}
                 <h2 className="text-[var(--color-neutral-dark)] text-xl sm:text-2xl lg:text-[2rem] font-semibold text-center">
-                    Reset your password
+                    Restablecer tu contraseña
                 </h2>
 
                 {/* Email Input */}
@@ -38,7 +38,7 @@ export default function ResetPassword({ token, email: defaultEmail }) {
                             type="email"
                             value={data.email}
                             onChange={(e) => setData("email", e.target.value)}
-                            placeholder="Email"
+                            placeholder="Correo electrónico"
                             className="flex-1 bg-transparent border-0 outline-none text-[var(--color-neutral-dark)] placeholder:text-[var(--color-neutral-dark)]/60 text-sm sm:text-base"
                             required
                         />
@@ -58,7 +58,7 @@ export default function ResetPassword({ token, email: defaultEmail }) {
                             type="password"
                             value={data.password}
                             onChange={(e) => setData("password", e.target.value)}
-                            placeholder="New password"
+                            placeholder="Nueva contraseña"
                             className="flex-1 bg-transparent border-0 outline-none text-[var(--color-neutral-dark)] placeholder:text-[var(--color-neutral-dark)]/60 text-sm sm:text-base"
                             required
                         />
@@ -78,7 +78,7 @@ export default function ResetPassword({ token, email: defaultEmail }) {
                             type="password"
                             value={data.password_confirmation}
                             onChange={(e) => setData("password_confirmation", e.target.value)}
-                            placeholder="Confirm password"
+                            placeholder="Confirmar contraseña"
                             className="flex-1 bg-transparent border-0 outline-none text-[var(--color-neutral-dark)] placeholder:text-[var(--color-neutral-dark)]/60 text-sm sm:text-base"
                             required
                         />
@@ -96,7 +96,7 @@ export default function ResetPassword({ token, email: defaultEmail }) {
                     disabled={processing}
                     className="w-full bg-[var(--color-neutral-dark-2)] text-[var(--color-neutral-bright)] py-3 px-6 rounded-full font-medium text-sm sm:text-base lg:text-[1.5rem] hover:bg-[var(--color-neutral-dark)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 mt-4"
                 >
-                    {processing ? "Resetting..." : "Submit new password"}
+                    {processing ? "Restableciendo..." : "Enviar nueva contraseña"}
                 </button>
             </form>
         </div>

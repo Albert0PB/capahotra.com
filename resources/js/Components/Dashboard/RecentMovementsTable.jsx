@@ -14,9 +14,9 @@ const RecentMovementsTable = ({ recentMovements }) => {
                     try {
                         const res = await fetch(`/api/labels/${label_id}`);
                         const data = await res.json();
-                        names[label_id] = data.name || "Unknown";
+                        names[label_id] = data.name || "Desconocido";
                     } catch {
-                        names[label_id] = "Unknown";
+                        names[label_id] = "Desconocido";
                     }
                 }
             }
@@ -35,12 +35,12 @@ const RecentMovementsTable = ({ recentMovements }) => {
         const isSmallScreen = window.innerWidth < 768; // md breakpoint
         
         if (isSmallScreen) {
-            return date.toLocaleDateString('en-US', { 
+            return date.toLocaleDateString('es-ES', { 
                 month: 'short', 
                 day: 'numeric' 
             });
         } else {
-            return date.toLocaleDateString('en-US', { 
+            return date.toLocaleDateString('es-ES', { 
                 month: 'short', 
                 day: 'numeric',
                 year: '2-digit'
@@ -54,19 +54,19 @@ const RecentMovementsTable = ({ recentMovements }) => {
                 <table className="w-full border-collapse table-fixed"> {/* Añadido table-fixed */}
                     <caption className="text-left mb-4">
                         <h3 className="text-[var(--color-neutral-bright)] text-lg sm:text-xl lg:text-2xl xl:text-[2rem] font-semibold mb-0">
-                            Recent Movements
+                            Movimientos Recientes
                         </h3>
                     </caption>
                     <thead>
                         <tr className="border-b-2 border-[var(--color-neutral-dark-3)]">
                             <th className="py-2 px-2 text-left text-[var(--color-neutral-bright)]/80 text-xs sm:text-sm font-medium uppercase tracking-wider w-[45%]">
-                                Description
+                                Descripción
                             </th>
                             <th className="py-2 px-1 text-right text-[var(--color-neutral-bright)]/80 text-xs sm:text-sm font-medium uppercase tracking-wider w-[30%]">
-                                Amount
+                                Cantidad
                             </th>
                             <th className="py-2 px-2 text-right text-[var(--color-neutral-bright)]/80 text-xs sm:text-sm font-medium uppercase tracking-wider w-[25%]">
-                                Date
+                                Fecha
                             </th>
                         </tr>
                     </thead>

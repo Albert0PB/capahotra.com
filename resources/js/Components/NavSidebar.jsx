@@ -35,7 +35,7 @@ const NavSidebar = () => {
     };
   }, [visible]);
 
-  const username = auth?.user?.email ? auth.user.email.split('@')[0] : 'User';
+  const username = auth?.user?.email ? auth.user.email.split('@')[0] : 'Usuario';
 
   const handleLogout = (e) => {
     e.preventDefault();
@@ -47,7 +47,7 @@ const NavSidebar = () => {
       <button
         onClick={toggleSidebar}
         className="bg-transparent border-none text-[var(--color-neutral-bright)] text-xl sm:text-2xl z-[1001] cursor-pointer hover:text-[var(--color-primary)] transition-colors duration-200"
-        aria-label="Toggle navigation menu"
+        aria-label="Alternar menú de navegación"
       >
         <FaBars />
       </button>
@@ -68,7 +68,7 @@ const NavSidebar = () => {
         <div className="p-6 border-b border-[var(--color-neutral-dark-3)]">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-[var(--color-neutral-bright)] font-semibold text-lg">
-              Navigation
+              Navegación
             </h3>
             <button
               onClick={closeSidebar}
@@ -91,7 +91,7 @@ const NavSidebar = () => {
                 {username}
               </p>
               <p className="text-[var(--color-neutral-bright)]/60 text-xs">
-                View profile
+                Ver perfil
               </p>
             </div>
             <FaCog className="text-[var(--color-neutral-bright)]/40 group-hover:text-[var(--color-neutral-bright)]/60 transition-colors duration-200" size={14} />
@@ -106,7 +106,7 @@ const NavSidebar = () => {
             className="flex items-center gap-3 p-3 rounded-lg text-[var(--color-neutral-bright)] hover:bg-[var(--color-neutral-dark-2)] hover:text-[var(--color-primary)] transition-all duration-200 group"
           >
             <FaHome className="text-lg group-hover:scale-110 transition-transform duration-200" />
-            <span className="font-medium">Dashboard</span>
+            <span className="font-medium">Panel Principal</span>
           </Link>
 
           <div>
@@ -116,7 +116,7 @@ const NavSidebar = () => {
             >
               <div className="flex items-center gap-3">
                 <FaChartPie className="text-lg group-hover:scale-110 transition-transform duration-200" />
-                <span className="font-medium">Operations</span>
+                <span className="font-medium">Operaciones</span>
               </div>
               {operationsOpen ? (
                 <FaChevronDown className="text-sm transition-transform duration-200" />
@@ -132,28 +132,28 @@ const NavSidebar = () => {
                   onClick={closeSidebar}
                   className="block p-2 pl-4 rounded text-[var(--color-neutral-bright)]/80 hover:text-[var(--color-primary)] hover:bg-[var(--color-neutral-dark-2)] transition-all duration-200 text-sm border-l-2 border-[var(--color-neutral-dark-3)] hover:border-[var(--color-primary)]"
                 >
-                  Operative Panel
+                  Panel Operativo
                 </Link>
                 <Link
                   href="/operations/movements"
                   onClick={closeSidebar}
                   className="block p-2 pl-4 rounded text-[var(--color-neutral-bright)]/80 hover:text-[var(--color-primary)] hover:bg-[var(--color-neutral-dark-2)] transition-all duration-200 text-sm border-l-2 border-[var(--color-neutral-dark-3)] hover:border-[var(--color-primary)]"
                 >
-                  Movements
+                  Movimientos
                 </Link>
                 <Link
                   href="/operations/monthly-forecasts"
                   onClick={closeSidebar}
                   className="block p-2 pl-4 rounded text-[var(--color-neutral-bright)]/80 hover:text-[var(--color-primary)] hover:bg-[var(--color-neutral-dark-2)] transition-all duration-200 text-sm border-l-2 border-[var(--color-neutral-dark-3)] hover:border-[var(--color-primary)]"
                 >
-                  Forecasts
+                  Previsiones
                 </Link>
                 <Link
                   href="/operations/labels"
                   onClick={closeSidebar}
                   className="block p-2 pl-4 rounded text-[var(--color-neutral-bright)]/80 hover:text-[var(--color-primary)] hover:bg-[var(--color-neutral-dark-2)] transition-all duration-200 text-sm border-l-2 border-[var(--color-neutral-dark-3)] hover:border-[var(--color-primary)]"
                 >
-                  Labels
+                  Etiquetas
                 </Link>
               </div>
             )}
@@ -166,7 +166,7 @@ const NavSidebar = () => {
             <button
               onClick={handleLogout}
               className="cursor-pointer flex items-center justify-center w-12 h-12 rounded-lg bg-[var(--color-error)]/20 text-[var(--color-error)] hover:bg-[var(--color-error)] hover:text-[var(--color-neutral-bright)] transition-all duration-200"
-              title="Logout"
+              title="Cerrar Sesión"
             >
               <FaSignOutAlt size={18} />
             </button>

@@ -3,18 +3,18 @@ import { FaTags, FaCalendarAlt, FaEuroSign, FaComment, FaSave, FaTimes, FaPlus, 
 import axios from "axios";
 
 const MONTHS = [
-  { value: 0, label: "January" },
-  { value: 1, label: "February" },
-  { value: 2, label: "March" },
-  { value: 3, label: "April" },
-  { value: 4, label: "May" },
-  { value: 5, label: "June" },
-  { value: 6, label: "July" },
-  { value: 7, label: "August" },
-  { value: 8, label: "September" },
-  { value: 9, label: "October" },
-  { value: 10, label: "November" },
-  { value: 11, label: "December" },
+  { value: 0, label: "Enero" },
+  { value: 1, label: "Febrero" },
+  { value: 2, label: "Marzo" },
+  { value: 3, label: "Abril" },
+  { value: 4, label: "Mayo" },
+  { value: 5, label: "Junio" },
+  { value: 6, label: "Julio" },
+  { value: 7, label: "Agosto" },
+  { value: 8, label: "Septiembre" },
+  { value: 9, label: "Octubre" },
+  { value: 10, label: "Noviembre" },
+  { value: 11, label: "Diciembre" },
 ];
 
 export default function MonthlyForecastsForm({ 
@@ -88,7 +88,7 @@ export default function MonthlyForecastsForm({
         setErrors(error.response.data.errors);
       } else {
         console.error("Error saving forecast", error);
-        setErrors({ general: ["An unexpected error occurred. Please try again."] });
+        setErrors({ general: ["Ocurrió un error inesperado. Por favor, inténtalo de nuevo."] });
       }
     } finally {
       setLoading(false);
@@ -112,12 +112,12 @@ export default function MonthlyForecastsForm({
           )}
           <div>
             <h2 className="text-lg sm:text-xl font-semibold text-[var(--color-neutral-bright)]">
-              {isEditing ? "Edit Forecast" : "Create New Forecast"}
+              {isEditing ? "Editar Previsión" : "Crear Nueva Previsión"}
             </h2>
             <p className="text-sm text-[var(--color-neutral-bright)]/70 mt-1">
               {isEditing 
-                ? "Update your monthly budget forecast" 
-                : "Set up a monthly budget target for a specific category"
+                ? "Actualiza tu previsión presupuestaria mensual" 
+                : "Establece un objetivo presupuestario mensual para una categoría específica"
               }
             </p>
           </div>
@@ -133,7 +133,7 @@ export default function MonthlyForecastsForm({
             <div className="flex items-center gap-2 mb-1">
               <FaExclamationTriangle className="text-[var(--color-error)] flex-shrink-0" />
               <span className="text-[var(--color-error)] text-sm font-medium">
-                Please correct the following errors:
+                Por favor, corrige los siguientes errores:
               </span>
             </div>
             <ul className="text-sm text-[var(--color-error)] ml-6">
@@ -155,7 +155,7 @@ export default function MonthlyForecastsForm({
           <div>
             <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
               <FaTags className="text-[var(--color-primary)]" />
-              Category *
+              Categoría *
             </label>
             <select
               name="label_id"
@@ -168,7 +168,7 @@ export default function MonthlyForecastsForm({
               }`}
               required
             >
-              <option value="">Select a category</option>
+              <option value="">Selecciona una categoría</option>
               {userLabels.map((label) => (
                 <option key={label.id} value={label.id}>
                   {label.name}
@@ -185,7 +185,7 @@ export default function MonthlyForecastsForm({
             <div>
               <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
                 <FaCalendarAlt className="text-[var(--color-secondary)]" />
-                Year *
+                Año *
               </label>
               <input
                 type="number"
@@ -209,7 +209,7 @@ export default function MonthlyForecastsForm({
             <div>
               <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
                 <FaCalendarAlt className="text-[var(--color-secondary)]" />
-                Month *
+                Mes *
               </label>
               <select
                 name="month"
@@ -238,7 +238,7 @@ export default function MonthlyForecastsForm({
           <div>
             <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
               <FaEuroSign className="text-[var(--color-success)]" />
-              Budget Amount *
+              Cantidad Presupuestada *
             </label>
             <div className="relative">
               <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[var(--color-neutral-bright)]/60">€</span>
@@ -267,14 +267,14 @@ export default function MonthlyForecastsForm({
           <div>
             <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
               <FaComment className="text-[var(--color-warning)]" />
-              Notes (Optional)
+              Notas (Opcional)
             </label>
             <textarea
               name="comment"
               value={formData.comment}
               onChange={handleChange}
               rows="3"
-              placeholder="Add any notes about this forecast..."
+              placeholder="Añade cualquier nota sobre esta previsión..."
               className={`w-full p-3 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent resize-vertical transition-colors ${
                 errors.comment 
                   ? 'border-[var(--color-error)]' 
@@ -295,7 +295,7 @@ export default function MonthlyForecastsForm({
           {/* Preview Card */}
           {(selectedLabel && formData.amount && selectedMonth) && (
             <div className="p-4 bg-[var(--color-neutral-dark-3)] rounded-lg border border-[var(--color-neutral-dark)] border-dashed">
-              <p className="text-xs text-[var(--color-neutral-bright)]/70 mb-2 uppercase tracking-wider">Preview</p>
+              <p className="text-xs text-[var(--color-neutral-bright)]/70 mb-2 uppercase tracking-wider">Vista Previa</p>
               <div className="flex items-center gap-3">
                 <FaChartBar className="text-[var(--color-primary)]" />
                 <div>
@@ -327,7 +327,7 @@ export default function MonthlyForecastsForm({
                 className="cursor-pointer flex items-center justify-center gap-2 px-4 py-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-neutral-dark)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
               >
                 <FaTimes size={14} />
-                Cancel
+                Cancelar
               </button>
             )}
             <button
@@ -338,12 +338,12 @@ export default function MonthlyForecastsForm({
               {loading ? (
                 <>
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                  {isEditing ? "Updating..." : "Creating..."}
+                  {isEditing ? "Actualizando..." : "Creando..."}
                 </>
               ) : (
                 <>
                   <FaSave size={14} />
-                  {isEditing ? "Update Forecast" : "Create Forecast"}
+                  {isEditing ? "Actualizar Previsión" : "Crear Previsión"}
                 </>
               )}
             </button>
@@ -354,13 +354,13 @@ export default function MonthlyForecastsForm({
         <div className="mt-6 p-4 bg-[var(--color-neutral-dark-3)] rounded-lg">
           <h4 className="text-sm font-medium text-[var(--color-neutral-bright)] mb-2 flex items-center gap-2">
             <FaChartBar className="text-[var(--color-primary)]" />
-            Forecasting Tips
+            Consejos de Previsión
           </h4>
           <ul className="text-xs text-[var(--color-neutral-bright)]/70 space-y-1">
-            <li>• Be realistic with your budget amounts based on historical data</li>
-            <li>• Add notes to remember specific considerations for that month</li>
-            <li>• Review and adjust forecasts regularly based on actual spending</li>
-            <li>• Consider seasonal variations in your budget planning</li>
+            <li>• Sé realista con las cantidades presupuestadas basándote en datos históricos</li>
+            <li>• Añade notas para recordar consideraciones específicas de ese mes</li>
+            <li>• Revisa y ajusta las previsiones regularmente según el gasto real</li>
+            <li>• Considera las variaciones estacionales en tu planificación presupuestaria</li>
           </ul>
         </div>
       </div>

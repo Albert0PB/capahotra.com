@@ -37,7 +37,7 @@ export default function OpLabels({
     };
 
     const handleDelete = async (label) => {
-        if (!window.confirm(`Are you sure you want to delete "${label.name}"?`))
+        if (!window.confirm(`¿Estás seguro de que quieres eliminar "${label.name}"?`))
             return;
 
         try {
@@ -73,10 +73,10 @@ export default function OpLabels({
                 <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-0 w-full">
                     <div className="flex flex-col">
                         <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-[3rem] font-extrabold text-[var(--color-neutral-bright)] mb-2">
-                            Labels Management
+                            Gestión de Etiquetas
                         </h1>
                         <p className="text-base sm:text-lg text-[var(--color-neutral-bright)]/70">
-                            Organize and track your financial categories
+                            Organiza y rastrea tus categorías financieras
                         </p>
                     </div>
                     <div className="flex items-start">
@@ -89,7 +89,7 @@ export default function OpLabels({
                     <div className="bg-[var(--color-neutral-dark-2)] p-4 lg:p-6 rounded-lg shadow-lg">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-[var(--color-neutral-bright)]/70">Total Labels</p>
+                                <p className="text-sm text-[var(--color-neutral-bright)]/70">Total de Etiquetas</p>
                                 <p className="text-2xl lg:text-3xl font-bold text-[var(--color-neutral-bright)]">
                                     {totalLabels}
                                 </p>
@@ -101,7 +101,7 @@ export default function OpLabels({
                     <div className="bg-[var(--color-neutral-dark-2)] p-4 lg:p-6 rounded-lg shadow-lg">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-[var(--color-neutral-bright)]/70">Total Movements</p>
+                                <p className="text-sm text-[var(--color-neutral-bright)]/70">Total de Movimientos</p>
                                 <p className="text-2xl lg:text-3xl font-bold text-[var(--color-neutral-bright)]">
                                     {totalMovements}
                                 </p>
@@ -113,12 +113,12 @@ export default function OpLabels({
                     <div className="bg-[var(--color-neutral-dark-2)] p-4 lg:p-6 rounded-lg shadow-lg">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm text-[var(--color-neutral-bright)]/70">Most Used</p>
+                                <p className="text-sm text-[var(--color-neutral-bright)]/70">Más Usada</p>
                                 <p className="text-lg lg:text-xl font-bold text-[var(--color-primary)] truncate" title={mostUsedLabel.name}>
                                     {mostUsedLabel.name || 'N/A'}
                                 </p>
                                 <p className="text-xs text-[var(--color-neutral-bright)]/50">
-                                    {mostUsedLabel.movements_count || 0} movements
+                                    {mostUsedLabel.movements_count || 0} movimientos
                                 </p>
                             </div>
                             <FaChartBar className="text-[var(--color-primary)] text-2xl lg:text-3xl" />
@@ -139,7 +139,7 @@ export default function OpLabels({
                         <div className="bg-[var(--color-neutral-dark-2)] rounded-lg shadow-lg">
                             <div className="p-4 border-b border-[var(--color-neutral-dark-3)]">
                                 <h3 className="text-lg font-semibold text-[var(--color-neutral-bright)]">
-                                    Your Labels ({userLabels.length})
+                                    Tus Etiquetas ({userLabels.length})
                                 </h3>
                             </div>
                             <LabelsTable 
@@ -167,10 +167,10 @@ export default function OpLabels({
                     <div className="bg-[var(--color-neutral-dark-2)] p-8 rounded-lg shadow-lg text-center">
                         <FaTags className="text-[var(--color-neutral-bright)]/30 text-6xl mx-auto mb-4" />
                         <h3 className="text-xl font-semibold text-[var(--color-neutral-bright)] mb-2">
-                            No labels yet
+                            Aún no hay etiquetas
                         </h3>
                         <p className="text-[var(--color-neutral-bright)]/70">
-                            Start organizing your finances by creating your first label using the form below
+                            Comienza a organizar tus finanzas creando tu primera etiqueta usando el formulario de abajo
                         </p>
                     </div>
                 )}

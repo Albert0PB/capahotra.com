@@ -149,8 +149,8 @@ export default function LabelsTable({ labels, onDelete, onSuccess }) {
             </div>
 
             <div className="flex justify-between text-sm">
-              <span className="text-[var(--color-neutral-bright)]/70">Created:</span>
-              <span className="text-[var(--color-neutral-bright)]/70">{new Date(label.created_at).toLocaleDateString()}</span>
+              <span className="text-[var(--color-neutral-bright)]/70">Creada:</span>
+              <span className="text-[var(--color-neutral-bright)]/70">{new Date(label.created_at).toLocaleDateString('es-ES')}</span>
             </div>
           </div>
           
@@ -160,14 +160,14 @@ export default function LabelsTable({ labels, onDelete, onSuccess }) {
                 <button
                   onClick={handleConfirmEdit}
                   className="cursor-pointer text-[var(--color-success)] hover:text-[var(--color-success)]/80 p-2 transition-colors duration-200"
-                  title="Confirm"
+                  title="Confirmar"
                 >
                   <FaCheck size={14} />
                 </button>
                 <button
                   onClick={handleCancelEdit}
                   className="cursor-pointer text-[var(--color-error)] hover:text-[var(--color-error)]/80 p-2 transition-colors duration-200"
-                  title="Cancel"
+                  title="Cancelar"
                 >
                   <FaTimes size={14} />
                 </button>
@@ -177,14 +177,14 @@ export default function LabelsTable({ labels, onDelete, onSuccess }) {
                 <button
                   onClick={() => handleEditClick(label)}
                   className="cursor-pointer text-[var(--color-primary)] hover:text-[var(--color-secondary)] p-2 transition-colors duration-200"
-                  title="Edit"
+                  title="Editar"
                 >
                   <FaEdit size={14} />
                 </button>
                 <button
                   onClick={() => onDelete(label)}
                   className="cursor-pointer text-[var(--color-error)] hover:text-[var(--color-error)]/80 p-2 transition-colors duration-200"
-                  title="Delete"
+                  title="Eliminar"
                 >
                   <FaTrash size={14} />
                 </button>
@@ -206,7 +206,7 @@ export default function LabelsTable({ labels, onDelete, onSuccess }) {
             <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[var(--color-neutral-bright)]/60" />
             <input
               type="text"
-              placeholder="Search labels..."
+              placeholder="Buscar etiquetas..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-10 pr-4 py-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
@@ -222,7 +222,7 @@ export default function LabelsTable({ labels, onDelete, onSuccess }) {
                   : 'text-[var(--color-neutral-bright)]/70 hover:text-[var(--color-neutral-bright)]'
               }`}
             >
-              Table
+              Tabla
             </button>
             <button
               onClick={() => setViewMode('grid')}
@@ -233,7 +233,7 @@ export default function LabelsTable({ labels, onDelete, onSuccess }) {
               }`}
             >
               <FaEye className="inline mr-1" />
-              Grid
+              Cuadrícula
             </button>
           </div>
         </div>
@@ -262,7 +262,7 @@ export default function LabelsTable({ labels, onDelete, onSuccess }) {
                     onClick={() => handleSort('name')}
                   >
                     <div className="flex items-center gap-2">
-                      Name
+                      Nombre
                       {getSortIcon('name')}
                     </div>
                   </th>
@@ -271,12 +271,12 @@ export default function LabelsTable({ labels, onDelete, onSuccess }) {
                     onClick={() => handleSort('created_at')}
                   >
                     <div className="flex items-center gap-2">
-                      Created
+                      Creada
                       {getSortIcon('created_at')}
                     </div>
                   </th>
                   <th className="px-3 sm:px-4 py-3 text-center text-[var(--color-neutral-bright)] text-sm sm:text-base font-semibold">
-                    Actions
+                    Acciones
                   </th>
                 </tr>
               </thead>
@@ -310,7 +310,7 @@ export default function LabelsTable({ labels, onDelete, onSuccess }) {
                       )}
                     </td>
                     <td className="hidden md:table-cell px-3 sm:px-4 py-3 text-sm text-[var(--color-neutral-bright)]/70">
-                      {new Date(label.created_at).toLocaleDateString()}
+                      {new Date(label.created_at).toLocaleDateString('es-ES')}
                     </td>
                     <td className="px-3 sm:px-4 py-3">
                       <div className="flex justify-center gap-2">
@@ -319,14 +319,14 @@ export default function LabelsTable({ labels, onDelete, onSuccess }) {
                             <button
                               onClick={handleConfirmEdit}
                               className="cursor-pointer text-[var(--color-success)] hover:text-[var(--color-success)]/80 p-2 rounded hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
-                              title="Confirm"
+                              title="Confirmar"
                             >
                               <FaCheck size={14} />
                             </button>
                             <button
                               onClick={handleCancelEdit}
                               className="cursor-pointer text-[var(--color-error)] hover:text-[var(--color-error)]/80 p-2 rounded hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
-                              title="Cancel"
+                              title="Cancelar"
                             >
                               <FaTimes size={14} />
                             </button>
@@ -336,14 +336,14 @@ export default function LabelsTable({ labels, onDelete, onSuccess }) {
                             <button
                               onClick={() => handleEditClick(label)}
                               className="cursor-pointer text-[var(--color-primary)] hover:text-[var(--color-secondary)] p-2 rounded hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
-                              title="Edit"
+                              title="Editar"
                             >
                               <FaEdit size={14} />
                             </button>
                             <button
                               onClick={() => onDelete(label)}
                               className="cursor-pointer text-[var(--color-error)] hover:text-[var(--color-error)]/80 p-2 rounded hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
-                              title="Delete"
+                              title="Eliminar"
                             >
                               <FaTrash size={14} />
                             </button>
@@ -364,7 +364,7 @@ export default function LabelsTable({ labels, onDelete, onSuccess }) {
         <div className="p-4 border-t border-[var(--color-neutral-dark-3)]">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <div className="text-sm text-[var(--color-neutral-bright)]/70">
-              Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, filteredAndSortedLabels.length)} of {filteredAndSortedLabels.length} labels
+              Mostrando {startIndex + 1} a {Math.min(startIndex + itemsPerPage, filteredAndSortedLabels.length)} de {filteredAndSortedLabels.length} etiquetas
             </div>
 
             <div className="flex items-center gap-1">
@@ -373,7 +373,7 @@ export default function LabelsTable({ labels, onDelete, onSuccess }) {
                 disabled={currentPage === 1}
                 className="cursor-pointer px-3 py-1 text-sm bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
               >
-                First
+                Primera
               </button>
               
               <button
@@ -381,7 +381,7 @@ export default function LabelsTable({ labels, onDelete, onSuccess }) {
                 disabled={currentPage === 1}
                 className="cursor-pointer px-3 py-1 text-sm bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
               >
-                Prev
+                Anterior
               </button>
 
               {generatePageNumbers().map((page, index) => (
@@ -406,7 +406,7 @@ export default function LabelsTable({ labels, onDelete, onSuccess }) {
                 disabled={currentPage === totalPages}
                 className="cursor-pointer px-3 py-1 text-sm bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
               >
-                Next
+                Siguiente
               </button>
               
               <button
@@ -414,7 +414,7 @@ export default function LabelsTable({ labels, onDelete, onSuccess }) {
                 disabled={currentPage === totalPages}
                 className="cursor-pointer px-3 py-1 text-sm bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
               >
-                Last
+                Última
               </button>
             </div>
           </div>
@@ -424,7 +424,7 @@ export default function LabelsTable({ labels, onDelete, onSuccess }) {
       {/* Empty State */}
       {filteredAndSortedLabels.length === 0 && (
         <div className="p-8 text-center text-[var(--color-neutral-bright)]/70">
-          {searchTerm ? `No labels found matching "${searchTerm}"` : "No labels found"}
+          {searchTerm ? `No se encontraron etiquetas que coincidan con "${searchTerm}"` : "No se encontraron etiquetas"}
         </div>
       )}
     </div>

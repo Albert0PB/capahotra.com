@@ -48,7 +48,7 @@ export default function MovementsSummary({ movements }) {
         chartData: {
           labels: [],
           datasets: [{
-            label: "Account Balance",
+            label: "Saldo de la Cuenta",
             data: [],
             borderColor: colors.primary,
             backgroundColor: colors.primary + '20',
@@ -84,7 +84,7 @@ export default function MovementsSummary({ movements }) {
 
     const labels = sortedMovements.map(movement => {
       const date = new Date(movement.transaction_date);
-      return date.toLocaleDateString('en-US', { 
+      return date.toLocaleDateString('es-ES', { 
         month: 'short', 
         day: 'numeric',
         year: sortedMovements.length > 30 ? '2-digit' : undefined
@@ -106,7 +106,7 @@ export default function MovementsSummary({ movements }) {
         labels,
         datasets: [
           {
-            label: "Account Balance",
+            label: "Saldo de la Cuenta",
             data: balanceData,
             borderColor: colors.primary,
             backgroundColor: colors.primary + '20',
@@ -156,7 +156,7 @@ export default function MovementsSummary({ movements }) {
           family: "Inter",
         },
         callbacks: {
-          label: (context) => `Balance: €${safeNumber(context.parsed.y).toFixed(2)}`
+          label: (context) => `Saldo: €${safeNumber(context.parsed.y).toFixed(2)}`
         }
       },
     },
@@ -216,13 +216,13 @@ export default function MovementsSummary({ movements }) {
       <div className="bg-[var(--color-neutral-dark-2)] p-4 sm:p-6 rounded-lg shadow-lg">
         <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-4 text-[var(--color-neutral-bright)] flex items-center gap-2">
           <FaChartLine className="text-[var(--color-primary)]" />
-          Balance Evolution
+          Evolución del Saldo
         </h2>
         <div className="h-64 sm:h-72 lg:h-80 flex items-center justify-center">
           <div className="text-center text-[var(--color-neutral-bright)]/70">
             <FaChartLine className="mx-auto h-12 w-12 text-[var(--color-neutral-bright)]/30 mb-4" />
-            <p className="text-lg mb-2">No movement data available</p>
-            <p className="text-sm">Create some movements to see the balance evolution chart</p>
+            <p className="text-lg mb-2">No hay datos de movimientos disponibles</p>
+            <p className="text-sm">Crea algunos movimientos para ver el gráfico de evolución del saldo</p>
           </div>
         </div>
       </div>
@@ -237,10 +237,10 @@ export default function MovementsSummary({ movements }) {
         <div>
           <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold text-[var(--color-neutral-bright)] flex items-center gap-2">
             <FaChartLine className="text-[var(--color-primary)]" />
-            Balance Evolution
+            Evolución del Saldo
           </h2>
           <p className="text-sm text-[var(--color-neutral-bright)]/70 mt-1">
-            Track your account balance over time
+            Rastrea el saldo de tu cuenta a lo largo del tiempo
           </p>
         </div>
         
@@ -253,7 +253,7 @@ export default function MovementsSummary({ movements }) {
                 : 'text-[var(--color-neutral-bright)]/70 hover:text-[var(--color-neutral-bright)]'
             }`}
           >
-            Last 10
+            Últimos 10
           </button>
           <button
             onClick={() => setTimeRange(20)}
@@ -263,7 +263,7 @@ export default function MovementsSummary({ movements }) {
                 : 'text-[var(--color-neutral-bright)]/70 hover:text-[var(--color-neutral-bright)]'
             }`}
           >
-            Last 20
+            Últimos 20
           </button>
           <button
             onClick={() => setTimeRange(50)}
@@ -273,7 +273,7 @@ export default function MovementsSummary({ movements }) {
                 : 'text-[var(--color-neutral-bright)]/70 hover:text-[var(--color-neutral-bright)]'
             }`}
           >
-            Last 50
+            Últimos 50
           </button>
         </div>
       </div>
@@ -283,7 +283,7 @@ export default function MovementsSummary({ movements }) {
         <div className="bg-[var(--color-neutral-dark-3)] p-3 rounded-lg">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xs text-[var(--color-neutral-bright)]/70 uppercase tracking-wider">Current</p>
+              <p className="text-xs text-[var(--color-neutral-bright)]/70 uppercase tracking-wider">Actual</p>
               <p className={`text-lg font-bold ${
                 stats.currentBalance >= 0 ? 'text-[var(--color-success)]' : 'text-[var(--color-error)]'
               }`}>
@@ -295,21 +295,21 @@ export default function MovementsSummary({ movements }) {
         </div>
         
         <div className="bg-[var(--color-neutral-dark-3)] p-3 rounded-lg">
-          <p className="text-xs text-[var(--color-neutral-bright)]/70 uppercase tracking-wider">Minimum</p>
+          <p className="text-xs text-[var(--color-neutral-bright)]/70 uppercase tracking-wider">Mínimo</p>
           <p className="text-lg font-bold text-[var(--color-error)]">
             €{stats.minBalance.toFixed(2)}
           </p>
         </div>
         
         <div className="bg-[var(--color-neutral-dark-3)] p-3 rounded-lg">
-          <p className="text-xs text-[var(--color-neutral-bright)]/70 uppercase tracking-wider">Maximum</p>
+          <p className="text-xs text-[var(--color-neutral-bright)]/70 uppercase tracking-wider">Máximo</p>
           <p className="text-lg font-bold text-[var(--color-success)]">
             €{stats.maxBalance.toFixed(2)}
           </p>
         </div>
         
         <div className="bg-[var(--color-neutral-dark-3)] p-3 rounded-lg">
-          <p className="text-xs text-[var(--color-neutral-bright)]/70 uppercase tracking-wider">Average</p>
+          <p className="text-xs text-[var(--color-neutral-bright)]/70 uppercase tracking-wider">Promedio</p>
           <p className="text-lg font-bold text-[var(--color-primary)]">
             €{stats.averageBalance.toFixed(2)}
           </p>
@@ -327,13 +327,13 @@ export default function MovementsSummary({ movements }) {
           <div className="flex items-center gap-2">
             {getTrendIcon()}
             <span className={`text-sm font-medium ${getTrendColor()}`}>
-              {stats.trend === 'up' && 'Balance is trending upward'}
-              {stats.trend === 'down' && 'Balance is trending downward'}
-              {stats.trend === 'neutral' && 'Balance is stable'}
+              {stats.trend === 'up' && 'El saldo tiene tendencia al alza'}
+              {stats.trend === 'down' && 'El saldo tiene tendencia a la baja'}
+              {stats.trend === 'neutral' && 'El saldo está estable'}
             </span>
           </div>
           <div className="text-xs text-[var(--color-neutral-bright)]/50">
-            Showing last {timeRange} movements
+            Mostrando los últimos {timeRange} movimientos
           </div>
         </div>
       </div>

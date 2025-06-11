@@ -26,7 +26,7 @@ export default function FinancialNewsDisplayer({ news }) {
                                 </p>
                             </div>
                             <div className="text-xs sm:text-sm text-[var(--color-neutral-bright)]/60 flex justify-between items-center mb-2">
-                                <span>{new Date(item.date).toLocaleDateString()}</span>
+                                <span>{new Date(item.date).toLocaleDateString('es-ES')}</span>
                                 <span className="italic">{item.source}</span>
                             </div>
                             <a
@@ -35,7 +35,7 @@ export default function FinancialNewsDisplayer({ news }) {
                                 rel="noopener noreferrer"
                                 className="text-[var(--color-primary)] hover:text-[var(--color-secondary)] hover:underline text-xs sm:text-sm font-medium transition-colors duration-200"
                             >
-                                Read more →
+                                Leer más →
                             </a>
                         </div>
                     </div>

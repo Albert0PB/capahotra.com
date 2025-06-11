@@ -179,7 +179,7 @@ export default function AboutUs() {
                             href="/register"
                             className="w-full sm:w-auto bg-[var(--color-neutral-bright)] text-[var(--color-primary)] px-8 py-4 rounded-full text-lg font-semibold hover:bg-gray-100 transition-all duration-200 transform hover:scale-105"
                         >
-                            Probar la Demo
+                            Probar la App
                         </Link>
                         <Link
                             href="/services"

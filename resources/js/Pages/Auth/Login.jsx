@@ -36,7 +36,7 @@ export default function Login() {
                             type="email"
                             value={data.email}
                             onChange={(e) => setData("email", e.target.value)}
-                            placeholder="Email"
+                            placeholder="Correo electrónico"
                             className="flex-1 bg-transparent border-0 outline-none text-[var(--color-neutral-dark)] placeholder:text-[var(--color-neutral-dark)]/60 text-sm sm:text-base"
                             required
                         />
@@ -54,7 +54,7 @@ export default function Login() {
                             type="password"
                             value={data.password}
                             onChange={(e) => setData("password", e.target.value)}
-                            placeholder="Password"
+                            placeholder="Contraseña"
                             className="flex-1 bg-transparent border-0 outline-none text-[var(--color-neutral-dark)] placeholder:text-[var(--color-neutral-dark)]/60 text-sm sm:text-base"
                             required
                         />
@@ -74,7 +74,7 @@ export default function Login() {
                             className="mr-2 w-4 h-4 border-2 border-[var(--color-neutral-dark)] rounded focus:ring-2 focus:ring-[var(--color-primary)] accent-[var(--color-primary)]"
                         />
                         <span className="text-[var(--color-neutral-dark)] text-sm sm:text-base">
-                            Remember me
+                            Recordarme
                         </span>
                     </label>
                 </div>
@@ -85,7 +85,7 @@ export default function Login() {
                     disabled={processing}
                     className="w-full bg-[var(--color-neutral-dark-2)] text-[var(--color-neutral-bright)] py-3 px-6 rounded-full font-medium text-sm sm:text-base lg:text-[1.5rem] hover:bg-[var(--color-neutral-dark)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
                 >
-                    {processing ? "Logging in..." : "Login"}
+                    {processing ? "Iniciando sesión..." : "Iniciar Sesión"}
                 </button>
 
                 {/* Links */}
@@ -94,13 +94,13 @@ export default function Login() {
                         href="/forgot-password"
                         className="text-[var(--color-neutral-dark-2)]/70 hover:text-[var(--color-neutral-dark-2)] text-sm sm:text-base transition-colors duration-200"
                     >
-                        Forgot password?
+                        ¿Olvidaste tu contraseña?
                     </Link>
                     <Link 
                         href="/register"
                         className="text-[var(--color-neutral-dark-2)]/70 hover:text-[var(--color-neutral-dark-2)] text-sm sm:text-base transition-colors duration-200"
                     >
-                        New to Capahotra? <span className="underline">Register now</span>
+                        ¿Nuevo en Capahotra? <span className="underline">Regístrate ahora</span>
                     </Link>
                 </div>
             </form>

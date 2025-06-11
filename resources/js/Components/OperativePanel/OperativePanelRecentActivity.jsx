@@ -35,13 +35,13 @@ export default function OperativePanelRecentActivity({
       <div className="bg-[var(--color-neutral-dark-2)] rounded-lg p-6">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold text-[var(--color-neutral-bright)]">
-            Recent Movements
+            Movimientos Recientes
           </h2>
           <button
             onClick={onViewAllMovements}
             className="cursor-pointer text-[var(--color-primary)] hover:text-[var(--color-secondary)] text-sm font-medium transition-colors duration-200"
           >
-            View All →
+            Ver Todos →
           </button>
         </div>
 
@@ -58,7 +58,7 @@ export default function OperativePanelRecentActivity({
                   </span>
                   <div>
                     <p className="text-sm font-medium text-[var(--color-neutral-bright)]">
-                      {movement.label?.name || 'Unknown Label'}
+                      {movement.label?.name || 'Etiqueta Desconocida'}
                     </p>
                     <p className="text-xs text-[var(--color-neutral-bright)]/70">
                       {new Date(movement.transaction_date).toLocaleDateString()}
@@ -70,15 +70,15 @@ export default function OperativePanelRecentActivity({
                     € {Math.abs(safeNumber(movement.amount)).toFixed(2)}
                   </p>
                   <p className="text-xs text-[var(--color-neutral-bright)]/70">
-                    Balance: € {safeNumber(movement.balance).toFixed(2)}
+                    Saldo: € {safeNumber(movement.balance).toFixed(2)}
                   </p>
                 </div>
               </div>
             ))
           ) : (
             <div className="text-center py-8 text-[var(--color-neutral-bright)]/70">
-              <p className="text-lg mb-2">No recent movements</p>
-              <p className="text-sm">Start recording your financial activities</p>
+              <p className="text-lg mb-2">No hay movimientos recientes</p>
+              <p className="text-sm">Comienza a registrar tus actividades financieras</p>
             </div>
           )}
         </div>
@@ -87,13 +87,13 @@ export default function OperativePanelRecentActivity({
       <div className="bg-[var(--color-neutral-dark-2)] rounded-lg p-6">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold text-[var(--color-neutral-bright)]">
-            This Month's Forecasts
+            Previsiones del Mes
           </h2>
           <button
             onClick={onViewAllForecasts}
             className="cursor-pointer text-[var(--color-secondary)] hover:text-[var(--color-primary)] text-sm font-medium transition-colors duration-200"
           >
-            View All →
+            Ver Todas →
           </button>
         </div>
 
@@ -108,10 +108,10 @@ export default function OperativePanelRecentActivity({
                   <span className="text-xl">📊</span>
                   <div>
                     <p className="text-sm font-medium text-[var(--color-neutral-bright)]">
-                      {forecast.label?.name || 'Unknown Label'}
+                      {forecast.label?.name || 'Etiqueta Desconocida'}
                     </p>
                     <p className="text-xs text-[var(--color-neutral-bright)]/70">
-                      {forecast.comment || 'No comment'}
+                      {forecast.comment || 'Sin comentario'}
                     </p>
                   </div>
                 </div>
@@ -120,15 +120,15 @@ export default function OperativePanelRecentActivity({
                     € {safeNumber(forecast.amount).toFixed(2)}
                   </p>
                   <p className="text-xs text-[var(--color-neutral-bright)]/70">
-                    Forecast
+                    Previsión
                   </p>
                 </div>
               </div>
             ))
           ) : (
             <div className="text-center py-8 text-[var(--color-neutral-bright)]/70">
-              <p className="text-lg mb-2">No forecasts this month</p>
-              <p className="text-sm">Create forecasts to plan your budget</p>
+              <p className="text-lg mb-2">No hay previsiones este mes</p>
+              <p className="text-sm">Crea previsiones para planificar tu presupuesto</p>
             </div>
           )}
         </div>

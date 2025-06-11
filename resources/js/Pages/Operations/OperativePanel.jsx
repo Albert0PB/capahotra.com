@@ -42,10 +42,10 @@ export default function OperativePanel({
         <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-0 w-full">
           <div className="flex flex-col">
             <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-[3rem] font-extrabold text-[var(--color-neutral-bright)]">
-              Operations Hub
+              Centro de Operaciones
             </h1>
             <p className="text-sm sm:text-base text-[var(--color-neutral-bright)]/70 mt-2">
-              Your financial management center
+              Tu centro de gestión financiera
             </p>
           </div>
           <div className="flex items-start">
@@ -56,7 +56,7 @@ export default function OperativePanel({
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="bg-[var(--color-neutral-dark-2)] p-4 rounded-lg">
             <h3 className="text-sm font-medium text-[var(--color-neutral-bright)]/70 mb-1">
-              Current Balance
+              Saldo Actual
             </h3>
             <p className={`text-2xl font-bold font-[var(--font-numeric)] ${
               currentBalance >= 0 ? 'text-[var(--color-success)]' : 'text-[var(--color-error)]'
@@ -67,7 +67,7 @@ export default function OperativePanel({
 
           <div className="bg-[var(--color-neutral-dark-2)] p-4 rounded-lg">
             <h3 className="text-sm font-medium text-[var(--color-neutral-bright)]/70 mb-1">
-              This Month Net
+              Neto Este Mes
             </h3>
             <p className={`text-2xl font-bold font-[var(--font-numeric)] ${
               thisMonthNet >= 0 ? 'text-[var(--color-success)]' : 'text-[var(--color-error)]'
@@ -78,7 +78,7 @@ export default function OperativePanel({
 
           <div className="bg-[var(--color-neutral-dark-2)] p-4 rounded-lg">
             <h3 className="text-sm font-medium text-[var(--color-neutral-bright)]/70 mb-1">
-              Total Movements
+              Total de Movimientos
             </h3>
             <p className="text-2xl font-bold text-[var(--color-neutral-bright)] font-[var(--font-numeric)]">
               {totalMovements}
@@ -87,7 +87,7 @@ export default function OperativePanel({
 
           <div className="bg-[var(--color-neutral-dark-2)] p-4 rounded-lg">
             <h3 className="text-sm font-medium text-[var(--color-neutral-bright)]/70 mb-1">
-              Active Labels
+              Etiquetas Activas
             </h3>
             <p className="text-2xl font-bold text-[var(--color-neutral-bright)] font-[var(--font-numeric)]">
               {totalLabels}
@@ -98,40 +98,40 @@ export default function OperativePanel({
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           
           <OperativePanelSummaryCard
-            title="Labels Management"
-            description="Organize your financial categories"
+            title="Gestión de Etiquetas"
+            description="Organiza tus categorías financieras"
             icon="🏷️"
             stats={[
-              { label: "Total Labels", value: totalLabels },
-              { label: "Most Used", value: userLabels[0]?.name || "None" }
+              { label: "Total de Etiquetas", value: totalLabels },
+              { label: "Más Usada", value: userLabels[0]?.name || "Ninguna" }
             ]}
-            ctaText="Manage Labels"
+            ctaText="Gestionar Etiquetas"
             ctaAction={navigateToLabels}
             accentColor="var(--color-primary)"
           />
 
           <OperativePanelSummaryCard
-            title="Monthly Forecasts"
-            description="Plan and track your budget"
+            title="Previsiones Mensuales"
+            description="Planifica y rastrea tu presupuesto"
             icon="📊"
             stats={[
-              { label: "Active Forecasts", value: totalForecasts },
-              { label: "This Month", value: upcomingForecasts.length }
+              { label: "Previsiones Activas", value: totalForecasts },
+              { label: "Este Mes", value: upcomingForecasts.length }
             ]}
-            ctaText="View Forecasts"
+            ctaText="Ver Previsiones"
             ctaAction={navigateToForecasts}
             accentColor="var(--color-secondary)"
           />
 
           <OperativePanelSummaryCard
-            title="Movements"
-            description="Track your income and expenses"
+            title="Movimientos"
+            description="Rastrea tus ingresos y gastos"
             icon="💰"
             stats={[
-              { label: "This Month Income", value: `€ ${thisMonthIncome.toFixed(2)}` },
-              { label: "This Month Expenses", value: `€ ${thisMonthExpenses.toFixed(2)}` }
+              { label: "Ingresos Este Mes", value: `€ ${thisMonthIncome.toFixed(2)}` },
+              { label: "Gastos Este Mes", value: `€ ${thisMonthExpenses.toFixed(2)}` }
             ]}
-            ctaText="View Movements"
+            ctaText="Ver Movimientos"
             ctaAction={navigateToMovements}
             accentColor="var(--color-success)"
           />

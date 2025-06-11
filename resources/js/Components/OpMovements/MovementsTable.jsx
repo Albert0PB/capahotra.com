@@ -3,9 +3,9 @@ import { FaEdit, FaTrash, FaCheck, FaTimes, FaSearch, FaFilter, FaSort, FaSortUp
 import axios from "axios";
 
 const MOVEMENT_TYPES = {
-  1: { name: 'Income', color: 'text-[var(--color-success)]', bgColor: 'bg-[var(--color-success)]/20', badge: 'IN' },
-  2: { name: 'Expense', color: 'text-[var(--color-error)]', bgColor: 'bg-[var(--color-error)]/20', badge: 'OUT' },
-  3: { name: 'Correction', color: 'text-[var(--color-warning)]', bgColor: 'bg-[var(--color-warning)]/20', badge: 'COR' },
+  1: { name: 'Ingreso', color: 'text-[var(--color-success)]', bgColor: 'bg-[var(--color-success)]/20', badge: 'IN' },
+  2: { name: 'Gasto', color: 'text-[var(--color-error)]', bgColor: 'bg-[var(--color-error)]/20', badge: 'OUT' },
+  3: { name: 'Corrección', color: 'text-[var(--color-warning)]', bgColor: 'bg-[var(--color-warning)]/20', badge: 'COR' },
 };
 
 export default function MovementsTable({ 
@@ -43,9 +43,9 @@ export default function MovementsTable({
         ...movement,
         amount: safeNumber(movement.amount),
         balance: safeNumber(movement.balance),
-        label_name: label?.name || 'Unknown',
-        bank_name: bank?.name || 'Unknown',
-        type_info: MOVEMENT_TYPES[movement.movement_type_id] || { name: 'Unknown', color: 'text-gray-500', bgColor: 'bg-gray-500/20', badge: '?' }
+        label_name: label?.name || 'Desconocido',
+        bank_name: bank?.name || 'Desconocido',
+        type_info: MOVEMENT_TYPES[movement.movement_type_id] || { name: 'Desconocido', color: 'text-gray-500', bgColor: 'bg-gray-500/20', badge: '?' }
       };
     });
   }, [movements, userLabels, banks]);
@@ -156,8 +156,8 @@ export default function MovementsTable({
       setEditFormData({});
       onSuccess?.();
     } catch (error) {
-      console.error("Error updating movement", error);
-      alert("Error updating movement. Please try again.");
+      console.error("Error actualizando movimiento", error);
+      alert("Error actualizando movimiento. Por favor, inténtalo de nuevo.");
     }
   };
 
@@ -193,14 +193,14 @@ export default function MovementsTable({
               <button
                 onClick={() => handleEditStart(movement)}
                 className="cursor-pointer text-[var(--color-primary)] hover:text-[var(--color-secondary)] p-1 rounded hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
-                title="Edit"
+                title="Editar"
               >
                 <FaEdit size={12} />
               </button>
               <button
                 onClick={() => onDelete && onDelete(movement)}
                 className="cursor-pointer text-[var(--color-error)] hover:text-[var(--color-error)]/80 p-1 rounded hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
-                title="Delete"
+                title="Eliminar"
               >
                 <FaTrash size={12} />
               </button>
@@ -218,7 +218,7 @@ export default function MovementsTable({
                 €{Math.abs(movement.amount).toFixed(2)}
               </span>
               <span className="text-sm text-[var(--color-neutral-bright)]/70">
-                Balance: €{movement.balance.toFixed(2)}
+                Saldo: €{movement.balance.toFixed(2)}
               </span>
             </div>
             
@@ -242,7 +242,7 @@ export default function MovementsTable({
       <div className="flex justify-center items-center p-8 bg-[var(--color-neutral-dark)] rounded-lg">
         <div className="flex items-center gap-3 text-[var(--color-neutral-bright)]">
           <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[var(--color-primary)]"></div>
-          Loading movements...
+          Cargando movimientos...
         </div>
       </div>
     );
@@ -260,7 +260,7 @@ export default function MovementsTable({
             <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[var(--color-neutral-bright)]/60" />
             <input
               type="text"
-              placeholder="Search by category, comment, or bank..."
+              placeholder="Buscar por categoría, comentario o banco..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-10 pr-4 py-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
@@ -276,7 +276,7 @@ export default function MovementsTable({
                   : 'text-[var(--color-neutral-bright)]/70 hover:text-[var(--color-neutral-bright)]'
               }`}
             >
-              Table
+              Tabla
             </button>
             <button
               onClick={() => setViewMode('grid')}
@@ -287,7 +287,7 @@ export default function MovementsTable({
               }`}
             >
               <FaEye className="inline mr-1" />
-              Cards
+              Tarjetas
             </button>
           </div>
         </div>
@@ -297,31 +297,31 @@ export default function MovementsTable({
           <div>
             <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-1">
               <FaFilter className="text-[var(--color-primary)]" />
-              Type
+              Tipo
             </label>
             <select
               value={filterType}
               onChange={(e) => setFilterType(e.target.value)}
               className="cursor-pointer w-full p-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
             >
-              <option value="">All Types</option>
-              <option value="1">Income</option>
-              <option value="2">Expense</option>
-              <option value="3">Correction</option>
+              <option value="">Todos los Tipos</option>
+              <option value="1">Ingreso</option>
+              <option value="2">Gasto</option>
+              <option value="3">Corrección</option>
             </select>
           </div>
 
           <div>
             <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-1">
               <FaTags className="text-[var(--color-secondary)]" />
-              Category
+              Categoría
             </label>
             <select
               value={filterLabel}
               onChange={(e) => setFilterLabel(e.target.value)}
               className="cursor-pointer w-full p-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
             >
-              <option value="">All Categories</option>
+              <option value="">Todas las Categorías</option>
               {userLabels.map(label => (
                 <option key={label.id} value={label.id}>{label.name}</option>
               ))}
@@ -331,7 +331,7 @@ export default function MovementsTable({
           <div>
             <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-1">
               <FaCalendarAlt className="text-[var(--color-warning)]" />
-              From Date
+              Fecha Desde
             </label>
             <input
               type="date"
@@ -344,7 +344,7 @@ export default function MovementsTable({
           <div>
             <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-1">
               <FaCalendarAlt className="text-[var(--color-warning)]" />
-              To Date
+              Fecha Hasta
             </label>
             <input
               type="date"
@@ -359,7 +359,7 @@ export default function MovementsTable({
               onClick={clearFilters}
               className="cursor-pointer flex-1 p-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
             >
-              Clear Filters
+              Limpiar Filtros
             </button>
           </div>
         </div>
@@ -388,28 +388,28 @@ export default function MovementsTable({
                     onClick={() => handleSort('transaction_date')}
                   >
                     <div className="flex items-center gap-2">
-                      Date
+                      Fecha
                       {getSortIcon('transaction_date')}
                     </div>
                   </th>
                   <th className="px-3 py-3 text-left text-[var(--color-neutral-bright)] text-sm font-semibold">
-                    Type
+                    Tipo
                   </th>
                   <th 
                     className="cursor-pointer px-3 py-3 text-left text-[var(--color-neutral-bright)] text-sm font-semibold hover:bg-[var(--color-neutral-dark-3)] transition-colors"
                     onClick={() => handleSort('label_name')}
                   >
                     <div className="flex items-center gap-2">
-                      Category
+                      Categoría
                       {getSortIcon('label_name')}
                     </div>
                   </th>
                   <th 
-                    className="cursor-pointer px-3 py-3 text-right text-[var(--color-neutral-bright)] text-sm font-semibold hover:bg-[var(--color-neutral-dark-3)] transition-colors"
+                    className="cursor-pointer px-3 py-3 text-right text-[var(--color-neutral-bright)] text-sm font-semibold hover:bg-[(--color-neutral-dark-3)] transition-colors"
                     onClick={() => handleSort('amount')}
                   >
                     <div className="flex items-center justify-end gap-2">
-                      Amount
+                      Cantidad
                       {getSortIcon('amount')}
                     </div>
                   </th>
@@ -418,15 +418,15 @@ export default function MovementsTable({
                     onClick={() => handleSort('balance')}
                   >
                     <div className="flex items-center justify-end gap-2">
-                      Balance
+                      Saldo
                       {getSortIcon('balance')}
                     </div>
                   </th>
                   <th className="hidden lg:table-cell px-3 py-3 text-left text-[var(--color-neutral-bright)] text-sm font-semibold">
-                    Notes
+                    Notas
                   </th>
                   <th className="px-3 py-3 text-center text-[var(--color-neutral-bright)] text-sm font-semibold">
-                    Actions
+                    Acciones
                   </th>
                 </tr>
               </thead>
@@ -462,9 +462,9 @@ export default function MovementsTable({
                           onChange={(e) => handleEditChange('movement_type_id', e.target.value)}
                           className="w-full p-1 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark)] rounded text-sm"
                         >
-                          <option value={1}>Income</option>
-                          <option value={2}>Expense</option>
-                          <option value={3}>Correction</option>
+                          <option value={1}>Ingreso</option>
+                          <option value={2}>Gasto</option>
+                          <option value={3}>Corrección</option>
                         </select>
                       ) : (
                         <span className={`text-xs px-2 py-1 rounded font-medium ${movement.type_info.bgColor} ${movement.type_info.color}`}>
@@ -529,7 +529,7 @@ export default function MovementsTable({
                           value={editFormData.comment}
                           onChange={(e) => handleEditChange('comment', e.target.value)}
                           className="w-full p-1 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark)] rounded text-sm"
-                          placeholder="Notes..."
+                          placeholder="Notas..."
                         />
                       ) : (
                         <span className="text-[var(--color-neutral-bright)]/80 text-sm">
@@ -544,14 +544,14 @@ export default function MovementsTable({
                             <button
                               onClick={handleEditConfirm}
                               className="cursor-pointer text-[var(--color-success)] hover:text-[var(--color-success)]/80 p-2 rounded hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
-                              title="Confirm"
+                              title="Confirmar"
                             >
                               <FaCheck size={14} />
                             </button>
                             <button
                               onClick={handleEditCancel}
                               className="cursor-pointer text-[var(--color-error)] hover:text-[var(--color-error)]/80 p-2 rounded hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
-                              title="Cancel"
+                              title="Cancelar"
                             >
                               <FaTimes size={14} />
                             </button>
@@ -561,14 +561,14 @@ export default function MovementsTable({
                             <button
                               onClick={() => handleEditStart(movement)}
                               className="cursor-pointer text-[var(--color-primary)] hover:text-[var(--color-secondary)] p-2 rounded hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
-                              title="Edit"
+                              title="Editar"
                             >
                               <FaEdit size={14} />
                             </button>
                             <button
                               onClick={() => onDelete && onDelete(movement)}
                               className="cursor-pointer text-[var(--color-error)] hover:text-[var(--color-error)]/80 p-2 rounded hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
-                              title="Delete"
+                              title="Eliminar"
                             >
                               <FaTrash size={14} />
                             </button>
@@ -589,7 +589,7 @@ export default function MovementsTable({
         <div className="p-4 border-t border-[var(--color-neutral-dark-3)]">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <div className="text-sm text-[var(--color-neutral-bright)]/70">
-              Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, sortedData.length)} of {sortedData.length} movements
+              Mostrando {startIndex + 1} a {Math.min(startIndex + itemsPerPage, sortedData.length)} de {sortedData.length} movimientos
             </div>
 
             <div className="flex items-center gap-1">
@@ -598,7 +598,7 @@ export default function MovementsTable({
                 disabled={currentPage === 1}
                 className="cursor-pointer px-3 py-1 text-sm bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
               >
-                First
+                Primera
               </button>
               
               <button
@@ -606,7 +606,7 @@ export default function MovementsTable({
                 disabled={currentPage === 1}
                 className="cursor-pointer px-3 py-1 text-sm bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
               >
-                Prev
+                Anterior
               </button>
 
               {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
@@ -641,7 +641,7 @@ export default function MovementsTable({
                 disabled={currentPage === totalPages}
                 className="cursor-pointer px-3 py-1 text-sm bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
               >
-                Next
+                Siguiente
               </button>
               
               <button
@@ -649,7 +649,7 @@ export default function MovementsTable({
                 disabled={currentPage === totalPages}
                 className="cursor-pointer px-3 py-1 text-sm bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
               >
-                Last
+                Última
               </button>
             </div>
           </div>
@@ -660,8 +660,8 @@ export default function MovementsTable({
       {sortedData.length === 0 && (
         <div className="p-8 text-center text-[var(--color-neutral-bright)]/70">
           {searchTerm || filterType || filterLabel || filterDateFrom || filterDateTo
-            ? "No movements found matching the current filters" 
-            : "No movements found"}
+            ? "No se encontraron movimientos que coincidan con los filtros actuales" 
+            : "No se encontraron movimientos"}
         </div>
       )}
     </div>

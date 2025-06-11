@@ -3,9 +3,9 @@ import { FaUpload, FaTags, FaCalendarAlt, FaEuroSign, FaComment, FaSave, FaTimes
 import axios from "axios";
 
 const MOVEMENT_TYPES = [
-  { id: 1, code: 'I', name: 'Income', icon: FaPlus, color: 'text-[var(--color-success)]' },
-  { id: 2, code: 'E', name: 'Expense', icon: FaTimes, color: 'text-[var(--color-error)]' },
-  { id: 3, code: 'C', name: 'Correction', icon: FaEdit, color: 'text-[var(--color-warning)]' },
+  { id: 1, code: 'I', name: 'Ingreso', icon: FaPlus, color: 'text-[var(--color-success)]' },
+  { id: 2, code: 'E', name: 'Gasto', icon: FaTimes, color: 'text-[var(--color-error)]' },
+  { id: 3, code: 'C', name: 'Corrección', icon: FaEdit, color: 'text-[var(--color-warning)]' },
 ];
 
 export default function MovementsForm({ 
@@ -106,7 +106,7 @@ export default function MovementsForm({
         setErrors(error.response.data.errors);
       } else {
         console.error("Error saving movement", error);
-        setErrors({ general: ["An unexpected error occurred. Please try again."] });
+        setErrors({ general: ["Ocurrió un error inesperado. Por favor, inténtalo de nuevo."] });
       }
     } finally {
       setLoading(false);
@@ -131,12 +131,12 @@ export default function MovementsForm({
           )}
           <div>
             <h2 className="text-lg sm:text-xl font-semibold text-[var(--color-neutral-bright)]">
-              {isEditing ? "Edit Movement" : "Create New Movement"}
+              {isEditing ? "Editar Movimiento" : "Crear Nuevo Movimiento"}
             </h2>
             <p className="text-sm text-[var(--color-neutral-bright)]/70 mt-1">
               {isEditing 
-                ? "Update movement details" 
-                : "Record a new financial transaction"
+                ? "Actualiza los detalles del movimiento" 
+                : "Registra una nueva transacción financiera"
               }
             </p>
           </div>
@@ -152,7 +152,7 @@ export default function MovementsForm({
             <div className="flex items-center gap-2 mb-1">
               <FaExclamationTriangle className="text-[var(--color-error)] flex-shrink-0" />
               <span className="text-[var(--color-error)] text-sm font-medium">
-                Please correct the following errors:
+                Por favor, corrige los siguientes errores:
               </span>
             </div>
             <ul className="text-sm text-[var(--color-error)] ml-6">
@@ -174,7 +174,7 @@ export default function MovementsForm({
           <div>
             <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
               <FaExchangeAlt className="text-[var(--color-primary)]" />
-              Movement Type *
+              Tipo de Movimiento *
             </label>
             <select
               name="movement_type_id"
@@ -187,7 +187,7 @@ export default function MovementsForm({
               }`}
               required
             >
-              <option value="">Select movement type</option>
+              <option value="">Selecciona el tipo de movimiento</option>
               {MOVEMENT_TYPES.map((type) => (
                 <option key={type.id} value={type.id}>
                   {type.name}
@@ -203,7 +203,7 @@ export default function MovementsForm({
           <div>
             <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
               <FaTags className="text-[var(--color-secondary)]" />
-              Category *
+              Categoría *
             </label>
             <select
               name="label_id"
@@ -216,7 +216,7 @@ export default function MovementsForm({
               }`}
               required
             >
-              <option value="">Select a category</option>
+              <option value="">Selecciona una categoría</option>
               {userLabels.map((label) => (
                 <option key={label.id} value={label.id}>
                   {label.name}
@@ -232,7 +232,7 @@ export default function MovementsForm({
           <div>
             <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
               <FaUniversity className="text-[var(--color-warning)]" />
-              Bank *
+              Banco *
             </label>
             <select
               name="bank_id"
@@ -245,7 +245,7 @@ export default function MovementsForm({
               }`}
               required
             >
-              <option value="">Select a bank</option>
+              <option value="">Selecciona un banco</option>
               {banks.map((bank) => (
                 <option key={bank.id} value={bank.id}>
                   {bank.name}
@@ -262,7 +262,7 @@ export default function MovementsForm({
             <div>
               <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
                 <FaCalendarAlt className="text-[var(--color-primary)]" />
-                Transaction Date *
+                Fecha de Transacción *
               </label>
               <input
                 type="date"
@@ -284,7 +284,7 @@ export default function MovementsForm({
             <div>
               <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
                 <FaCalendarAlt className="text-[var(--color-secondary)]" />
-                Value Date *
+                Fecha Valor *
               </label>
               <input
                 type="date"
@@ -309,7 +309,7 @@ export default function MovementsForm({
             <div>
               <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
                 <FaEuroSign className="text-[var(--color-success)]" />
-                Amount *
+                Cantidad *
               </label>
               <div className="relative">
                 <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[var(--color-neutral-bright)]/60">€</span>
@@ -337,7 +337,7 @@ export default function MovementsForm({
             <div>
               <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
                 <FaWallet className="text-[var(--color-warning)]" />
-                Balance *
+                Saldo *
               </label>
               <div className="relative">
                 <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[var(--color-neutral-bright)]/60">€</span>
@@ -366,14 +366,14 @@ export default function MovementsForm({
           <div>
             <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
               <FaComment className="text-[var(--color-warning)]" />
-              Notes (Optional)
+              Notas (Opcional)
             </label>
             <textarea
               name="comment"
               value={formData.comment}
               onChange={handleChange}
               rows="3"
-              placeholder="Add any notes about this movement..."
+              placeholder="Añade cualquier nota sobre este movimiento..."
               className={`w-full p-3 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent resize-vertical transition-colors ${
                 errors.comment 
                   ? 'border-[var(--color-error)]' 
@@ -394,7 +394,7 @@ export default function MovementsForm({
           {/* Preview Card */}
           {(selectedType && selectedLabel && formData.amount) && (
             <div className="p-4 bg-[var(--color-neutral-dark-3)] rounded-lg border border-[var(--color-neutral-dark)] border-dashed">
-              <p className="text-xs text-[var(--color-neutral-bright)]/70 mb-2 uppercase tracking-wider">Preview</p>
+              <p className="text-xs text-[var(--color-neutral-bright)]/70 mb-2 uppercase tracking-wider">Vista Previa</p>
               <div className="flex items-center gap-3">
                 <div className={`p-2 rounded-full ${selectedType.color} bg-current/20`}>
                   <selectedType.icon className={selectedType.color} />
@@ -428,19 +428,19 @@ export default function MovementsForm({
               {loading ? (
                 <>
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                  {isEditing ? "Updating..." : "Creating..."}
+                  {isEditing ? "Actualizando..." : "Creando..."}
                 </>
               ) : (
                 <>
                   <FaSave size={14} />
-                  {isEditing ? "Update Movement" : "Create Movement"}
+                  {isEditing ? "Actualizar Movimiento" : "Crear Movimiento"}
                 </>
               )}
             </button>
 
             <div className="flex items-center gap-3">
               <div className="flex-1 h-px bg-[var(--color-neutral-dark-3)]"></div>
-              <span className="text-xs text-[var(--color-neutral-bright)]/50">OR</span>
+              <span className="text-xs text-[var(--color-neutral-bright)]/50">O</span>
               <div className="flex-1 h-px bg-[var(--color-neutral-dark-3)]"></div>
             </div>
 
@@ -450,7 +450,7 @@ export default function MovementsForm({
               className="cursor-pointer flex items-center justify-center gap-2 w-full px-4 py-3 bg-[var(--color-secondary)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-primary)] transition-colors duration-200 font-medium"
             >
               <FaUpload size={14} />
-              Import from PDF
+              Importar desde PDF
             </button>
 
             {isEditing && onCancel && (
@@ -461,7 +461,7 @@ export default function MovementsForm({
                 className="cursor-pointer flex items-center justify-center gap-2 w-full px-4 py-3 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-neutral-dark)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
               >
                 <FaTimes size={14} />
-                Cancel Edit
+                Cancelar Edición
               </button>
             )}
           </div>
@@ -471,14 +471,14 @@ export default function MovementsForm({
         <div className="mt-6 p-4 bg-[var(--color-neutral-dark-3)] rounded-lg">
           <h4 className="text-sm font-medium text-[var(--color-neutral-bright)] mb-2 flex items-center gap-2">
             <FaExchangeAlt className="text-[var(--color-primary)]" />
-            Movement Tips
+            Consejos de Movimientos
           </h4>
           <ul className="text-xs text-[var(--color-neutral-bright)]/70 space-y-1">
-            <li>• Use Income for money coming into your account</li>
-            <li>• Use Expense for money going out of your account</li>
-            <li>• Correction type is for fixing mistakes or adjustments</li>
-            <li>• Balance should reflect your account balance after this transaction</li>
-            <li>• Value date is when the transaction actually affects your balance</li>
+            <li>• Usa Ingreso para dinero que entra en tu cuenta</li>
+            <li>• Usa Gasto para dinero que sale de tu cuenta</li>
+            <li>• El tipo Corrección es para corregir errores o ajustes</li>
+            <li>• El saldo debe reflejar el saldo de tu cuenta después de esta transacción</li>
+            <li>• La fecha valor es cuando la transacción realmente afecta tu saldo</li>
           </ul>
         </div>
       </div>

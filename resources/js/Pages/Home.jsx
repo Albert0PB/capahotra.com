@@ -15,17 +15,16 @@ export default function Home() {
                     
                     {/* Main Title */}
                     <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-[4rem] font-bold text-[var(--color-neutral-bright)] leading-tight mb-8 sm:mb-12">
-                        Your finances: the{" "}
+                        Tus finanzas: a la manera{" "}
                         <span className="text-[var(--color-secondary)] font-extrabold">
-                            <em>feline</em>
-                        </span>{" "}
-                        way
+                            <em>felina</em>
+                        </span>
                     </h1>
 
                     {/* Subtitle */}
                     <p className="text-lg sm:text-xl lg:text-2xl text-[var(--color-neutral-bright)]/90 mb-8 sm:mb-12 max-w-2xl mx-auto leading-relaxed">
-                        Manage your money with the purr-fect balance of simplicity and power. 
-                        Track expenses, plan budgets, and achieve your financial goals.
+                        Gestiona tu dinero con el equilibrio purr-fecto entre simplicidad y potencia. 
+                        Rastrea gastos, planifica presupuestos y alcanza tus objetivos financieros.
                     </p>
 
                     {/* CTA Buttons */}
@@ -34,13 +33,13 @@ export default function Home() {
                             href="/register"
                             className="w-full sm:w-auto bg-[var(--color-secondary)] text-[var(--color-neutral-bright)] px-8 py-4 rounded-full text-lg lg:text-xl font-semibold hover:bg-[var(--color-secondary)]/90 transition-all duration-200 transform hover:scale-105"
                         >
-                            Get Started Free
+                            Empezar Gratis
                         </Link>
                         <Link
                             href="/login"
                             className="w-full sm:w-auto border-2 border-[var(--color-neutral-bright)] text-[var(--color-neutral-bright)] px-8 py-4 rounded-full text-lg lg:text-xl font-semibold hover:bg-[var(--color-neutral-bright)] hover:text-[var(--color-neutral-dark)] transition-all duration-200"
                         >
-                            Sign In
+                            Iniciar Sesión
                         </Link>
                     </div>
                 </div>

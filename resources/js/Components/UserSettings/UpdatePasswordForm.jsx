@@ -73,8 +73,8 @@ export default function UpdatePasswordForm({ errors }) {
   };
 
   const getPasswordStrength = (password) => {
-    if (!password) return { strength: 0, label: 'Enter a password', color: 'text-[var(--color-neutral-bright)]/50' };
-    return { strength: 3, label: 'Valid', color: 'text-[var(--color-success)]' };
+    if (!password) return { strength: 0, label: 'Introduce una contraseña', color: 'text-[var(--color-neutral-bright)]/50' };
+    return { strength: 3, label: 'Válida', color: 'text-[var(--color-success)]' };
   };
 
   const passwordStrength = getPasswordStrength(data.password);
@@ -86,10 +86,10 @@ export default function UpdatePasswordForm({ errors }) {
           <FaLock className="text-[var(--color-warning)] text-xl" />
           <div>
             <h2 className="text-xl font-semibold text-[var(--color-neutral-bright)]">
-              Update Password
+              Actualizar Contraseña
             </h2>
             <p className="text-sm text-[var(--color-neutral-bright)]/70 mt-1">
-              Ensure your account is using a long, random password to stay secure.
+              Asegúrate de que tu cuenta esté usando una contraseña larga y aleatoria para mantenerte seguro.
             </p>
           </div>
         </div>
@@ -100,7 +100,7 @@ export default function UpdatePasswordForm({ errors }) {
           <div className="mb-6 p-4 bg-[var(--color-success)]/20 border border-[var(--color-success)]/30 rounded-lg flex items-center gap-3">
             <FaCheck className="text-[var(--color-success)]" />
             <span className="text-[var(--color-success)] text-sm font-medium">
-              Password updated successfully!
+              ¡Contraseña actualizada correctamente!
             </span>
           </div>
         )}
@@ -110,7 +110,7 @@ export default function UpdatePasswordForm({ errors }) {
             <div className="flex items-center gap-3 mb-2">
               <FaExclamationTriangle className="text-[var(--color-error)]" />
               <span className="text-[var(--color-error)] text-sm font-medium">
-                Please correct the following errors:
+                Por favor, corrige los siguientes errores:
               </span>
             </div>
             <ul className="text-sm text-[var(--color-error)] space-y-1 ml-6">
@@ -129,7 +129,7 @@ export default function UpdatePasswordForm({ errors }) {
           {/* Current Password */}
           <div>
             <label className="block text-sm font-medium text-[var(--color-neutral-bright)] mb-2">
-              Current Password *
+              Contraseña Actual *
             </label>
             <div className="relative">
               <FaKey className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[var(--color-neutral-bright)]/60" />
@@ -142,7 +142,7 @@ export default function UpdatePasswordForm({ errors }) {
                     ? 'border-[var(--color-error)]' 
                     : 'border-[var(--color-neutral-dark-3)]'
                 }`}
-                placeholder="Enter your current password"
+                placeholder="Introduce tu contraseña actual"
                 required
                 disabled={processing}
               />
@@ -164,7 +164,7 @@ export default function UpdatePasswordForm({ errors }) {
           {/* New Password */}
           <div>
             <label className="block text-sm font-medium text-[var(--color-neutral-bright)] mb-2">
-              New Password *
+              Nueva Contraseña *
             </label>
             <div className="relative">
               <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[var(--color-neutral-bright)]/60" />
@@ -177,7 +177,7 @@ export default function UpdatePasswordForm({ errors }) {
                     ? 'border-[var(--color-error)]' 
                     : 'border-[var(--color-neutral-dark-3)]'
                 }`}
-                placeholder="Enter your new password"
+                placeholder="Introduce tu nueva contraseña"
                 required
                 disabled={processing}
               />
@@ -194,7 +194,7 @@ export default function UpdatePasswordForm({ errors }) {
             {data.password && (
               <div className="mt-2">
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-xs text-[var(--color-neutral-bright)]/70">Password Strength:</span>
+                  <span className="text-xs text-[var(--color-neutral-bright)]/70">Fortaleza de la Contraseña:</span>
                   <span className={`text-xs font-medium ${passwordStrength.color}`}>
                     {passwordStrength.label}
                   </span>
@@ -228,7 +228,7 @@ export default function UpdatePasswordForm({ errors }) {
           {/* Confirm Password */}
           <div>
             <label className="block text-sm font-medium text-[var(--color-neutral-bright)] mb-2">
-              Confirm New Password *
+              Confirmar Nueva Contraseña *
             </label>
             <div className="relative">
               <FaShieldAlt className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[var(--color-neutral-bright)]/60" />
@@ -241,7 +241,7 @@ export default function UpdatePasswordForm({ errors }) {
                     ? 'border-[var(--color-error)]' 
                     : 'border-[var(--color-neutral-dark-3)]'
                 }`}
-                placeholder="Confirm your new password"
+                placeholder="Confirma tu nueva contraseña"
                 required
                 disabled={processing}
               />
@@ -263,14 +263,14 @@ export default function UpdatePasswordForm({ errors }) {
           {/* Password Requirements */}
           <div className="p-4 bg-[var(--color-neutral-dark-3)] rounded-lg">
             <h4 className="text-sm font-medium text-[var(--color-neutral-bright)] mb-2">
-              Password Requirements:
+              Requisitos de la Contraseña:
             </h4>
             <ul className="text-xs text-[var(--color-neutral-bright)]/70 space-y-1">
-              <li>• At least 8 characters long</li>
-              <li>• Contains lowercase letters (a-z)</li>
-              <li>• Contains uppercase letters (A-Z)</li>
-              <li>• Contains numbers (0-9)</li>
-              <li>• Contains special characters (!@#$%^&*)</li>
+              <li>• Al menos 8 caracteres de longitud</li>
+              <li>• Contiene letras minúsculas (a-z)</li>
+              <li>• Contiene letras mayúsculas (A-Z)</li>
+              <li>• Contiene números (0-9)</li>
+              <li>• Contiene caracteres especiales (!@#$%^&*)</li>
             </ul>
           </div>
 
@@ -284,12 +284,12 @@ export default function UpdatePasswordForm({ errors }) {
               {processing ? (
                 <>
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                  Updating...
+                  Actualizando...
                 </>
               ) : (
                 <>
                   <FaLock />
-                  Update Password
+                  Actualizar Contraseña
                 </>
               )}
             </button>

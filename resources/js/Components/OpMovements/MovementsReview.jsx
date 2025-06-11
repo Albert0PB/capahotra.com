@@ -3,8 +3,8 @@ import { FaCheck, FaTimes, FaEdit, FaTrash, FaExclamationTriangle, FaInfoCircle 
 import axios from "axios";
 
 const MOVEMENT_TYPES = {
-  1: { name: 'Income', color: 'text-[var(--color-success)]' },
-  2: { name: 'Expense', color: 'text-[var(--color-error)]' },
+  1: { name: 'Ingreso', color: 'text-[var(--color-success)]' },
+  2: { name: 'Gasto', color: 'text-[var(--color-error)]' },
 };
 
 export default function MovementsReview({ 
@@ -23,15 +23,15 @@ export default function MovementsReview({
     const errors = {};
     
     if (!movement.label_id) {
-      errors.label_id = 'Label is required';
+      errors.label_id = 'La etiqueta es obligatoria';
     }
     
     if (!movement.amount || movement.amount <= 0) {
-      errors.amount = 'Amount must be greater than 0';
+      errors.amount = 'La cantidad debe ser mayor que 0';
     }
     
     if (!movement.transaction_date) {
-      errors.transaction_date = 'Transaction date is required';
+      errors.transaction_date = 'La fecha de transacción es obligatoria';
     }
     
     return errors;
@@ -71,7 +71,7 @@ export default function MovementsReview({
 
     if (hasErrors) {
       setValidationErrors(newValidationErrors);
-      setErrors({ general: "Please fix the validation errors before saving." });
+      setErrors({ general: "Por favor, corrige los errores de validación antes de guardar." });
       return;
     }
 
@@ -91,12 +91,12 @@ export default function MovementsReview({
       if (response.data.success) {
         onSave(response.data.saved_movements);
       } else {
-        setErrors({ general: response.data.message || "Error saving movements" });
+        setErrors({ general: response.data.message || "Error al guardar los movimientos" });
       }
     } catch (error) {
       console.error("Error saving movements:", error);
       setErrors({ 
-        general: error.response?.data?.message || "Error saving movements. Please try again." 
+        general: error.response?.data?.message || "Error al guardar los movimientos. Por favor, inténtalo de nuevo." 
       });
     } finally {
       setIsSaving(false);
@@ -127,12 +127,12 @@ export default function MovementsReview({
 
   const getBankName = (bankId) => {
     const bank = banks.find(b => b.id === bankId);
-    return bank ? bank.name : 'Unknown';
+    return bank ? bank.name : 'Desconocido';
   };
 
   const getLabelName = (labelId) => {
     const label = userLabels.find(l => l.id === labelId);
-    return label ? label.name : 'Select Label';
+    return label ? label.name : 'Seleccionar Etiqueta';
   };
 
   const hasValidationErrors = Object.keys(validationErrors).length > 0;
@@ -156,16 +156,16 @@ export default function MovementsReview({
           <div className="flex justify-between items-start">
             <div>
               <h2 className="text-xl font-semibold text-[var(--color-neutral-bright)]">
-                Review Extracted Movements
+                Revisar Movimientos Extraídos
               </h2>
               <p className="text-sm text-[var(--color-neutral-bright)]/70 mt-1">
-                {movements.length} movements found. Review and edit before saving.
+                {movements.length} movimientos encontrados. Revisa y edita antes de guardar.
               </p>
               {hasValidationErrors && (
                 <div className="flex items-center gap-2 mt-2">
                   <FaExclamationTriangle className="text-[var(--color-warning)]" />
                   <span className="text-sm text-[var(--color-warning)]">
-                    Some movements have validation errors
+                    Algunos movimientos tienen errores de validación
                   </span>
                 </div>
               )}
@@ -181,19 +181,19 @@ export default function MovementsReview({
           {/* Summary */}
           <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="bg-[var(--color-neutral-dark-3)] p-3 rounded-lg">
-              <div className="text-xs text-[var(--color-neutral-bright)]/70">Income</div>
+              <div className="text-xs text-[var(--color-neutral-bright)]/70">Ingresos</div>
               <div className="text-lg font-semibold text-[var(--color-success)]">
                 € {totalIncome.toFixed(2)}
               </div>
             </div>
             <div className="bg-[var(--color-neutral-dark-3)] p-3 rounded-lg">
-              <div className="text-xs text-[var(--color-neutral-bright)]/70">Expenses</div>
+              <div className="text-xs text-[var(--color-neutral-bright)]/70">Gastos</div>
               <div className="text-lg font-semibold text-[var(--color-error)]">
                 € {totalExpenses.toFixed(2)}
               </div>
             </div>
             <div className="bg-[var(--color-neutral-dark-3)] p-3 rounded-lg">
-              <div className="text-xs text-[var(--color-neutral-bright)]/70">Net Amount</div>
+              <div className="text-xs text-[var(--color-neutral-bright)]/70">Cantidad Neta</div>
               <div className={`text-lg font-semibold ${
                 netAmount >= 0 ? 'text-[var(--color-success)]' : 'text-[var(--color-error)]'
               }`}>
@@ -228,7 +228,7 @@ export default function MovementsReview({
                   <div className="flex justify-between items-start mb-4">
                     <div className="flex items-center gap-2">
                       <h3 className="text-sm font-medium text-[var(--color-neutral-bright)]">
-                        Movement #{index + 1}
+                        Movimiento #{index + 1}
                       </h3>
                       {hasErrors && (
                         <FaExclamationTriangle className="text-[var(--color-warning)]" size={14} />
@@ -244,7 +244,7 @@ export default function MovementsReview({
                     <button
                       onClick={() => removeMovement(index)}
                       className="cursor-pointer text-[var(--color-error)] hover:text-[var(--color-error)]/80 p-1"
-                      title="Remove movement"
+                      title="Eliminar movimiento"
                     >
                       <FaTrash size={14} />
                     </button>
@@ -255,7 +255,7 @@ export default function MovementsReview({
                     {/* Transaction Date */}
                     <div>
                       <label className="block text-xs font-medium text-[var(--color-neutral-bright)]/70 mb-1">
-                        Transaction Date *
+                        Fecha de Transacción *
                       </label>
                       <input
                         type="date"
@@ -277,7 +277,7 @@ export default function MovementsReview({
                     {/* Value Date */}
                     <div>
                       <label className="block text-xs font-medium text-[var(--color-neutral-bright)]/70 mb-1">
-                        Value Date
+                        Fecha Valor
                       </label>
                       <input
                         type="date"
@@ -290,22 +290,22 @@ export default function MovementsReview({
                     {/* Type */}
                     <div>
                       <label className="block text-xs font-medium text-[var(--color-neutral-bright)]/70 mb-1">
-                        Type *
+                        Tipo *
                       </label>
                       <select
                         value={movement.movement_type_id}
                         onChange={(e) => handleMovementChange(index, 'movement_type_id', e.target.value)}
                         className="cursor-pointer w-full p-2 bg-[var(--color-neutral-dark)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark)] rounded text-sm"
                       >
-                        <option value={1}>Income</option>
-                        <option value={2}>Expense</option>
+                        <option value={1}>Ingreso</option>
+                        <option value={2}>Gasto</option>
                       </select>
                     </div>
 
                     {/* Amount */}
                     <div>
                       <label className="block text-xs font-medium text-[var(--color-neutral-bright)]/70 mb-1">
-                        Amount (€) *
+                        Cantidad (€) *
                       </label>
                       <input
                         type="number"
@@ -329,7 +329,7 @@ export default function MovementsReview({
                     {/* Label */}
                     <div>
                       <label className="block text-xs font-medium text-[var(--color-neutral-bright)]/70 mb-1">
-                        Label *
+                        Etiqueta *
                       </label>
                       <select
                         value={movement.label_id || ""}
@@ -340,7 +340,7 @@ export default function MovementsReview({
                             : 'border-[var(--color-neutral-dark)]'
                         }`}
                       >
-                        <option value="">Select Label</option>
+                        <option value="">Seleccionar Etiqueta</option>
                         {userLabels.map((label) => (
                           <option key={label.id} value={label.id}>
                             {label.name}
@@ -357,7 +357,7 @@ export default function MovementsReview({
                     {/* Balance */}
                     <div>
                       <label className="block text-xs font-medium text-[var(--color-neutral-bright)]/70 mb-1">
-                        Balance (€)
+                        Saldo (€)
                       </label>
                       <input
                         type="number"
@@ -371,7 +371,7 @@ export default function MovementsReview({
                     {/* Bank (readonly) */}
                     <div>
                       <label className="block text-xs font-medium text-[var(--color-neutral-bright)]/70 mb-1">
-                        Bank
+                        Banco
                       </label>
                       <input
                         type="text"
@@ -384,7 +384,7 @@ export default function MovementsReview({
                     {/* Original Amount Display */}
                     <div>
                       <label className="block text-xs font-medium text-[var(--color-neutral-bright)]/70 mb-1">
-                        Original Amount
+                        Cantidad Original
                       </label>
                       <div className="p-2 bg-[var(--color-neutral-dark)]/50 border border-[var(--color-neutral-dark)] rounded text-sm">
                         <span className={MOVEMENT_TYPES[movement.movement_type_id]?.color || 'text-[var(--color-neutral-bright)]'}>
@@ -397,12 +397,12 @@ export default function MovementsReview({
                   {/* Comment */}
                   <div className="mt-3">
                     <label className="block text-xs font-medium text-[var(--color-neutral-bright)]/70 mb-1">
-                      Comment
+                      Comentario
                     </label>
                     <textarea
                       value={movement.comment || ""}
                       onChange={(e) => handleMovementChange(index, 'comment', e.target.value)}
-                      placeholder="Optional comment..."
+                      placeholder="Comentario opcional..."
                       rows="2"
                       className="w-full p-2 bg-[var(--color-neutral-dark)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark)] rounded text-sm resize-vertical"
                     />
@@ -410,11 +410,11 @@ export default function MovementsReview({
 
                   {/* Movement preview */}
                   <div className="mt-3 p-2 bg-[var(--color-neutral-dark)] rounded text-xs">
-                    <span className="text-[var(--color-neutral-bright)]/70">Preview: </span>
+                    <span className="text-[var(--color-neutral-bright)]/70">Vista previa: </span>
                     <span className={MOVEMENT_TYPES[movement.movement_type_id]?.color}>
                       {MOVEMENT_TYPES[movement.movement_type_id]?.name}
                     </span>
-                    <span className="text-[var(--color-neutral-bright)]"> of </span>
+                    <span className="text-[var(--color-neutral-bright)]"> de </span>
                     <span className="font-medium">€{movement.amount || '0'}</span>
                     <span className="text-[var(--color-neutral-bright)]"> → </span>
                     <span className="text-[var(--color-primary)]">
@@ -422,9 +422,9 @@ export default function MovementsReview({
                     </span>
                     {movement.transaction_date && (
                       <>
-                        <span className="text-[var(--color-neutral-bright)]"> on </span>
+                        <span className="text-[var(--color-neutral-bright)]"> el </span>
                         <span className="text-[var(--color-neutral-bright)]">
-                          {new Date(movement.transaction_date).toLocaleDateString()}
+                          {new Date(movement.transaction_date).toLocaleDateString('es-ES')}
                         </span>
                       </>
                     )}
@@ -438,7 +438,7 @@ export default function MovementsReview({
             <div className="text-center py-8">
               <FaInfoCircle className="mx-auto h-12 w-12 text-[var(--color-neutral-bright)]/30 mb-4" />
               <p className="text-[var(--color-neutral-bright)]/70">
-                No movements to review. All movements have been removed.
+                No hay movimientos para revisar. Todos los movimientos han sido eliminados.
               </p>
             </div>
           )}
@@ -448,10 +448,10 @@ export default function MovementsReview({
         <div className="p-6 border-t border-[var(--color-neutral-dark-3)] bg-[var(--color-neutral-dark-2)]">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <div className="text-sm text-[var(--color-neutral-bright)]/70">
-              {movements.length} movements ready to save
+              {movements.length} movimientos listos para guardar
               {hasValidationErrors && (
                 <span className="text-[var(--color-warning)] ml-2">
-                  • Please fix errors first
+                  • Por favor, corrige los errores primero
                 </span>
               )}
             </div>
@@ -461,7 +461,7 @@ export default function MovementsReview({
                 disabled={isSaving}
                 className="cursor-pointer px-6 py-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-neutral-dark)] disabled:opacity-50 transition-colors"
               >
-                Cancel
+                Cancelar
               </button>
               <button
                 onClick={handleSaveAll}
@@ -471,12 +471,12 @@ export default function MovementsReview({
                 {isSaving ? (
                   <>
                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                    Saving...
+                    Guardando...
                   </>
                 ) : (
                   <>
                     <FaCheck />
-                    Save All Movements ({movements.length})
+                    Guardar Todos los Movimientos ({movements.length})
                   </>
                 )}
               </button>

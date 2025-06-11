@@ -17,7 +17,7 @@ export default function Header() {
                 <div className="flex-shrink-0">
                     <img 
                         src="/images/white-logo-00.png"
-                        alt="white capahotra logo"
+                        alt="Logo blanco de Capahotra"
                         className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12"
                     />
                 </div>
@@ -29,13 +29,13 @@ export default function Header() {
                             href="/services"
                             className="text-[var(--color-neutral-bright)] text-base xl:text-[1.5rem] hover:text-[var(--color-primary)] transition-colors duration-200"
                         >
-                            Services
+                            Servicios
                         </Link>
                         <Link 
                             href="/about-us"
                             className="text-[var(--color-neutral-bright)] text-base xl:text-[1.5rem] hover:text-[var(--color-primary)] transition-colors duration-200"
                         >
-                            About Us
+                            Sobre Nosotros
                         </Link>
                         <a 
                             href="https://github.com/iesgrancapitan-proyectos/202425daw-junio-nombreproyecto-Albert0PB/wiki"
@@ -50,13 +50,13 @@ export default function Header() {
                             href="/login"
                             className="text-[var(--color-neutral-bright)] text-base xl:text-[1.5rem] hover:text-[var(--color-primary)] transition-colors duration-200"
                         >
-                            Log In
+                            Iniciar Sesión
                         </Link>
                         <Link 
                             href="/register"
                             className="bg-[var(--color-primary)] text-[var(--color-neutral-bright)] px-4 py-2 xl:px-6 xl:py-3 rounded-full text-base xl:text-[1.5rem] hover:bg-[var(--color-secondary)] transition-colors duration-200"
                         >
-                            Register
+                            Registrarse
                         </Link>
                     </div>
                 </nav>
@@ -65,7 +65,7 @@ export default function Header() {
                 <button
                     onClick={toggleMobileMenu}
                     className="lg:hidden text-[var(--color-neutral-bright)] p-2"
-                    aria-label="Toggle mobile menu"
+                    aria-label="Alternar menú móvil"
                 >
                     {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
                 </button>
@@ -80,14 +80,14 @@ export default function Header() {
                             className="text-[var(--color-neutral-bright)] text-base hover:text-[var(--color-primary)] transition-colors duration-200"
                             onClick={() => setIsMobileMenuOpen(false)}
                         >
-                            Services
+                            Servicios
                         </Link>
                         <Link 
                             href="/about-us"
                             className="text-[var(--color-neutral-bright)] text-base hover:text-[var(--color-primary)] transition-colors duration-200"
                             onClick={() => setIsMobileMenuOpen(false)}
                         >
-                            About Us
+                            Sobre Nosotros
                         </Link>
                         <Link 
                             href="/docs"
@@ -102,14 +102,14 @@ export default function Header() {
                             className="text-[var(--color-neutral-bright)] text-base hover:text-[var(--color-primary)] transition-colors duration-200"
                             onClick={() => setIsMobileMenuOpen(false)}
                         >
-                            Log In
+                            Iniciar Sesión
                         </Link>
                         <Link 
                             href="/register"
                             className="bg-[var(--color-primary)] text-[var(--color-neutral-bright)] px-4 py-2 rounded-full text-base hover:bg-[var(--color-secondary)] transition-colors duration-200 text-center"
                             onClick={() => setIsMobileMenuOpen(false)}
                         >
-                            Register
+                            Registrarse
                         </Link>
                     </div>
                 </nav>

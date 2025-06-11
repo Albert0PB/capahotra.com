@@ -52,11 +52,11 @@ export default function OpMonthlyForecasts({
   };
 
   const handleDelete = async (forecast) => {
-    const monthName = new Intl.DateTimeFormat("en", { month: "long" }).format(
+    const monthName = new Intl.DateTimeFormat("es", { month: "long" }).format(
       new Date(forecast.year, forecast.month)
     );
     
-    if (!window.confirm(`Are you sure you want to delete the forecast for ${monthName} ${forecast.year}?`)) {
+    if (!window.confirm(`¿Estás seguro de que quieres eliminar la previsión de ${monthName} ${forecast.year}?`)) {
       return;
     }
 
@@ -88,10 +88,10 @@ export default function OpMonthlyForecasts({
         <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-0 w-full">
           <div className="flex flex-col">
             <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-[3rem] font-extrabold text-[var(--color-neutral-bright)] mb-2">
-              Monthly Forecasts
+              Previsiones Mensuales
             </h1>
             <p className="text-base sm:text-lg text-[var(--color-neutral-bright)]/70">
-              Plan, track and analyze your monthly budget forecasts
+              Planifica, rastrea y analiza tus previsiones presupuestarias mensuales
             </p>
           </div>
           <div className="flex items-start">
@@ -104,7 +104,7 @@ export default function OpMonthlyForecasts({
           <div className="bg-[var(--color-neutral-dark-2)] p-4 lg:p-6 rounded-lg shadow-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-[var(--color-neutral-bright)]/70">Total Forecasts</p>
+                <p className="text-sm text-[var(--color-neutral-bright)]/70">Total de Previsiones</p>
                 <p className="text-2xl lg:text-3xl font-bold text-[var(--color-neutral-bright)]">
                   {totalForecasts}
                 </p>
@@ -116,12 +116,12 @@ export default function OpMonthlyForecasts({
           <div className="bg-[var(--color-neutral-dark-2)] p-4 lg:p-6 rounded-lg shadow-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-[var(--color-neutral-bright)]/70">This Year</p>
+                <p className="text-sm text-[var(--color-neutral-bright)]/70">Este Año</p>
                 <p className="text-2xl lg:text-3xl font-bold text-[var(--color-warning)]">
                   {thisYearForecasts}
                 </p>
                 <p className="text-xs text-[var(--color-neutral-bright)]/50">
-                  forecasts for {currentYear}
+                  previsiones para {currentYear}
                 </p>
               </div>
               <FaChartLine className="text-[var(--color-warning)] text-2xl lg:text-3xl" />
@@ -131,12 +131,12 @@ export default function OpMonthlyForecasts({
           <div className="bg-[var(--color-neutral-dark-2)] p-4 lg:p-6 rounded-lg shadow-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-[var(--color-neutral-bright)]/70">Active Labels</p>
+                <p className="text-sm text-[var(--color-neutral-bright)]/70">Etiquetas Activas</p>
                 <p className="text-2xl lg:text-3xl font-bold text-[var(--color-secondary)]">
                   {activeLabels}
                 </p>
                 <p className="text-xs text-[var(--color-neutral-bright)]/50">
-                  categories in use
+                  categorías en uso
                 </p>
               </div>
               <FaTags className="text-[var(--color-secondary)] text-2xl lg:text-3xl" />
@@ -146,12 +146,12 @@ export default function OpMonthlyForecasts({
           <div className="bg-[var(--color-neutral-dark-2)] p-4 lg:p-6 rounded-lg shadow-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-[var(--color-neutral-bright)]/70">Total Budgeted</p>
+                <p className="text-sm text-[var(--color-neutral-bright)]/70">Total Presupuestado</p>
                 <p className="text-xl lg:text-2xl font-bold text-[var(--color-success)]">
                   €{totalBudgeted.toFixed(0)}
                 </p>
                 <p className="text-xs text-[var(--color-neutral-bright)]/50">
-                  across all forecasts
+                  en todas las previsiones
                 </p>
               </div>
               <FaEuroSign className="text-[var(--color-success)] text-2xl lg:text-3xl" />
@@ -170,10 +170,10 @@ export default function OpMonthlyForecasts({
                   <FaCalendarCheck className="text-[var(--color-primary)] text-xl" />
                   <div>
                     <h3 className="text-lg font-semibold text-[var(--color-neutral-bright)]">
-                      Your Forecasts ({forecasts.length})
+                      Tus Previsiones ({forecasts.length})
                     </h3>
                     <p className="text-sm text-[var(--color-neutral-bright)]/70">
-                      Monitor and manage your monthly budget targets
+                      Monitorea y gestiona tus objetivos presupuestarios mensuales
                     </p>
                   </div>
                 </div>
@@ -205,10 +205,10 @@ export default function OpMonthlyForecasts({
           <div className="bg-[var(--color-neutral-dark-2)] p-8 rounded-lg shadow-lg text-center">
             <FaChartBar className="text-[var(--color-neutral-bright)]/30 text-6xl mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-[var(--color-neutral-bright)] mb-2">
-              No forecasts yet
+              Aún no hay previsiones
             </h3>
             <p className="text-[var(--color-neutral-bright)]/70">
-              Start planning your finances by creating your first monthly forecast using the form below
+              Comienza a planificar tus finanzas creando tu primera previsión mensual usando el formulario de abajo
             </p>
           </div>
         )}

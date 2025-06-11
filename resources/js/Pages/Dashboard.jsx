@@ -7,10 +7,10 @@ import FinancialNewsDisplayer from "../Components/Dashboard/FinancialNewsDisplay
 import NavSidebar from "../Components/NavSidebar";
 
 import { format } from "date-fns";
-import { enUS } from "date-fns/locale";
+import { es } from "date-fns/locale";
 
 function getFormattedDate() {
-    return format(new Date(), "do MMMM yyyy", { locale: enUS });
+    return format(new Date(), "do 'de' MMMM 'de' yyyy", { locale: es });
 }
 
 export default function Dashboard({
@@ -29,13 +29,13 @@ export default function Dashboard({
                 <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-0 w-full">
                     <div className="flex flex-col">
                         <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-[3rem] font-extrabold text-[var(--color-neutral-bright)] mb-2">
-                            Your global position
+                            Tu posición global
                         </h1>
                         <div className="text-lg sm:text-xl lg:text-2xl xl:text-[2rem] font-light text-[var(--color-neutral-bright)] mb-4 sm:mb-8">
                             {date}
                         </div>
                         <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-[2.25rem] font-extrabold text-[var(--color-neutral-bright)]">
-                            This month:
+                            Este mes:
                         </h2>
                     </div>
                     <div className="flex items-start">
@@ -55,7 +55,7 @@ export default function Dashboard({
                     <div className="w-full lg:w-3/5 xl:w-1/2">
                         <div className="bg-[var(--color-neutral-dark)] rounded-none w-full">
                             <h3 className="text-[var(--color-neutral-bright)] text-lg sm:text-xl lg:text-2xl xl:text-[2rem] font-semibold mb-4">
-                                Income vs Expenses (Last 4 Months)
+                                Ingresos vs Gastos (Últimos 4 Meses)
                             </h3>
                             <IncomeExpenseChart dataPoints={lastFourMonthsData} />
                         </div>
@@ -70,7 +70,7 @@ export default function Dashboard({
                 {/* Financial News - Full Width */}
                 <div className="w-full">
                     <h3 className="text-[var(--color-neutral-bright)] text-lg sm:text-xl lg:text-2xl xl:text-[2rem] font-semibold mb-4">
-                        Financial News
+                        Noticias Financieras
                     </h3>
                     <FinancialNewsDisplayer news={financialNews} />
                 </div>

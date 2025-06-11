@@ -66,7 +66,7 @@ export default function LabelsSummary({ labelsData }) {
     labels: sortedData.map((item) => item.name),
     datasets: [
       {
-        label: "Total Amount (€)",
+        label: "Cantidad Total (€)",
         data: sortedData.map((item) => Math.abs(item.movements_sum_amount || 0)),
         backgroundColor: chartColors,
         borderRadius: 6,
@@ -204,10 +204,10 @@ export default function LabelsSummary({ labelsData }) {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
         <div>
           <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold text-[var(--color-neutral-bright)]">
-            Category Analysis
+            Análisis de Categorías
           </h2>
           <p className="text-sm text-[var(--color-neutral-bright)]/70 mt-1">
-            {sortedData.length > 10 ? 'Top 10 categories by volume' : 'All categories by volume'}
+            {sortedData.length > 10 ? 'Top 10 categorías por volumen' : 'Todas las categorías por volumen'}
           </p>
         </div>
         
@@ -220,7 +220,7 @@ export default function LabelsSummary({ labelsData }) {
                 : 'text-[var(--color-neutral-bright)]/70 hover:text-[var(--color-neutral-bright)]'
             }`}
           >
-            Bar Chart
+            Gráfico de Barras
           </button>
           <button
             onClick={() => setChartType('doughnut')}
@@ -230,7 +230,7 @@ export default function LabelsSummary({ labelsData }) {
                 : 'text-[var(--color-neutral-bright)]/70 hover:text-[var(--color-neutral-bright)]'
             }`}
           >
-            Pie Chart
+            Gráfico Circular
           </button>
         </div>
       </div>
@@ -246,8 +246,8 @@ export default function LabelsSummary({ labelsData }) {
         ) : (
           <div className="flex items-center justify-center h-full text-[var(--color-neutral-bright)]/50">
             <div className="text-center">
-              <p className="text-lg mb-2">No data available</p>
-              <p className="text-sm">Create some labels and movements to see the analysis</p>
+              <p className="text-lg mb-2">No hay datos disponibles</p>
+              <p className="text-sm">Crea algunas etiquetas y movimientos para ver el análisis</p>
             </div>
           </div>
         )}
@@ -257,7 +257,7 @@ export default function LabelsSummary({ labelsData }) {
       {sortedData.length > 0 && (
         <div className="border-t border-[var(--color-neutral-dark-3)] pt-4">
           <h4 className="text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
-            Top Categories
+            Principales Categorías
           </h4>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             {sortedData.slice(0, 6).map((item, index) => (

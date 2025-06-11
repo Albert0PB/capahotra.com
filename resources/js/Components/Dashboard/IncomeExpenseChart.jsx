@@ -28,14 +28,14 @@ const IncomeExpenseChart = ({ dataPoints }) => {
         labels,
         datasets: [
             {
-                label: 'Income',
+                label: 'Ingresos',
                 data: incomeData,
                 backgroundColor: colors.income,
                 borderRadius: 4,
                 borderSkipped: false,
             },
             {
-                label: 'Expenses',
+                label: 'Gastos',
                 data: expensesData,
                 backgroundColor: colors.expenses,
                 borderRadius: 4,

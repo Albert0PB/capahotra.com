@@ -18,12 +18,12 @@ export default function BankStatementUpload({
     
     if (file) {
       if (file.type !== 'application/pdf') {
-        setError("Please select a PDF file");
+        setError("Por favor, selecciona un archivo PDF");
         return;
       }
       
       if (file.size > 10 * 1024 * 1024) { // 10MB
-        setError("File size must be less than 10MB");
+        setError("El archivo debe ser menor a 10MB");
         return;
       }
       
@@ -36,12 +36,12 @@ export default function BankStatementUpload({
     e.preventDefault();
     
     if (!selectedFile) {
-      setError("Please select a PDF file");
+      setError("Por favor, selecciona un archivo PDF");
       return;
     }
     
     if (!selectedBank) {
-      setError("Please select a bank");
+      setError("Por favor, selecciona un banco");
       return;
     }
 
@@ -67,26 +67,26 @@ export default function BankStatementUpload({
       if (response.data.success) {
         onMovementsExtracted(response.data.movements);
       } else {
-        setError(response.data.message || "Error processing PDF");
+        setError(response.data.message || "Error al procesar el PDF");
       }
     } catch (error) {
       console.error("Error uploading file:", error);
       
       if (error.code === 'ECONNABORTED') {
-        setError("Processing timeout. Please try again or use a smaller PDF.");
+        setError("Tiempo de procesamiento agotado. Por favor, inténtalo de nuevo o usa un PDF más pequeño.");
       } else if (error.response?.status === 422) {
         const errors = error.response.data.errors;
         if (errors?.pdf_file) {
           setError(errors.pdf_file[0]);
         } else {
-          setError("Invalid file. Please check that you've selected a valid PDF.");
+          setError("Archivo inválido. Por favor, verifica que has seleccionado un PDF válido.");
         }
       } else if (error.response?.status === 419) {
-        setError("Session expired. Please refresh the page and try again.");
+        setError("Sesión expirada. Por favor, actualiza la página e inténtalo de nuevo.");
       } else {
         setError(
           error.response?.data?.message || 
-          "Error processing the PDF. Please verify the file is a valid BBVA statement and try again."
+          "Error al procesar el PDF. Por favor, verifica que el archivo es un extracto válido de BBVA e inténtalo de nuevo."
         );
       }
     } finally {
@@ -110,7 +110,7 @@ export default function BankStatementUpload({
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-xl font-semibold text-[var(--color-neutral-bright)]">
-              Upload Bank Statement
+              Subir Extracto Bancario
             </h2>
             <button
               onClick={onClose}
@@ -123,7 +123,7 @@ export default function BankStatementUpload({
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-[var(--color-neutral-bright)] mb-2">
-                Bank *
+                Banco *
               </label>
               <select
                 value={selectedBank}
@@ -132,7 +132,7 @@ export default function BankStatementUpload({
                 required
                 disabled={isProcessing}
               >
-                <option value="">Select your bank</option>
+                <option value="">Selecciona tu banco</option>
                 {banks.map((bank) => (
                   <option key={bank.id} value={bank.id}>
                     {bank.name}
@@ -143,7 +143,7 @@ export default function BankStatementUpload({
 
             <div>
               <label className="block text-sm font-medium text-[var(--color-neutral-bright)] mb-2">
-                PDF Statement *
+                Extracto PDF *
               </label>
               <div className="relative">
                 <input
@@ -178,10 +178,10 @@ export default function BankStatementUpload({
                       <>
                         <FaUpload className="mx-auto h-8 w-8 text-[var(--color-neutral-bright)]/60 mb-2" />
                         <p className="text-sm text-[var(--color-neutral-bright)]">
-                          Click to upload PDF
+                          Haz clic para subir PDF
                         </p>
                         <p className="text-xs text-[var(--color-neutral-bright)]/60 mt-1">
-                          Max 10MB • BBVA statements only
+                          Máx 10MB • Solo extractos de BBVA
                         </p>
                       </>
                     )}
@@ -203,7 +203,7 @@ export default function BankStatementUpload({
                 className="cursor-pointer flex-1 px-4 py-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-neutral-dark)] transition-colors disabled:opacity-50"
                 disabled={isProcessing}
               >
-                Reset
+                Reiniciar
               </button>
               <button
                 type="submit"
@@ -213,10 +213,10 @@ export default function BankStatementUpload({
                 {isProcessing ? (
                   <>
                     <FaSpinner className="animate-spin" />
-                    Processing...
+                    Procesando...
                   </>
                 ) : (
-                  "Process PDF"
+                  "Procesar PDF"
                 )}
               </button>
             </div>
@@ -230,11 +230,11 @@ export default function BankStatementUpload({
                   <FaCheckCircle className="text-[var(--color-success)]" />
                   <span className="font-medium">Powered by Advanced Python Processing</span>
                 </div>
-                <p className="font-medium mb-1 text-[var(--color-warning)]">Tips:</p>
+                <p className="font-medium mb-1 text-[var(--color-warning)]">Consejos:</p>
                 <ul className="space-y-1">
-                  <li>• Download PDF directly from your bank app</li>
-                  <li>• Ensure PDF contains transaction details</li>
-                  <li>• Processing may take 10-30 seconds</li>
+                  <li>• Descarga el PDF directamente desde la app de tu banco</li>
+                  <li>• Asegúrate de que el PDF contenga detalles de transacciones</li>
+                  <li>• El procesamiento puede tomar 10-30 segundos</li>
                 </ul>
               </div>
             </div>

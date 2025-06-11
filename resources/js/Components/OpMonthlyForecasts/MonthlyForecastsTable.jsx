@@ -3,8 +3,8 @@ import { FaEdit, FaTrash, FaCheck, FaTimes, FaSearch, FaFilter, FaSort, FaSortUp
 import axios from "axios";
 
 const MONTHS = [
-  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  "Ene", "Feb", "Mar", "Abr", "May", "Jun",
+  "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"
 ];
 
 export default function MonthlyForecastsTable({ 
@@ -45,7 +45,7 @@ export default function MonthlyForecastsTable({
         item.month === forecast.month
       );
       
-      const labelName = userLabels.find(label => label.id === forecast.label_id)?.name || 'Unknown';
+      const labelName = userLabels.find(label => label.id === forecast.label_id)?.name || 'Desconocido';
       
       return {
         ...forecast,
@@ -175,7 +175,7 @@ export default function MonthlyForecastsTable({
       <div className="flex justify-center items-center p-8 bg-[var(--color-neutral-dark)] rounded-lg">
         <div className="flex items-center gap-3 text-[var(--color-neutral-bright)]">
           <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[var(--color-primary)]"></div>
-          Loading forecasts...
+          Cargando previsiones...
         </div>
       </div>
     );
@@ -190,7 +190,7 @@ export default function MonthlyForecastsTable({
           <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[var(--color-neutral-bright)]/60" />
           <input
             type="text"
-            placeholder="Search by category or notes..."
+            placeholder="Buscar por categoría o notas..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-10 pr-4 py-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent"
@@ -201,14 +201,14 @@ export default function MonthlyForecastsTable({
           <div className="flex-1">
             <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-2">
               <FaCalendarAlt className="text-[var(--color-primary)]" />
-              Filter by Year
+              Filtrar por Año
             </label>
             <select
               value={filterYear}
               onChange={(e) => setFilterYear(e.target.value)}
               className="cursor-pointer w-full p-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
             >
-              <option value="">All Years</option>
+              <option value="">Todos los Años</option>
               {availableYears.map(year => (
                 <option key={year} value={year}>{year}</option>
               ))}
@@ -218,14 +218,14 @@ export default function MonthlyForecastsTable({
           <div className="flex-1">
             <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-2">
               <FaFilter className="text-[var(--color-secondary)]" />
-              Filter by Month
+              Filtrar por Mes
             </label>
             <select
               value={filterMonth}
               onChange={(e) => setFilterMonth(e.target.value)}
               className="cursor-pointer w-full p-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark-3)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
             >
-              <option value="">All Months</option>
+              <option value="">Todos los Meses</option>
               {MONTHS.map((month, index) => (
                 <option key={index} value={index}>{month}</option>
               ))}
@@ -253,7 +253,7 @@ export default function MonthlyForecastsTable({
                 onClick={() => handleSort('label_name')}
               >
                 <div className="flex items-center gap-2">
-                  Category
+                  Categoría
                   {getSortIcon('label_name')}
                 </div>
               </th>
@@ -262,7 +262,7 @@ export default function MonthlyForecastsTable({
                 onClick={() => handleSort('year')}
               >
                 <div className="flex items-center justify-center gap-2">
-                  Year
+                  Año
                   {getSortIcon('year')}
                 </div>
               </th>
@@ -271,7 +271,7 @@ export default function MonthlyForecastsTable({
                 onClick={() => handleSort('month')}
               >
                 <div className="flex items-center justify-center gap-2">
-                  Month
+                  Mes
                   {getSortIcon('month')}
                 </div>
               </th>
@@ -280,7 +280,7 @@ export default function MonthlyForecastsTable({
                 onClick={() => handleSort('amount')}
               >
                 <div className="flex items-center justify-end gap-2">
-                  Forecasted
+                  Previsto
                   {getSortIcon('amount')}
                 </div>
               </th>
@@ -289,7 +289,7 @@ export default function MonthlyForecastsTable({
                 onClick={() => handleSort('executed_amount')}
               >
                 <div className="flex items-center justify-end gap-2">
-                  Executed
+                  Ejecutado
                   {getSortIcon('executed_amount')}
                 </div>
               </th>
@@ -299,15 +299,15 @@ export default function MonthlyForecastsTable({
               >
                 <div className="flex items-center justify-center gap-2">
                   <FaChartBar className="text-[var(--color-primary)]" />
-                  Progress
+                  Progreso
                   {getSortIcon('completion')}
                 </div>
               </th>
               <th className="hidden lg:table-cell px-3 py-3 text-left text-[var(--color-neutral-bright)] text-sm font-semibold">
-                Notes
+                Notas
               </th>
               <th className="px-3 py-3 text-center text-[var(--color-neutral-bright)] text-sm font-semibold">
-                Actions
+                Acciones
               </th>
             </tr>
           </thead>
@@ -407,7 +407,7 @@ export default function MonthlyForecastsTable({
                       value={editFormData.comment}
                       onChange={(e) => handleEditChange('comment', e.target.value)}
                       className="w-full p-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark)] rounded text-sm"
-                      placeholder="Notes..."
+                      placeholder="Notas..."
                     />
                   ) : (
                     <span className="text-[var(--color-neutral-bright)]/80 text-sm">
@@ -422,14 +422,14 @@ export default function MonthlyForecastsTable({
                         <button
                           onClick={handleEditConfirm}
                           className="cursor-pointer text-[var(--color-success)] hover:text-[var(--color-success)]/80 p-2 rounded hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
-                          title="Confirm"
+                          title="Confirmar"
                         >
                           <FaCheck size={14} />
                         </button>
                         <button
                           onClick={handleEditCancel}
                           className="cursor-pointer text-[var(--color-error)] hover:text-[var(--color-error)]/80 p-2 rounded hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
-                          title="Cancel"
+                          title="Cancelar"
                         >
                           <FaTimes size={14} />
                         </button>
@@ -439,14 +439,14 @@ export default function MonthlyForecastsTable({
                         <button
                           onClick={() => handleEditStart(forecast)}
                           className="cursor-pointer text-[var(--color-primary)] hover:text-[var(--color-secondary)] p-2 rounded hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
-                          title="Edit"
+                          title="Editar"
                         >
                           <FaEdit size={14} />
                         </button>
                         <button
                           onClick={() => onDelete(forecast)}
                           className="cursor-pointer text-[var(--color-error)] hover:text-[var(--color-error)]/80 p-2 rounded hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
-                          title="Delete"
+                          title="Eliminar"
                         >
                           <FaTrash size={14} />
                         </button>
@@ -465,7 +465,7 @@ export default function MonthlyForecastsTable({
         <div className="p-4 border-t border-[var(--color-neutral-dark-3)]">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <div className="text-sm text-[var(--color-neutral-bright)]/70">
-              Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, sortedData.length)} of {sortedData.length} forecasts
+              Mostrando {startIndex + 1} a {Math.min(startIndex + itemsPerPage, sortedData.length)} de {sortedData.length} previsiones
             </div>
 
             <div className="flex items-center gap-1">
@@ -474,7 +474,7 @@ export default function MonthlyForecastsTable({
                 disabled={currentPage === 1}
                 className="cursor-pointer px-3 py-1 text-sm bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
               >
-                First
+                Primera
               </button>
               
               <button
@@ -482,7 +482,7 @@ export default function MonthlyForecastsTable({
                 disabled={currentPage === 1}
                 className="cursor-pointer px-3 py-1 text-sm bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
              >
-               Prev
+               Anterior
              </button>
 
              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
@@ -517,7 +517,7 @@ export default function MonthlyForecastsTable({
                disabled={currentPage === totalPages}
                className="cursor-pointer px-3 py-1 text-sm bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
              >
-               Next
+               Siguiente
              </button>
              
              <button
@@ -525,7 +525,7 @@ export default function MonthlyForecastsTable({
                disabled={currentPage === totalPages}
                className="cursor-pointer px-3 py-1 text-sm bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-[var(--color-neutral-dark-2)] transition-colors duration-200"
              >
-               Last
+               Última
              </button>
            </div>
          </div>
@@ -536,8 +536,8 @@ export default function MonthlyForecastsTable({
      {sortedData.length === 0 && (
        <div className="p-8 text-center text-[var(--color-neutral-bright)]/70">
          {searchTerm || filterYear || filterMonth !== "" 
-           ? "No forecasts found matching the current filters" 
-           : "No forecasts found"}
+           ? "No se encontraron previsiones que coincidan con los filtros actuales" 
+           : "No se encontraron previsiones"}
        </div>
      )}
    </div>

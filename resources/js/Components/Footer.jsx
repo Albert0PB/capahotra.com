@@ -12,7 +12,7 @@ export default function Footer() {
                         <div className="flex items-center mb-4">
                             <img 
                                 src="/images/white-logo-00.png"
-                                alt="Capahotra logo"
+                                alt="Logo de Capahotra"
                                 className="w-8 h-8 mr-3"
                             />
                             <span className="text-[var(--color-neutral-bright)] text-xl font-semibold">
@@ -20,15 +20,15 @@ export default function Footer() {
                             </span>
                         </div>
                         <p className="text-[var(--color-neutral-bright)]/70 text-sm sm:text-base max-w-md">
-                            Your finances: the <em>feline</em> way. 
-                            Manage your money with the purr-fect balance of simplicity and power.
+                            Tus finanzas: a la manera <em>felina</em>. 
+                            Gestiona tu dinero con el equilibrio purr-fecto entre simplicidad y potencia.
                         </p>
                     </div>
 
                     {/* Quick Links */}
                     <div>
                         <h3 className="text-[var(--color-neutral-bright)] font-semibold mb-4">
-                            Quick Links
+                            Enlaces Rápidos
                         </h3>
                         <ul className="space-y-2">
                             <li>
@@ -36,7 +36,7 @@ export default function Footer() {
                                     href="/services"
                                     className="text-[var(--color-neutral-bright)]/70 hover:text-[var(--color-primary)] transition-colors duration-200 text-sm sm:text-base"
                                 >
-                                    Services
+                                    Servicios
                                 </Link>
                             </li>
                             <li>
@@ -44,7 +44,7 @@ export default function Footer() {
                                     href="/about-us"
                                     className="text-[var(--color-neutral-bright)]/70 hover:text-[var(--color-primary)] transition-colors duration-200 text-sm sm:text-base"
                                 >
-                                    About Us
+                                    Sobre Nosotros
                                 </Link>
                             </li>
                             <li>
@@ -52,7 +52,7 @@ export default function Footer() {
                                     href="https://github.com/iesgrancapitan-proyectos/202425daw-junio-nombreproyecto-Albert0PB/wiki"
                                     className="text-[var(--color-neutral-bright)]/70 hover:text-[var(--color-primary)] transition-colors duration-200 text-sm sm:text-base"
                                 >
-                                    Documentation
+                                    Documentación
                                 </a>
                             </li>
                         </ul>
@@ -61,7 +61,7 @@ export default function Footer() {
                     {/* Account */}
                     <div>
                         <h3 className="text-[var(--color-neutral-bright)] font-semibold mb-4">
-                            Account
+                            Cuenta
                         </h3>
                         <ul className="space-y-2">
                             <li>
@@ -69,7 +69,7 @@ export default function Footer() {
                                     href="/login"
                                     className="text-[var(--color-neutral-bright)]/70 hover:text-[var(--color-primary)] transition-colors duration-200 text-sm sm:text-base"
                                 >
-                                    Log In
+                                    Iniciar Sesión
                                 </Link>
                             </li>
                             <li>
@@ -77,7 +77,7 @@ export default function Footer() {
                                     href="/register"
                                     className="text-[var(--color-neutral-bright)]/70 hover:text-[var(--color-primary)] transition-colors duration-200 text-sm sm:text-base"
                                 >
-                                    Register
+                                    Registrarse
                                 </Link>
                             </li>
                         </ul>
@@ -87,7 +87,7 @@ export default function Footer() {
                 {/* Bottom Section */}
                 <div className="mt-8 pt-6 border-t border-[var(--color-neutral-dark-3)] flex flex-col sm:flex-row justify-between items-center">
                     <p className="text-[var(--color-neutral-bright)]/60 text-sm">
-                        © 2025 Capahotra. All rights reserved.
+                        © 2025 Capahotra. Todos los derechos reservados.
                     </p>
                 </div>
             </div>

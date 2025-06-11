@@ -65,8 +65,8 @@ export default function OpMovements({
   };
 
   const handleDelete = async (movement) => {
-    const labelName = labels.find(l => l.id === movement.label_id)?.name || 'Unknown';
-    const confirmMessage = `Are you sure you want to delete movement #${movement.id}?\n\nDetails:\n• Amount: € ${Math.abs(safeNumber(movement.amount)).toFixed(2)}\n• Date: ${movement.transaction_date}\n• Label: ${labelName}\n\nThis action cannot be undone.`;
+    const labelName = labels.find(l => l.id === movement.label_id)?.name || 'Desconocido';
+    const confirmMessage = `¿Estás seguro de que quieres eliminar el movimiento #${movement.id}?\n\nDetalles:\n• Cantidad: € ${Math.abs(safeNumber(movement.amount)).toFixed(2)}\n• Fecha: ${movement.transaction_date}\n• Etiqueta: ${labelName}\n\nEsta acción no se puede deshacer.`;
     
     if (!window.confirm(confirmMessage)) {
       return;
@@ -77,7 +77,7 @@ export default function OpMovements({
       fetchMovements();
     } catch (error) {
       console.error("Error deleting movement", error);
-      alert("Error deleting movement. Please try again.");
+      alert("Error al eliminar el movimiento. Por favor, inténtalo de nuevo.");
     }
   };
 
@@ -137,10 +137,10 @@ export default function OpMovements({
         <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-0 w-full">
           <div className="flex flex-col">
             <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-[3rem] font-extrabold text-[var(--color-neutral-bright)] mb-2">
-              Movements Management
+              Gestión de Movimientos
             </h1>
             <p className="text-base sm:text-lg text-[var(--color-neutral-bright)]/70">
-              Track, analyze and manage all your financial movements
+              Rastrea, analiza y gestiona todos tus movimientos financieros
             </p>
           </div>
           <div className="flex items-start">
@@ -153,7 +153,7 @@ export default function OpMovements({
           <div className="bg-[var(--color-neutral-dark-2)] p-4 lg:p-6 rounded-lg shadow-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-[var(--color-neutral-bright)]/70">Current Balance</p>
+                <p className="text-sm text-[var(--color-neutral-bright)]/70">Saldo Actual</p>
                 <p className={`text-2xl lg:text-3xl font-bold font-[var(--font-numeric)] ${
                   currentBalance >= 0 ? 'text-[var(--color-success)]' : 'text-[var(--color-error)]'
                 }`}>
@@ -169,12 +169,12 @@ export default function OpMovements({
           <div className="bg-[var(--color-neutral-dark-2)] p-4 lg:p-6 rounded-lg shadow-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-[var(--color-neutral-bright)]/70">Total Movements</p>
+                <p className="text-sm text-[var(--color-neutral-bright)]/70">Total de Movimientos</p>
                 <p className="text-2xl lg:text-3xl font-bold text-[var(--color-neutral-bright)] font-[var(--font-numeric)]">
                   {totalMovements}
                 </p>
                 <p className="text-xs text-[var(--color-neutral-bright)]/50">
-                  recorded transactions
+                  transacciones registradas
                 </p>
               </div>
               <FaExchangeAlt className="text-[var(--color-primary)] text-2xl lg:text-3xl" />
@@ -184,12 +184,12 @@ export default function OpMovements({
           <div className="bg-[var(--color-neutral-dark-2)] p-4 lg:p-6 rounded-lg shadow-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-[var(--color-neutral-bright)]/70">This Month Income</p>
+                <p className="text-sm text-[var(--color-neutral-bright)]/70">Ingresos Este Mes</p>
                 <p className="text-2xl lg:text-3xl font-bold text-[var(--color-success)] font-[var(--font-numeric)]">
                   €{thisMonthIncome.toFixed(2)}
                 </p>
                 <p className="text-xs text-[var(--color-neutral-bright)]/50">
-                  {thisMonthMovements.filter(m => m.movement_type_id === 1).length} transactions
+                  {thisMonthMovements.filter(m => m.movement_type_id === 1).length} transacciones
                 </p>
               </div>
               <FaChartLine className="text-[var(--color-success)] text-2xl lg:text-3xl" />
@@ -199,14 +199,14 @@ export default function OpMovements({
           <div className="bg-[var(--color-neutral-dark-2)] p-4 lg:p-6 rounded-lg shadow-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-[var(--color-neutral-bright)]/70">This Month Net</p>
+                <p className="text-sm text-[var(--color-neutral-bright)]/70">Neto Este Mes</p>
                 <p className={`text-2xl lg:text-3xl font-bold font-[var(--font-numeric)] ${
                   thisMonthNet >= 0 ? 'text-[var(--color-success)]' : 'text-[var(--color-error)]'
                 }`}>
                   €{thisMonthNet.toFixed(2)}
                 </p>
                 <p className="text-xs text-[var(--color-neutral-bright)]/50">
-                  income - expenses
+                  ingresos - gastos
                 </p>
               </div>
               <FaEuroSign className={`text-2xl lg:text-3xl ${
@@ -234,10 +234,10 @@ export default function OpMovements({
                   <FaCalendarCheck className="text-[var(--color-primary)] text-xl" />
                   <div>
                     <h3 className="text-lg font-semibold text-[var(--color-neutral-bright)]">
-                      Your Movements ({movements.length})
+                      Tus Movimientos ({movements.length})
                     </h3>
                     <p className="text-sm text-[var(--color-neutral-bright)]/70">
-                      Track and manage all your financial transactions
+                      Rastrea y gestiona todas tus transacciones financieras
                     </p>
                   </div>
                 </div>
@@ -272,21 +272,21 @@ export default function OpMovements({
           <div className="bg-[var(--color-neutral-dark-2)] p-8 rounded-lg shadow-lg text-center">
             <FaExchangeAlt className="text-[var(--color-neutral-bright)]/30 text-6xl mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-[var(--color-neutral-bright)] mb-2">
-              No movements yet
+              Aún no hay movimientos
             </h3>
             <p className="text-[var(--color-neutral-bright)]/70 mb-6">
-              Start tracking your finances by uploading a bank statement or creating your first movement manually
+              Comienza a rastrear tus finanzas subiendo un extracto bancario o creando tu primer movimiento manualmente
             </p>
             <div className="bg-[var(--color-neutral-dark-3)] p-4 rounded-lg">
               <h4 className="font-medium text-[var(--color-neutral-bright)] mb-2 flex items-center justify-center gap-2">
                 <FaChartLine className="text-[var(--color-primary)]" />
-                Quick Start Tips
+                Consejos de Inicio Rápido
               </h4>
               <ul className="text-sm text-[var(--color-neutral-bright)]/70 text-left space-y-1">
-                <li>• Upload bank PDF statements for automatic processing</li>
-                <li>• Use the form on the right to add individual movements</li>
-                <li>• Categorize movements with labels for better tracking</li>
-                <li>• Monitor both income and expenses regularly</li>
+                <li>• Sube extractos bancarios PDF para procesamiento automático</li>
+                <li>• Usa el formulario de la derecha para añadir movimientos individuales</li>
+                <li>• Categoriza movimientos con etiquetas para mejor seguimiento</li>
+                <li>• Monitorea tanto ingresos como gastos regularmente</li>
               </ul>
             </div>
           </div>
@@ -297,7 +297,7 @@ export default function OpMovements({
           <div className="bg-[var(--color-neutral-dark-2)] p-8 rounded-lg shadow-lg text-center">
             <div className="flex items-center justify-center gap-3">
               <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[var(--color-primary)]"></div>
-              <span className="text-[var(--color-neutral-bright)]">Loading movements...</span>
+              <span className="text-[var(--color-neutral-bright)]">Cargando movimientos...</span>
             </div>
           </div>
         )}

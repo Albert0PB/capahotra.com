@@ -11,22 +11,22 @@ export default function UserSettings({ auth, errors }) {
   const sections = [
     {
       id: 'profile',
-      title: 'Profile Information',
-      description: 'Update your account profile information and email address',
+      title: 'Información del Perfil',
+      description: 'Actualiza la información del perfil de tu cuenta y dirección de correo electrónico',
       icon: FaUser,
       color: 'text-[var(--color-primary)]'
     },
     {
       id: 'password',
-      title: 'Update Password',
-      description: 'Ensure your account is using a long, random password to stay secure',
+      title: 'Actualizar Contraseña',
+      description: 'Asegúrate de que tu cuenta esté usando una contraseña larga y aleatoria para mantenerte seguro',
       icon: FaLock,
       color: 'text-[var(--color-warning)]'
     },
     {
       id: 'delete',
-      title: 'Delete Account',
-      description: 'Permanently delete your account and all associated data',
+      title: 'Eliminar Cuenta',
+      description: 'Eliminar permanentemente tu cuenta y todos los datos asociados',
       icon: FaTrash,
       color: 'text-[var(--color-error)]'
     }
@@ -52,10 +52,10 @@ export default function UserSettings({ auth, errors }) {
         <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-0 w-full">
           <div className="flex flex-col">
             <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-[3rem] font-extrabold text-[var(--color-neutral-bright)]">
-              Account Settings
+              Configuración de la Cuenta
             </h1>
             <p className="text-sm sm:text-base text-[var(--color-neutral-bright)]/70 mt-2">
-              Manage your account settings and preferences
+              Gestiona la configuración y preferencias de tu cuenta
             </p>
           </div>
           <div className="flex items-start">
@@ -87,7 +87,7 @@ export default function UserSettings({ auth, errors }) {
           <div className="lg:col-span-1">
             <div className="bg-[var(--color-neutral-dark-2)] rounded-lg p-4">
               <h3 className="text-sm font-medium text-[var(--color-neutral-bright)]/70 mb-4 uppercase tracking-wide">
-                Settings
+                Configuración
               </h3>
               <nav className="space-y-2">
                 {sections.map((section) => {

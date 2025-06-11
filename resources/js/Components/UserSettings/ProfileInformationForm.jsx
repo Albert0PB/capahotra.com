@@ -63,10 +63,10 @@ export default function ProfileInformationForm({ user, errors }) {
           <FaUser className="text-[var(--color-primary)] text-xl" />
           <div>
             <h2 className="text-xl font-semibold text-[var(--color-neutral-bright)]">
-              Profile Information
+              Información del Perfil
             </h2>
             <p className="text-sm text-[var(--color-neutral-bright)]/70 mt-1">
-              Update your account's profile information and email address.
+              Actualiza la información del perfil de tu cuenta y dirección de correo electrónico.
             </p>
           </div>
         </div>
@@ -77,7 +77,7 @@ export default function ProfileInformationForm({ user, errors }) {
           <div className="mb-6 p-4 bg-[var(--color-success)]/20 border border-[var(--color-success)]/30 rounded-lg flex items-center gap-3">
             <FaCheck className="text-[var(--color-success)]" />
             <span className="text-[var(--color-success)] text-sm font-medium">
-              Profile information updated successfully!
+              ¡Información del perfil actualizada correctamente!
             </span>
           </div>
         )}
@@ -87,7 +87,7 @@ export default function ProfileInformationForm({ user, errors }) {
             <div className="flex items-center gap-3 mb-2">
               <FaExclamationTriangle className="text-[var(--color-error)]" />
               <span className="text-[var(--color-error)] text-sm font-medium">
-                Please correct the following errors:
+                Por favor, corrige los siguientes errores:
               </span>
             </div>
             <ul className="text-sm text-[var(--color-error)] space-y-1 ml-6">
@@ -102,7 +102,7 @@ export default function ProfileInformationForm({ user, errors }) {
           {/* Name Field */}
           <div>
             <label className="block text-sm font-medium text-[var(--color-neutral-bright)] mb-2">
-              Full Name *
+              Nombre Completo *
             </label>
             <div className="relative">
               <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[var(--color-neutral-bright)]/60" />
@@ -115,7 +115,7 @@ export default function ProfileInformationForm({ user, errors }) {
                     ? 'border-[var(--color-error)]' 
                     : 'border-[var(--color-neutral-dark-3)]'
                 }`}
-                placeholder="Enter your full name"
+                placeholder="Introduce tu nombre completo"
                 required
                 disabled={processing}
               />
@@ -130,7 +130,7 @@ export default function ProfileInformationForm({ user, errors }) {
           {/* Email Field */}
           <div>
             <label className="block text-sm font-medium text-[var(--color-neutral-bright)] mb-2">
-              Email Address *
+              Dirección de Correo Electrónico *
             </label>
             <div className="relative">
               <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[var(--color-neutral-bright)]/60" />
@@ -143,7 +143,7 @@ export default function ProfileInformationForm({ user, errors }) {
                     ? 'border-[var(--color-error)]' 
                     : 'border-[var(--color-neutral-dark-3)]'
                 }`}
-                placeholder="Enter your email address"
+                placeholder="Introduce tu dirección de correo electrónico"
                 required
                 disabled={processing}
               />
@@ -162,10 +162,10 @@ export default function ProfileInformationForm({ user, errors }) {
                 <FaExclamationTriangle className="text-[var(--color-warning)]" />
                 <div className="flex-1">
                   <p className="text-[var(--color-warning)] text-sm font-medium">
-                    Your email address is unverified.
+                    Tu dirección de correo electrónico no está verificada.
                   </p>
                   <p className="text-[var(--color-warning)]/80 text-xs mt-1">
-                    Please check your email for a verification link.
+                    Por favor, revisa tu correo electrónico para un enlace de verificación.
                   </p>
                 </div>
               </div>
@@ -182,12 +182,12 @@ export default function ProfileInformationForm({ user, errors }) {
               {processing ? (
                 <>
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                  Updating...
+                  Actualizando...
                 </>
               ) : (
                 <>
                   <FaSave />
-                  Update Profile
+                  Actualizar Perfil
                 </>
               )}
             </button>
@@ -197,13 +197,13 @@ export default function ProfileInformationForm({ user, errors }) {
         {/* Account Info */}
         <div className="mt-8 pt-6 border-t border-[var(--color-neutral-dark-3)]">
           <h3 className="text-sm font-medium text-[var(--color-neutral-bright)] mb-4">
-            Account Information
+            Información de la Cuenta
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
             <div>
-              <span className="text-[var(--color-neutral-bright)]/70">Account Created:</span>
+              <span className="text-[var(--color-neutral-bright)]/70">Cuenta Creada:</span>
               <p className="text-[var(--color-neutral-bright)] font-medium">
-                {new Date(user.created_at).toLocaleDateString('en-US', {
+                {new Date(user.created_at).toLocaleDateString('es-ES', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric'
@@ -211,13 +211,13 @@ export default function ProfileInformationForm({ user, errors }) {
               </p>
             </div>
             <div>
-              <span className="text-[var(--color-neutral-bright)]/70">Email Status:</span>
+              <span className="text-[var(--color-neutral-bright)]/70">Estado del Correo:</span>
               <p className={`font-medium ${
                 user.email_verified_at 
                   ? 'text-[var(--color-success)]' 
                   : 'text-[var(--color-warning)]'
               }`}>
-                {user.email_verified_at ? 'Verified' : 'Unverified'}
+                {user.email_verified_at ? 'Verificado' : 'Sin Verificar'}
               </p>
             </div>
           </div>

@@ -35,7 +35,7 @@ export default function LabelsForm({ label, onSuccess, onCancel }) {
         setErrors(error.response.data.errors);
       } else {
         console.error("Error while saving the label", error);
-        setErrors({ general: ["An unexpected error occurred. Please try again."] });
+        setErrors({ general: ["Ocurrió un error inesperado. Por favor, inténtalo de nuevo."] });
       }
     } finally {
       setLoading(false);
@@ -57,12 +57,12 @@ export default function LabelsForm({ label, onSuccess, onCancel }) {
           )}
           <div>
             <h2 className="text-lg sm:text-xl font-semibold text-[var(--color-neutral-bright)]">
-              {isEditing ? "Edit Label" : "Create New Label"}
+              {isEditing ? "Editar Etiqueta" : "Crear Nueva Etiqueta"}
             </h2>
             <p className="text-sm text-[var(--color-neutral-bright)]/70 mt-1">
               {isEditing 
-                ? "Update the label information" 
-                : "Add a new category to organize your transactions"
+                ? "Actualiza la información de la etiqueta" 
+                : "Añade una nueva categoría para organizar tus transacciones"
               }
             </p>
           </div>
@@ -78,7 +78,7 @@ export default function LabelsForm({ label, onSuccess, onCancel }) {
             <div className="flex items-center gap-2 mb-1">
               <FaExclamationTriangle className="text-[var(--color-error)] flex-shrink-0" />
               <span className="text-[var(--color-error)] text-sm font-medium">
-                Please correct the following errors:
+                Por favor, corrige los siguientes errores:
               </span>
             </div>
             <ul className="text-sm text-[var(--color-error)] ml-6">
@@ -98,7 +98,7 @@ export default function LabelsForm({ label, onSuccess, onCancel }) {
           <div>
             <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
               <FaTags className="text-[var(--color-primary)]" />
-              Label Name *
+              Nombre de la Etiqueta *
             </label>
             <div className="relative">
               <input
@@ -110,7 +110,7 @@ export default function LabelsForm({ label, onSuccess, onCancel }) {
                     ? 'border-[var(--color-error)]' 
                     : 'border-[var(--color-neutral-dark-3)]'
                 }`}
-                placeholder="Enter a descriptive name..."
+                placeholder="Introduce un nombre descriptivo..."
                 required
                 disabled={loading}
                 maxLength={50}
@@ -123,7 +123,7 @@ export default function LabelsForm({ label, onSuccess, onCancel }) {
             {/* Helper Text */}
             <div className="mt-2">
               <p className="text-xs text-[var(--color-neutral-bright)]/60">
-                Choose a clear, descriptive name for easy identification (e.g., "Groceries", "Entertainment", "Utilities")
+                Elige un nombre claro y descriptivo para fácil identificación (ej. "Alimentación", "Entretenimiento", "Servicios")
               </p>
             </div>
           </div>
@@ -138,7 +138,7 @@ export default function LabelsForm({ label, onSuccess, onCancel }) {
                 className="cursor-pointer flex items-center justify-center gap-2 px-4 py-2 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-neutral-dark)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
               >
                 <FaTimes size={14} />
-                Cancel
+                Cancelar
               </button>
             )}
             <button
@@ -149,12 +149,12 @@ export default function LabelsForm({ label, onSuccess, onCancel }) {
               {loading ? (
                 <>
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                  {isEditing ? "Updating..." : "Creating..."}
+                  {isEditing ? "Actualizando..." : "Creando..."}
                 </>
               ) : (
                 <>
                   <FaSave size={14} />
-                  {isEditing ? "Update Label" : "Create Label"}
+                  {isEditing ? "Actualizar Etiqueta" : "Crear Etiqueta"}
                 </>
               )}
             </button>
@@ -165,13 +165,13 @@ export default function LabelsForm({ label, onSuccess, onCancel }) {
         <div className="mt-6 p-4 bg-[var(--color-neutral-dark-3)] rounded-lg">
           <h4 className="text-sm font-medium text-[var(--color-neutral-bright)] mb-2 flex items-center gap-2">
             <FaTags className="text-[var(--color-primary)]" />
-            Label Tips
+            Consejos para Etiquetas
           </h4>
           <ul className="text-xs text-[var(--color-neutral-bright)]/70 space-y-1">
-            <li>• Use specific names like "Restaurant Meals" instead of just "Food"</li>
-            <li>• Keep names consistent for better tracking</li>
-            <li>• Avoid special characters that might cause issues</li>
-            <li>• Consider creating both income and expense categories</li>
+            <li>• Usa nombres específicos como "Comidas en Restaurantes" en lugar de solo "Comida"</li>
+            <li>• Mantén los nombres consistentes para un mejor seguimiento</li>
+            <li>• Evita caracteres especiales que puedan causar problemas</li>
+            <li>• Considera crear categorías tanto para ingresos como para gastos</li>
           </ul>
         </div>
       </div>
