@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 
 use App\Models\Movement;
 use App\Models\Label;
@@ -17,6 +18,7 @@ use App\Http\Controllers\LabelController;
 use App\Http\Controllers\MovementController;
 use App\Http\Controllers\MonthlyForecastController;
 use App\Http\Controllers\BankStatementController;
+use App\Actions\Forfity\DeleteUser;
 
 if( !defined('INCOME_ID') )
 {
@@ -216,6 +218,33 @@ Route::middleware(['auth',])->get('/dashboard', function () {
         'financialNews' => getFinancialNews(3),
     ]);
 });
+
+Route::middleware('auth')->get('/settings', function () {
+    return Inertia::render('UserSettings', [
+        'auth' => [
+            'user' => Auth::user()
+        ]
+    ]);
+})->name('settings');
+
+Route::middleware('auth')->delete('/user', function (Request $request) {
+    $deleteUser = new DeleteUser();
+    
+    try {
+        $deleteUser->delete($request->user(), $request->all());
+        
+        // Cerrar sesión después de eliminar
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        
+        return response()->json(['message' => 'Account deleted successfully'], 200);
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        return response()->json(['errors' => $e->errors()], 422);
+    } catch (\Exception $e) {
+        return response()->json(['error' => 'An error occurred while deleting your account'], 500);
+    }
+})->name('user.destroy');
 
 Route::middleware('auth')->prefix('/operations')->group(function () {
     

@@ -158,56 +158,6 @@ const NavSidebar = () => {
               </div>
             )}
           </div>
-
-          <div>
-            <button
-              onClick={() => setToolsOpen(!toolsOpen)}
-              className="w-full flex items-center justify-between gap-3 p-3 rounded-lg text-[var(--color-neutral-bright)] hover:bg-[var(--color-neutral-dark-2)] hover:text-[var(--color-primary)] transition-all duration-200 group"
-            >
-              <div className="flex items-center gap-3">
-                <FaCalculator className="text-lg group-hover:scale-110 transition-transform duration-200" />
-                <span className="font-medium">Financial Tools</span>
-              </div>
-              {toolsOpen ? (
-                <FaChevronDown className="text-sm transition-transform duration-200" />
-              ) : (
-                <FaChevronRight className="text-sm transition-transform duration-200" />
-              )}
-            </button>
-            
-            {toolsOpen && (
-              <div className="mt-2 ml-6 space-y-1">
-                <Link
-                  href="/financial-panel"
-                  onClick={closeSidebar}
-                  className="block p-2 pl-4 rounded text-[var(--color-neutral-bright)]/80 hover:text-[var(--color-primary)] hover:bg-[var(--color-neutral-dark-2)] transition-all duration-200 text-sm border-l-2 border-[var(--color-neutral-dark-3)] hover:border-[var(--color-primary)]"
-                >
-                  Financial Panel
-                </Link>
-                <Link
-                  href="/salary-calculator"
-                  onClick={closeSidebar}
-                  className="block p-2 pl-4 rounded text-[var(--color-neutral-bright)]/80 hover:text-[var(--color-primary)] hover:bg-[var(--color-neutral-dark-2)] transition-all duration-200 text-sm border-l-2 border-[var(--color-neutral-dark-3)] hover:border-[var(--color-primary)]"
-                >
-                  Salary Calculator
-                </Link>
-                <Link
-                  href="/investments-visualizer"
-                  onClick={closeSidebar}
-                  className="block p-2 pl-4 rounded text-[var(--color-neutral-bright)]/80 hover:text-[var(--color-primary)] hover:bg-[var(--color-neutral-dark-2)] transition-all duration-200 text-sm border-l-2 border-[var(--color-neutral-dark-3)] hover:border-[var(--color-primary)]"
-                >
-                  Investments Visualizer
-                </Link>
-                <Link
-                  href="/savings-planner"
-                  onClick={closeSidebar}
-                  className="block p-2 pl-4 rounded text-[var(--color-neutral-bright)]/80 hover:text-[var(--color-primary)] hover:bg-[var(--color-neutral-dark-2)] transition-all duration-200 text-sm border-l-2 border-[var(--color-neutral-dark-3)] hover:border-[var(--color-primary)]"
-                >
-                  Savings Planner
-                </Link>
-              </div>
-            )}
-          </div>
         </nav>
 
         <div className="p-4 border-t border-[var(--color-neutral-dark-3)]">
