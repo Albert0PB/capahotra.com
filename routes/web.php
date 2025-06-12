@@ -203,12 +203,18 @@ Route::get('/about-us', function() {
     return Inertia::render("AboutUs");
 });
 
-Route::middleware(['auth',])->get('/dashboard', function () {
+Route::middleware(['auth'])->get('/dashboard', function () {
     $userId = Auth::id();
 
-    $balance = Movement::where('user_id', $userId)
-        ->latest('transaction_date')
-        ->value('balance');
+    $totalIncome = Movement::where('user_id', $userId)
+        ->where('movement_type_id', 1)
+        ->sum('amount');
+    
+    $totalExpenses = Movement::where('user_id', $userId)
+        ->where('movement_type_id', 2)
+        ->sum('amount');
+    
+    $calculatedBalance = $totalIncome - $totalExpenses;
 
     $recentMovements = Movement::where('user_id', $userId)
         ->orderBy('transaction_date', 'desc')
@@ -217,7 +223,7 @@ Route::middleware(['auth',])->get('/dashboard', function () {
 
     $data = retrieveLastFourMonthsData($userId);
     $currentMonthData = $data['currentMonthData'];
-    $currentMonthData['Balance'] = $balance;
+    $currentMonthData['Balance'] = number_format($calculatedBalance, 2, '.', '');
 
     return Inertia::render('Dashboard', [
         'lastFourMonthsData' => $data['fullData'],
@@ -256,74 +262,77 @@ Route::middleware('auth')->delete('/user', function (Request $request) {
 
 Route::middleware('auth')->prefix('/operations')->group(function () {
     
-        Route::get("/", function () {
-        try {
-            $user = Auth::user();
+Route::get("/", function () {
+    try {
+        $user = Auth::user();
 
-            $currentBalance = Movement::where('user_id', $user->id)
-                ->latest('transaction_date')
-                ->value('balance') ?? 0;
+        // Balance bancario actualizado (solo movimientos con balance)
+        $currentBalance = Movement::where('user_id', $user->id)
+            ->whereNotNull('balance')
+            ->whereNotNull('bank_id')
+            ->latest('transaction_date')
+            ->value('balance') ?? 0;
 
-            $totalMovements = Movement::where('user_id', $user->id)->count();
-            $totalLabels = Label::where('user_id', $user->id)->count();
-            $totalForecasts = MonthlyForecast::where('user_id', $user->id)->count();
+        $totalMovements = Movement::where('user_id', $user->id)->count();
+        $totalLabels = Label::where('user_id', $user->id)->count();
+        $totalForecasts = MonthlyForecast::where('user_id', $user->id)->count();
 
-            $currentMonth = now()->month;
-            $currentYear = now()->year;
+        $currentMonth = now()->month;
+        $currentYear = now()->year;
 
-            $thisMonthIncome = Movement::where('user_id', $user->id)
-                ->where('movement_type_id', 1)
-                ->whereMonth('transaction_date', $currentMonth)
-                ->whereYear('transaction_date', $currentYear)
-                ->sum('amount');
+        $thisMonthIncome = Movement::where('user_id', $user->id)
+            ->where('movement_type_id', 1)
+            ->whereMonth('transaction_date', $currentMonth)
+            ->whereYear('transaction_date', $currentYear)
+            ->sum('amount');
 
-            $thisMonthExpenses = Movement::where('user_id', $user->id)
-                ->where('movement_type_id', 2)
-                ->whereMonth('transaction_date', $currentMonth)
-                ->whereYear('transaction_date', $currentYear)
-                ->sum('amount');
+        $thisMonthExpenses = Movement::where('user_id', $user->id)
+            ->where('movement_type_id', 2)
+            ->whereMonth('transaction_date', $currentMonth)
+            ->whereYear('transaction_date', $currentYear)
+            ->sum('amount');
 
-            $recentMovements = Movement::where('user_id', $user->id)
-                ->with('label')
-                ->orderBy('transaction_date', 'desc')
-                ->limit(5)
-                ->get();
+        $recentMovements = Movement::where('user_id', $user->id)
+            ->with('label')
+            ->orderBy('transaction_date', 'desc')
+            ->limit(5)
+            ->get();
 
-            $upcomingForecasts = MonthlyForecast::where('user_id', $user->id)
-                ->where('month', $currentMonth - 1) 
-                ->where('year', $currentYear)
-                ->with('label')
-                ->get();
+        $upcomingForecasts = MonthlyForecast::where('user_id', $user->id)
+            ->where('month', $currentMonth - 1) 
+            ->where('year', $currentYear)
+            ->with('label')
+            ->get();
 
-            $userLabels = Label::where('user_id', $user->id)
-                ->withCount('movements')
-                ->orderBy('movements_count', 'desc')
-                ->get();
+        $userLabels = Label::where('user_id', $user->id)
+            ->withCount('movements')
+            ->orderBy('movements_count', 'desc')
+            ->get();
 
-            return Inertia::render('Operations/OperativePanel', [
-                'summaryData' => [
-                    'currentBalance' => $currentBalance,
-                    'totalMovements' => $totalMovements,
-                    'totalLabels' => $totalLabels,
-                    'totalForecasts' => $totalForecasts,
-                    'thisMonthIncome' => abs($thisMonthIncome),
-                    'thisMonthExpenses' => abs($thisMonthExpenses),
-                ],
-                'recentMovements' => $recentMovements,
-                'upcomingForecasts' => $upcomingForecasts,
-                'userLabels' => $userLabels,
-            ]);
-        } catch (\Exception $e) {
-            \Log::error('Error in operations hub route: ' . $e->getMessage());
-            
-            return Inertia::render('Operations/OperativePanel', [
-                'summaryData' => [],
-                'recentMovements' => [],
-                'upcomingForecasts' => [],
-                'userLabels' => [],
-            ]);
-        }
-    });
+        return Inertia::render('Operations/OperativePanel', [
+            'summaryData' => [
+                'currentBalance' => number_format($currentBalance, 2, '.', ''),
+                'totalMovements' => $totalMovements,
+                'totalLabels' => $totalLabels,
+                'totalForecasts' => $totalForecasts,
+                'thisMonthIncome' => abs($thisMonthIncome),
+                'thisMonthExpenses' => abs($thisMonthExpenses),
+            ],
+            'recentMovements' => $recentMovements,
+            'upcomingForecasts' => $upcomingForecasts,
+            'userLabels' => $userLabels,
+        ]);
+    } catch (\Exception $e) {
+        \Log::error('Error in operations hub route: ' . $e->getMessage());
+        
+        return Inertia::render('Operations/OperativePanel', [
+            'summaryData' => [],
+            'recentMovements' => [],
+            'upcomingForecasts' => [],
+            'userLabels' => [],
+        ]);
+    }
+});
 
     Route::get("labels", function () {
         $user = Auth::user();

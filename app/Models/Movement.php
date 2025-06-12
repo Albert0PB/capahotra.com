@@ -25,6 +25,13 @@ class Movement extends Model
         'balance',
     ];
 
+    protected $casts = [
+        'transaction_date' => 'date',
+        'value_date' => 'date',
+        'amount' => 'decimal:2',
+        'balance' => 'decimal:2',
+    ];
+
     public function label()
     {
         return $this->belongsTo(Label::class);
@@ -38,5 +45,21 @@ class Movement extends Model
     public function movementType()
     {
         return $this->belongsTo(MovementType::class);
+    }
+
+    /**
+     * Get the bank name or return a default for cash operations
+     */
+    public function getBankNameAttribute()
+    {
+        return $this->bank ? $this->bank->name : 'Efectivo';
+    }
+
+    /**
+     * Check if this is a cash movement (no bank associated)
+     */
+    public function getIsCashMovementAttribute()
+    {
+        return is_null($this->bank_id);
     }
 }

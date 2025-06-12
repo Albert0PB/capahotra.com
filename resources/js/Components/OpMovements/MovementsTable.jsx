@@ -1,11 +1,10 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { FaEdit, FaTrash, FaCheck, FaTimes, FaSearch, FaFilter, FaSort, FaSortUp, FaSortDown, FaCalendarAlt, FaTags, FaEye } from "react-icons/fa";
+import { FaEdit, FaTrash, FaCheck, FaTimes, FaSearch, FaFilter, FaSort, FaSortUp, FaSortDown, FaCalendarAlt, FaTags, FaEye, FaMoneyBillWave, FaUniversity } from "react-icons/fa";
 import axios from "axios";
 
 const MOVEMENT_TYPES = {
   1: { name: 'Ingreso', color: 'text-[var(--color-success)]', bgColor: 'bg-[var(--color-success)]/20', badge: 'IN' },
   2: { name: 'Gasto', color: 'text-[var(--color-error)]', bgColor: 'bg-[var(--color-error)]/20', badge: 'OUT' },
-  3: { name: 'Corrección', color: 'text-[var(--color-warning)]', bgColor: 'bg-[var(--color-warning)]/20', badge: 'COR' },
 };
 
 export default function MovementsTable({ 
@@ -44,7 +43,8 @@ export default function MovementsTable({
         amount: safeNumber(movement.amount),
         balance: safeNumber(movement.balance),
         label_name: label?.name || 'Desconocido',
-        bank_name: bank?.name || 'Desconocido',
+        bank_name: bank?.name || 'Efectivo',
+        is_cash_movement: !movement.bank_id,
         type_info: MOVEMENT_TYPES[movement.movement_type_id] || { name: 'Desconocido', color: 'text-gray-500', bgColor: 'bg-gray-500/20', badge: '?' }
       };
     });
@@ -135,11 +135,11 @@ export default function MovementsTable({
     setEditFormData({
       movement_type_id: movement.movement_type_id,
       label_id: movement.label_id,
-      bank_id: movement.bank_id,
+      bank_id: movement.bank_id || "",
       transaction_date: movement.transaction_date,
       value_date: movement.value_date,
       amount: Math.abs(movement.amount),
-      balance: movement.balance,
+      balance: movement.balance || "",
       comment: movement.comment || "",
     });
   };
@@ -151,7 +151,13 @@ export default function MovementsTable({
 
   const handleEditConfirm = async () => {
     try {
-      await axios.put(`/api/movements/${editingId}`, editFormData);
+      const submitData = {
+        ...editFormData,
+        bank_id: editFormData.bank_id === "" ? null : editFormData.bank_id,
+        balance: editFormData.balance === "" ? null : editFormData.balance
+      };
+      
+      await axios.put(`/api/movements/${editingId}`, submitData);
       setEditingId(null);
       setEditFormData({});
       onSuccess?.();
@@ -165,9 +171,17 @@ export default function MovementsTable({
     setEditFormData(prev => ({
       ...prev,
       [field]: ['movement_type_id', 'label_id', 'bank_id'].includes(field)
-        ? parseInt(value) || ""
+        ? (value === "" ? "" : parseInt(value) || "")
         : value
     }));
+
+    // Clear balance when bank is changed to cash (empty)
+    if (field === 'bank_id' && value === "") {
+      setEditFormData(prev => ({
+        ...prev,
+        balance: ""
+      }));
+    }
   };
 
   const clearFilters = () => {
@@ -210,16 +224,30 @@ export default function MovementsTable({
           <div className="space-y-2">
             <div>
               <p className="text-sm font-medium text-[var(--color-neutral-bright)]">{movement.label_name}</p>
-              <p className="text-xs text-[var(--color-neutral-bright)]/70">{movement.bank_name}</p>
+              <div className="flex items-center gap-1 text-xs text-[var(--color-neutral-bright)]/70">
+                {movement.is_cash_movement ? (
+                  <>
+                    <FaMoneyBillWave className="text-[var(--color-success)]" />
+                    <span>Efectivo</span>
+                  </>
+                ) : (
+                  <>
+                    <FaUniversity className="text-[var(--color-warning)]" />
+                    <span>{movement.bank_name}</span>
+                  </>
+                )}
+              </div>
             </div>
             
             <div className="flex justify-between items-center">
               <span className={`text-lg font-bold ${movement.type_info.color}`}>
                 €{Math.abs(movement.amount).toFixed(2)}
               </span>
-              <span className="text-sm text-[var(--color-neutral-bright)]/70">
-                Saldo: €{movement.balance.toFixed(2)}
-              </span>
+              {!movement.is_cash_movement && (
+                <span className="text-sm text-[var(--color-neutral-bright)]/70">
+                  Saldo: €{movement.balance.toFixed(2)}
+                </span>
+              )}
             </div>
             
             <div className="text-xs text-[var(--color-neutral-bright)]/60">
@@ -307,7 +335,6 @@ export default function MovementsTable({
               <option value="">Todos los Tipos</option>
               <option value="1">Ingreso</option>
               <option value="2">Gasto</option>
-              <option value="3">Corrección</option>
             </select>
           </div>
 
@@ -397,6 +424,15 @@ export default function MovementsTable({
                   </th>
                   <th 
                     className="cursor-pointer px-3 py-3 text-left text-[var(--color-neutral-bright)] text-sm font-semibold hover:bg-[var(--color-neutral-dark-3)] transition-colors"
+                    onClick={() => handleSort('bank_name')}
+                  >
+                    <div className="flex items-center gap-2">
+                      Banco
+                      {getSortIcon('bank_name')}
+                    </div>
+                  </th>
+                  <th 
+                    className="cursor-pointer px-3 py-3 text-left text-[var(--color-neutral-bright)] text-sm font-semibold hover:bg-[var(--color-neutral-dark-3)] transition-colors"
                     onClick={() => handleSort('label_name')}
                   >
                     <div className="flex items-center gap-2">
@@ -405,7 +441,7 @@ export default function MovementsTable({
                     </div>
                   </th>
                   <th 
-                    className="cursor-pointer px-3 py-3 text-right text-[var(--color-neutral-bright)] text-sm font-semibold hover:bg-[(--color-neutral-dark-3)] transition-colors"
+                    className="cursor-pointer px-3 py-3 text-right text-[var(--color-neutral-bright)] text-sm font-semibold hover:bg-[var(--color-neutral-dark-3)] transition-colors"
                     onClick={() => handleSort('amount')}
                   >
                     <div className="flex items-center justify-end gap-2">
@@ -464,12 +500,41 @@ export default function MovementsTable({
                         >
                           <option value={1}>Ingreso</option>
                           <option value={2}>Gasto</option>
-                          <option value={3}>Corrección</option>
                         </select>
                       ) : (
                         <span className={`text-xs px-2 py-1 rounded font-medium ${movement.type_info.bgColor} ${movement.type_info.color}`}>
                           {movement.type_info.name}
                         </span>
+                      )}
+                    </td>
+                    <td className="px-3 py-3">
+                      {editingId === movement.id ? (
+                        <select
+                          value={editFormData.bank_id}
+                          onChange={(e) => handleEditChange('bank_id', e.target.value)}
+                          className="w-full p-1 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark)] rounded text-sm"
+                        >
+                          <option value="">💰 Efectivo</option>
+                          {banks.map((bank) => (
+                            <option key={bank.id} value={bank.id}>
+                              🏦 {bank.name}
+                            </option>
+                          ))}
+                        </select>
+                      ) : (
+                        <div className="flex items-center gap-1">
+                          {movement.is_cash_movement ? (
+                            <>
+                              <FaMoneyBillWave className="text-[var(--color-success)]" size={12} />
+                              <span className="text-[var(--color-neutral-bright)] text-sm">Efectivo</span>
+                            </>
+                          ) : (
+                            <>
+                              <FaUniversity className="text-[var(--color-warning)]" size={12} />
+                              <span className="text-[var(--color-neutral-bright)] text-sm">{movement.bank_name}</span>
+                            </>
+                          )}
+                        </div>
                       )}
                     </td>
                     <td className="px-3 py-3">
@@ -514,11 +579,19 @@ export default function MovementsTable({
                           step="0.01"
                           value={editFormData.balance}
                           onChange={(e) => handleEditChange('balance', e.target.value)}
-                          className="w-full p-1 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark)] rounded text-sm text-right"
+                          placeholder={editFormData.bank_id === "" ? "N/A para efectivo" : "0.00"}
+                          disabled={editFormData.bank_id === ""}
+                          className={`w-full p-1 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border border-[var(--color-neutral-dark)] rounded text-sm text-right ${
+                            editFormData.bank_id === "" ? 'opacity-50 cursor-not-allowed' : ''
+                          }`}
                         />
                       ) : (
                         <span className="text-[var(--color-neutral-bright)] text-sm font-medium">
-                          €{movement.balance.toFixed(2)}
+                          {movement.is_cash_movement ? (
+                            <span className="text-[var(--color-neutral-bright)]/50 italic">N/A</span>
+                          ) : (
+                            `€${movement.balance.toFixed(2)}`
+                          )}
                         </span>
                       )}
                     </td>

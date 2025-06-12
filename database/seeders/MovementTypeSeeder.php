@@ -14,10 +14,8 @@ class MovementTypeSeeder extends Seeder
     public function run(): void
     {
         DB::table('movement_types')->insert([
-            ['code' => 'I'],
-            ['code' => 'E'],
-            ['code' => 'C'],
+            ['code' => 'I'], 
+            ['code' => 'E'], 
         ]);
-
     }
 }

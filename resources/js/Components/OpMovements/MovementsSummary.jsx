@@ -35,14 +35,12 @@ export default function MovementsSummary({ movements }) {
     });
   }, []);
 
-  // Helper function to safely convert to number
   const safeNumber = (value) => {
     const num = parseFloat(value);
     return isNaN(num) ? 0 : num;
   };
 
   const { chartData, stats } = useMemo(() => {
-    // Ensure movements is an array and has data
     if (!Array.isArray(movements) || movements.length === 0) {
       return {
         chartData: {
@@ -72,7 +70,6 @@ export default function MovementsSummary({ movements }) {
       };
     }
 
-    // Sort movements by date and take the specified range
     const sortedMovements = [...movements]
       .map(movement => ({
         ...movement,
@@ -93,7 +90,6 @@ export default function MovementsSummary({ movements }) {
 
     const balanceData = sortedMovements.map(movement => movement.balance);
 
-    // Calculate statistics
     const currentBalance = balanceData[balanceData.length - 1] || 0;
     const previousBalance = balanceData[balanceData.length - 2] || currentBalance;
     const trend = currentBalance > previousBalance ? 'up' : currentBalance < previousBalance ? 'down' : 'neutral';

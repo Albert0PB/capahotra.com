@@ -16,13 +16,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('movement_type_id')->constrained();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('bank_id')->constrained();
+            $table->foreignId('bank_id')->nullable()->constrained();
             $table->foreignId('label_id')->constrained();
             $table->date('transaction_date');
             $table->date('value_date');
-            $table->string('comment', 255);
+            $table->string('comment', 255)->nullable();
             $table->decimal('amount', 8, 2);
-            $table->decimal('balance', 18, 2);
+            $table->decimal('balance', 18, 2)->nullable();
             $table->timestamps();
             $table->index('user_id');
             $table->index(['user_id', 'label_id', 'transaction_date']);

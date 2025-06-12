@@ -1,4 +1,5 @@
 import React from "react";
+import { FaMoneyBillWave, FaUniversity } from "react-icons/fa";
 
 export default function OperativePanelRecentActivity({ 
   recentMovements = [], 
@@ -15,7 +16,6 @@ export default function OperativePanelRecentActivity({
     switch(typeId) {
       case 1: return 'text-[var(--color-success)]';
       case 2: return 'text-[var(--color-error)]';
-      case 3: return 'text-[var(--color-warning)]';
       default: return 'text-[var(--color-neutral-bright)]';
     }
   };
@@ -24,9 +24,12 @@ export default function OperativePanelRecentActivity({
     switch(typeId) {
       case 1: return '↗️';
       case 2: return '↘️';  
-      case 3: return '🔄';
       default: return '💰';
     }
+  };
+
+  const isCashMovement = (movement) => {
+    return !movement.bank_id;
   };
 
   return (
@@ -60,18 +63,37 @@ export default function OperativePanelRecentActivity({
                     <p className="text-sm font-medium text-[var(--color-neutral-bright)]">
                       {movement.label?.name || 'Etiqueta Desconocida'}
                     </p>
-                    <p className="text-xs text-[var(--color-neutral-bright)]/70">
-                      {new Date(movement.transaction_date).toLocaleDateString()}
-                    </p>
+                    <div className="flex items-center gap-2 text-xs text-[var(--color-neutral-bright)]/70">
+                      <span>{new Date(movement.transaction_date).toLocaleDateString()}</span>
+                      <span>•</span>
+                      {isCashMovement(movement) ? (
+                        <div className="flex items-center gap-1">
+                          <FaMoneyBillWave className="text-[var(--color-success)]" size={10} />
+                          <span>Efectivo</span>
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-1">
+                          <FaUniversity className="text-[var(--color-warning)]" size={10} />
+                          <span>Banco</span>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
                 <div className="text-right">
                   <p className={`text-sm font-bold ${getMovementTypeColor(movement.movement_type_id)}`}>
                     € {Math.abs(safeNumber(movement.amount)).toFixed(2)}
                   </p>
-                  <p className="text-xs text-[var(--color-neutral-bright)]/70">
-                    Saldo: € {safeNumber(movement.balance).toFixed(2)}
-                  </p>
+                  {!isCashMovement(movement) && movement.balance !== null && (
+                    <p className="text-xs text-[var(--color-neutral-bright)]/70">
+                      Saldo: € {safeNumber(movement.balance).toFixed(2)}
+                    </p>
+                  )}
+                  {isCashMovement(movement) && (
+                    <p className="text-xs text-[var(--color-neutral-bright)]/50 italic">
+                      N/A
+                    </p>
+                  )}
                 </div>
               </div>
             ))

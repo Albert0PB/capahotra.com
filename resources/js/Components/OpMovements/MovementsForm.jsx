@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { FaUpload, FaTags, FaCalendarAlt, FaEuroSign, FaComment, FaSave, FaTimes, FaPlus, FaEdit, FaExclamationTriangle, FaExchangeAlt, FaUniversity, FaWallet } from "react-icons/fa";
+import { FaUpload, FaTags, FaCalendarAlt, FaEuroSign, FaComment, FaSave, FaTimes, FaPlus, FaEdit, FaExclamationTriangle, FaExchangeAlt, FaUniversity, FaWallet, FaMoneyBillWave } from "react-icons/fa";
 import axios from "axios";
 
 const MOVEMENT_TYPES = [
   { id: 1, code: 'I', name: 'Ingreso', icon: FaPlus, color: 'text-[var(--color-success)]' },
   { id: 2, code: 'E', name: 'Gasto', icon: FaTimes, color: 'text-[var(--color-error)]' },
-  { id: 3, code: 'C', name: 'Corrección', icon: FaEdit, color: 'text-[var(--color-warning)]' },
 ];
 
 export default function MovementsForm({ 
@@ -34,18 +33,18 @@ export default function MovementsForm({
       setFormData({
         movement_type_id: editingMovement.movement_type_id,
         label_id: editingMovement.label_id,
-        bank_id: editingMovement.bank_id,
+        bank_id: editingMovement.bank_id || "",
         transaction_date: editingMovement.transaction_date,
         value_date: editingMovement.value_date,
         amount: Math.abs(editingMovement.amount),
         comment: editingMovement.comment || "",
-        balance: editingMovement.balance
+        balance: editingMovement.balance || ""
       });
     } else {
       setFormData({
         movement_type_id: "",
         label_id: "",
-        bank_id: banks.length > 0 ? banks[0].id : "",
+        bank_id: "",
         transaction_date: new Date().toISOString().split('T')[0],
         value_date: new Date().toISOString().split('T')[0],
         amount: "",
@@ -61,7 +60,7 @@ export default function MovementsForm({
     setFormData(prev => ({
       ...prev,
       [name]: ['movement_type_id', 'label_id', 'bank_id'].includes(name) 
-        ? parseInt(value) || ""
+        ? (value === "" ? "" : parseInt(value) || "")
         : value
     }));
 
@@ -70,6 +69,14 @@ export default function MovementsForm({
       setFormData(prev => ({
         ...prev,
         value_date: value
+      }));
+    }
+
+    // Clear balance when bank is changed to cash (empty)
+    if (name === 'bank_id' && value === "") {
+      setFormData(prev => ({
+        ...prev,
+        balance: ""
       }));
     }
   };
@@ -82,7 +89,9 @@ export default function MovementsForm({
     try {
       const submitData = {
         ...formData,
-        amount: parseFloat(formData.amount)
+        amount: parseFloat(formData.amount),
+        bank_id: formData.bank_id === "" ? null : formData.bank_id,
+        balance: formData.balance === "" ? null : parseFloat(formData.balance)
       };
 
       if (editingMovement) {
@@ -92,7 +101,7 @@ export default function MovementsForm({
         setFormData({
           movement_type_id: "",
           label_id: "",
-          bank_id: banks.length > 0 ? banks[0].id : "",
+          bank_id: "",
           transaction_date: new Date().toISOString().split('T')[0],
           value_date: new Date().toISOString().split('T')[0],
           amount: "",
@@ -117,6 +126,7 @@ export default function MovementsForm({
   const selectedType = MOVEMENT_TYPES.find(type => type.id === formData.movement_type_id);
   const selectedLabel = userLabels.find(label => label.id === formData.label_id);
   const selectedBank = banks.find(bank => bank.id === formData.bank_id);
+  const isCashMovement = formData.bank_id === "";
 
   return (
     <div className="bg-[var(--color-neutral-dark-2)] rounded-lg shadow-lg overflow-hidden">
@@ -231,8 +241,12 @@ export default function MovementsForm({
           {/* Bank */}
           <div>
             <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
-              <FaUniversity className="text-[var(--color-warning)]" />
-              Banco *
+              {isCashMovement ? (
+                <FaMoneyBillWave className="text-[var(--color-success)]" />
+              ) : (
+                <FaUniversity className="text-[var(--color-warning)]" />
+              )}
+              Banco (Opcional)
             </label>
             <select
               name="bank_id"
@@ -243,20 +257,26 @@ export default function MovementsForm({
                   ? 'border-[var(--color-error)]' 
                   : 'border-[var(--color-neutral-dark-3)]'
               }`}
-              required
             >
-              <option value="">Selecciona un banco</option>
+              <option value="">💰 Operación en Efectivo</option>
               {banks.map((bank) => (
                 <option key={bank.id} value={bank.id}>
-                  {bank.name}
+                  🏦 {bank.name}
                 </option>
               ))}
             </select>
             {errors.bank_id && (
               <p className="text-[var(--color-error)] text-sm mt-1">{errors.bank_id[0]}</p>
             )}
+            {isCashMovement && (
+              <p className="text-xs text-[var(--color-success)] mt-1 flex items-center gap-1">
+                <FaMoneyBillWave />
+                Movimiento en efectivo - No se requiere información bancaria
+              </p>
+            )}
           </div>
 
+          {/* Rest of the form remains the same... */}
           {/* Dates */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
@@ -337,7 +357,7 @@ export default function MovementsForm({
             <div>
               <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
                 <FaWallet className="text-[var(--color-warning)]" />
-                Saldo *
+                Saldo {isCashMovement && "(Opcional)"}
               </label>
               <div className="relative">
                 <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[var(--color-neutral-bright)]/60">€</span>
@@ -347,17 +367,25 @@ export default function MovementsForm({
                   name="balance"
                   value={formData.balance}
                   onChange={handleChange}
-                  placeholder="0.00"
+                  placeholder={isCashMovement ? "No aplica para efectivo" : "0.00"}
+                  disabled={isCashMovement}
                   className={`w-full pl-8 pr-3 py-3 bg-[var(--color-neutral-dark-3)] text-[var(--color-neutral-bright)] border rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-colors ${
+                    isCashMovement ? 'opacity-50 cursor-not-allowed' : ''
+                  } ${
                     errors.balance 
                       ? 'border-[var(--color-error)]' 
                       : 'border-[var(--color-neutral-dark-3)]'
                   }`}
-                  required
+                  required={!isCashMovement}
                 />
               </div>
               {errors.balance && (
                 <p className="text-[var(--color-error)] text-sm mt-1">{errors.balance[0]}</p>
+              )}
+              {isCashMovement && (
+                <p className="text-xs text-[var(--color-neutral-bright)]/50 mt-1">
+                  No se requiere saldo para operaciones en efectivo
+                </p>
               )}
             </div>
           </div>
@@ -408,11 +436,21 @@ export default function MovementsForm({
                   <div className={`font-bold ${selectedType.color}`}>
                     €{parseFloat(formData.amount || 0).toFixed(2)}
                   </div>
-                  {selectedBank && (
-                    <div className="text-sm text-[var(--color-neutral-bright)]/70">
-                      {selectedBank.name} • {formData.transaction_date}
-                    </div>
-                  )}
+                  <div className="text-sm text-[var(--color-neutral-bright)]/70 flex items-center gap-1">
+                    {isCashMovement ? (
+                      <>
+                        <FaMoneyBillWave className="text-[var(--color-success)]" />
+                        <span>Efectivo</span>
+                      </>
+                    ) : (
+                      <>
+                        <FaUniversity />
+                        <span>{selectedBank?.name}</span>
+                      </>
+                    )}
+                    <span>•</span>
+                    <span>{formData.transaction_date}</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -422,7 +460,7 @@ export default function MovementsForm({
           <div className="flex flex-col gap-3 pt-4 border-t border-[var(--color-neutral-dark-3)]">
             <button
               type="submit"
-              disabled={loading || !formData.movement_type_id || !formData.label_id || !formData.amount}
+              disabled={loading || !formData.movement_type_id || !formData.label_id || !formData.amount || (!isCashMovement && !formData.balance)}
               className="cursor-pointer flex items-center justify-center gap-2 w-full px-4 py-3 bg-[var(--color-primary)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-secondary)] disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 font-medium"
             >
               {loading ? (
@@ -476,8 +514,8 @@ export default function MovementsForm({
           <ul className="text-xs text-[var(--color-neutral-bright)]/70 space-y-1">
             <li>• Usa Ingreso para dinero que entra en tu cuenta</li>
             <li>• Usa Gasto para dinero que sale de tu cuenta</li>
-            <li>• El tipo Corrección es para corregir errores o ajustes</li>
-            <li>• El saldo debe reflejar el saldo de tu cuenta después de esta transacción</li>
+            <li>• Selecciona "Operación en Efectivo" para compras sin tarjeta/banco</li>
+            <li>• El saldo solo es necesario para movimientos bancarios</li>
             <li>• La fecha valor es cuando la transacción realmente afecta tu saldo</li>
           </ul>
         </div>

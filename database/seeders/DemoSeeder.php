@@ -83,14 +83,13 @@ class DemoSeeder extends Seeder
         $types = [
             ['code' => 'I'], // Ingreso
             ['code' => 'E'], // Egreso/Gasto
-            ['code' => 'C'], // Corrección
         ];
 
         foreach ($types as $type) {
             $this->movementTypes[] = MovementType::create($type);
         }
 
-        $this->command->info("Created movement types: I, E, C");
+        $this->command->info("Created movement types: I, E");
     }
 
     /**
@@ -158,17 +157,14 @@ class DemoSeeder extends Seeder
         
         // Crear movimientos distribuidos a lo largo del año
         for ($i = 0; $i < 500; $i++) {
-            // Determinar tipo de movimiento (80% gastos, 15% ingresos, 5% correcciones)
+            // Determinar tipo de movimiento (80% gastos, 20% ingresos)
             $rand = rand(1, 100);
-            if ($rand <= 15) {
+            if ($rand <= 20) {
                 $movementType = collect($this->movementTypes)->where('code', 'I')->first();
                 $isIncome = true;
-            } elseif ($rand <= 95) {
+            } else {
                 $movementType = collect($this->movementTypes)->where('code', 'E')->first();
                 $isIncome = false;
-            } else {
-                $movementType = collect($this->movementTypes)->where('code', 'C')->first();
-                $isIncome = rand(0, 1) === 1;
             }
 
             // Generar monto según el tipo
@@ -193,16 +189,19 @@ class DemoSeeder extends Seeder
             $transactionDate = fake()->dateTimeBetween('2025-01-01', '2025-12-31');
             $valueDate = $transactionDate;
 
+            // Decidir si es un movimiento bancario o en efectivo (30% efectivo)
+            $isCashMovement = rand(1, 100) <= 30;
+
             $movementsData[] = [
                 'movement_type_id' => $movementType->id,
                 'user_id' => $this->demoUser->id,
-                'bank_id' => $this->demoBank->id,
+                'bank_id' => $isCashMovement ? null : $this->demoBank->id,
                 'label_id' => $label->id,
                 'transaction_date' => $transactionDate->format('Y-m-d'),
                 'value_date' => $valueDate->format('Y-m-d'),
-                'comment' => $this->generateMovementComment($label->name, $isIncome),
+                'comment' => $this->generateMovementComment($label->name, $isIncome, $isCashMovement),
                 'amount' => round($amount, 2),
-                'balance' => round($currentBalance, 2),
+                'balance' => $isCashMovement ? null : round($currentBalance, 2),
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
@@ -214,7 +213,7 @@ class DemoSeeder extends Seeder
             Movement::insert($chunk);
         }
 
-        $this->command->info("Created 500 movements for demo user");
+        $this->command->info("Created 500 movements for demo user (70% bancarios, 30% efectivo)");
     }
 
     /**
@@ -326,16 +325,18 @@ class DemoSeeder extends Seeder
     /**
      * Generar comentario de movimiento
      */
-    private function generateMovementComment(string $labelName, bool $isIncome): string
+    private function generateMovementComment(string $labelName, bool $isIncome, bool $isCashMovement): string
     {
+        $baseComment = '';
+        
         if ($isIncome) {
-            return match(strtolower($labelName)) {
+            $baseComment = match(strtolower($labelName)) {
                 'nómina' => fake()->randomElement(['Salario mensual', 'Pago nómina', 'Ingreso salario']),
                 'inversiones' => fake()->randomElement(['Dividendos', 'Beneficio inversión', 'Rentabilidad cartera']),
                 default => fake()->randomElement(['Ingreso varios', 'Transferencia recibida', 'Otros ingresos'])
             };
         } else {
-            return match(strtolower($labelName)) {
+            $baseComment = match(strtolower($labelName)) {
                 'supermercado' => fake()->randomElement(['Compra Mercadona', 'Carrefour', 'Compra semanal']),
                 'gasolina' => fake()->randomElement(['Repsol', 'Cepsa', 'Repostaje']),
                 'restaurantes' => fake()->randomElement(['Cena fuera', 'Almuerzo', 'Comida delivery']),
@@ -343,5 +344,12 @@ class DemoSeeder extends Seeder
                 default => fake()->sentence(3)
             };
         }
+
+        // Añadir indicador de efectivo si aplica
+        if ($isCashMovement) {
+            $baseComment .= ' (Efectivo)';
+        }
+
+        return $baseComment;
     }
 }
