@@ -10,7 +10,7 @@ import { format } from "date-fns";
 import { es } from "date-fns/locale";
 
 function getFormattedDate() {
-    return format(new Date(), "do 'de' MMMM 'de' yyyy", { locale: es });
+    return format(new Date(), "d 'de' MMMM 'de' yyyy", { locale: es });
 }
 
 export default function Dashboard({
