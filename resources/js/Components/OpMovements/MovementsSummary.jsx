@@ -70,25 +70,58 @@ export default function MovementsSummary({ movements }) {
       };
     }
 
+    // Ordenar movimientos por fecha y tomar los últimos según timeRange
     const sortedMovements = [...movements]
-      .map(movement => ({
-        ...movement,
-        transaction_date: movement.transaction_date,
-        balance: safeNumber(movement.balance)
-      }))
       .sort((a, b) => new Date(a.transaction_date) - new Date(b.transaction_date))
       .slice(-timeRange);
 
-    const labels = sortedMovements.map(movement => {
+    // Calcular saldo acumulativo para cada movimiento
+    const movementsWithBalance = [];
+    let runningBalance = 0;
+
+    // Primero necesitamos calcular el saldo base hasta el primer movimiento que vamos a mostrar
+    if (timeRange < movements.length) {
+      const allSorted = [...movements].sort((a, b) => new Date(a.transaction_date) - new Date(b.transaction_date));
+      const movementsBeforeRange = allSorted.slice(0, -timeRange);
+      
+      runningBalance = movementsBeforeRange.reduce((balance, movement) => {
+        if (movement.movement_type_id === 1) {
+          // Ingreso - sumar
+          return balance + safeNumber(movement.amount);
+        } else if (movement.movement_type_id === 2) {
+          // Gasto - restar
+          return balance - safeNumber(movement.amount);
+        }
+        return balance;
+      }, 0);
+    }
+
+    // Ahora calcular el saldo para cada movimiento en el rango
+    for (const movement of sortedMovements) {
+      if (movement.movement_type_id === 1) {
+        // Ingreso - sumar
+        runningBalance += safeNumber(movement.amount);
+      } else if (movement.movement_type_id === 2) {
+        // Gasto - restar
+        runningBalance -= safeNumber(movement.amount);
+      }
+      
+      movementsWithBalance.push({
+        ...movement,
+        calculatedBalance: runningBalance
+      });
+    }
+
+    const labels = movementsWithBalance.map(movement => {
       const date = new Date(movement.transaction_date);
       return date.toLocaleDateString('es-ES', { 
         month: 'short', 
         day: 'numeric',
-        year: sortedMovements.length > 30 ? '2-digit' : undefined
+        year: movementsWithBalance.length > 30 ? '2-digit' : undefined
       });
     });
 
-    const balanceData = sortedMovements.map(movement => movement.balance);
+    const balanceData = movementsWithBalance.map(movement => movement.calculatedBalance);
 
     const currentBalance = balanceData[balanceData.length - 1] || 0;
     const previousBalance = balanceData[balanceData.length - 2] || currentBalance;

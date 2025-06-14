@@ -276,16 +276,17 @@ export default function MovementsForm({
             )}
           </div>
 
-          {/* Rest of the form remains the same... */}
           {/* Dates */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* Fecha de Transacción */}
             <div>
-              <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
+              <label htmlFor="transaction_date" className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
                 <FaCalendarAlt className="text-[var(--color-primary)]" />
-                Fecha de Transacción *
+                F. Transacción *
               </label>
               <input
                 type="date"
+                id="transaction_date"
                 name="transaction_date"
                 value={formData.transaction_date}
                 onChange={handleChange}
@@ -301,13 +302,15 @@ export default function MovementsForm({
               )}
             </div>
 
+            {/* Fecha Valor */}
             <div>
-              <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
+              <label htmlFor="value_date" className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
                 <FaCalendarAlt className="text-[var(--color-secondary)]" />
-                Fecha Valor *
+                F. Valor *
               </label>
               <input
                 type="date"
+                id="value_date"
                 name="value_date"
                 value={formData.value_date}
                 onChange={handleChange}
@@ -327,7 +330,7 @@ export default function MovementsForm({
           {/* Amount and Balance */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
+              <label htmlFor="amount" className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
                 <FaEuroSign className="text-[var(--color-success)]" />
                 Cantidad *
               </label>
@@ -337,6 +340,7 @@ export default function MovementsForm({
                   type="number"
                   step="0.01"
                   min="0"
+                  id="amount"
                   name="amount"
                   value={formData.amount}
                   onChange={handleChange}
@@ -355,7 +359,7 @@ export default function MovementsForm({
             </div>
 
             <div>
-              <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
+              <label htmlFor="balance" className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
                 <FaWallet className="text-[var(--color-warning)]" />
                 Saldo {isCashMovement && "(Opcional)"}
               </label>
@@ -364,6 +368,7 @@ export default function MovementsForm({
                 <input
                   type="number"
                   step="0.01"
+                  id="balance"
                   name="balance"
                   value={formData.balance}
                   onChange={handleChange}
@@ -392,11 +397,12 @@ export default function MovementsForm({
 
           {/* Comment */}
           <div>
-            <label className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
+            <label htmlFor="comment" className="flex items-center gap-2 text-sm font-medium text-[var(--color-neutral-bright)] mb-3">
               <FaComment className="text-[var(--color-warning)]" />
               Notas (Opcional)
             </label>
             <textarea
+              id="comment"
               name="comment"
               value={formData.comment}
               onChange={handleChange}

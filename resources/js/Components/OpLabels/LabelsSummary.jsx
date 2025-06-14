@@ -36,7 +36,6 @@ export default function LabelsSummary({ labelsData }) {
     });
   }, []);
 
-  // Generate a set of colors for the charts
   const generateColors = (count) => {
     const baseColors = [colors.primary, colors.success, colors.warning, colors.error, colors.secondary];
     const generatedColors = [];
@@ -45,7 +44,6 @@ export default function LabelsSummary({ labelsData }) {
       if (i < baseColors.length) {
         generatedColors.push(baseColors[i]);
       } else {
-        // Generate additional colors by modifying existing ones
         const baseColor = baseColors[i % baseColors.length];
         const alpha = 0.7 - (Math.floor(i / baseColors.length) * 0.2);
         generatedColors.push(baseColor + Math.floor(alpha * 255).toString(16).padStart(2, '0'));
@@ -55,7 +53,6 @@ export default function LabelsSummary({ labelsData }) {
     return generatedColors;
   };
 
-  // Sort data by amount (descending) and take top 10
   const sortedData = [...labelsData]
     .sort((a, b) => Math.abs(b.movements_sum_amount || 0) - Math.abs(a.movements_sum_amount || 0))
     .slice(0, 10);
@@ -147,31 +144,7 @@ export default function LabelsSummary({ labelsData }) {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        display: true,
-        position: 'right',
-        labels: {
-          color: colors.bright,
-          font: {
-            family: "Inter",
-            size: 12,
-          },
-          usePointStyle: true,
-          pointStyle: 'circle',
-          padding: 15,
-          generateLabels: function(chart) {
-            const data = chart.data;
-            if (data.labels.length && data.datasets.length) {
-              return data.labels.slice(0, 6).map((label, i) => ({
-                text: label.length > 15 ? label.substring(0, 15) + '...' : label,
-                fillStyle: data.datasets[0].backgroundColor[i],
-                strokeStyle: data.datasets[0].backgroundColor[i],
-                lineWidth: 0,
-                index: i
-              }));
-            }
-            return [];
-          }
-        },
+        display: false,
       },
       tooltip: {
         backgroundColor: 'rgba(0, 0, 0, 0.8)',

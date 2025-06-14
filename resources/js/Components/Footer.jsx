@@ -3,8 +3,8 @@ import { Link } from "@inertiajs/react";
 
 export default function Footer() {
     return (
-        <footer className="bg-[var(--color-neutral-dark)] py-6 sm:py-8 lg:py-12 px-4 sm:px-6 lg:px-12">
-            <div className="max-w-6xl mx-auto">
+        <footer className="bg-[var(--color-neutral-dark)] py-6 sm:py-8 lg:py-12 px-4 sm:px-6 lg:px-12 xl:px-16"> {/* Ajustar los paddings para que coincidan con el header */}
+            <div className=""> {/* Eliminar max-w-6xl mx-auto */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                     
                     {/* Brand Section */}

@@ -5,7 +5,7 @@ import MovementsSummary from "../../Components/OpMovements/MovementsSummary";
 import BankStatementUpload from "../../Components/OpMovements/BankStatmentUpload";
 import MovementsReview from "../../Components/OpMovements/MovementsReview";
 import NavSidebar from "../../Components/NavSidebar";
-import { FaExchangeAlt, FaWallet, FaChartLine, FaEuroSign, FaCalendarCheck } from "react-icons/fa";
+import { FaExchangeAlt, FaWallet, FaChartLine, FaBalanceScale, FaCalendarCheck } from "react-icons/fa";
 import axios from "axios";
 
 export default function OpMovements({ 
@@ -100,16 +100,18 @@ export default function OpMovements({
     setExtractedMovements(null);
   };
 
-  // Calculate metrics
   const totalMovements = movements.length;
   
-  const currentBalance = movements.length > 0 
-    ? safeNumber(movements.reduce((latest, movement) => {
-        const latestDate = new Date(latest.transaction_date);
-        const currentDate = new Date(movement.transaction_date);
-        return currentDate > latestDate ? movement : latest;
-      }, movements[0]).balance)
-    : 0;
+  // Calcular el saldo actual igual que en Dashboard
+  const totalIncome = movements
+    .filter(m => m.movement_type_id === 1)
+    .reduce((sum, m) => sum + safeNumber(m.amount), 0);
+
+  const totalExpenses = movements
+    .filter(m => m.movement_type_id === 2)
+    .reduce((sum, m) => sum + safeNumber(m.amount), 0);
+
+  const currentBalance = totalIncome - totalExpenses;
 
   const currentMonth = new Date().getMonth();
   const currentYear = new Date().getFullYear();
@@ -209,7 +211,7 @@ export default function OpMovements({
                   ingresos - gastos
                 </p>
               </div>
-              <FaEuroSign className={`text-2xl lg:text-3xl ${
+              <FaBalanceScale className={`text-2xl lg:text-3xl ${
                 thisMonthNet >= 0 ? 'text-[var(--color-success)]' : 'text-[var(--color-error)]'
               }`} />
             </div>
