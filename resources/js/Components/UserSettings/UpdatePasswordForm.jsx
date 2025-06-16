@@ -279,7 +279,7 @@ export default function UpdatePasswordForm({ errors }) {
             <button
               type="submit"
               disabled={processing}
-              className="cursor-pointer px-6 py-3 bg-[var(--color-warning)] text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-warning)]/80 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center gap-2 font-medium"
+              className="cursor-pointer px-6 py-3 bg-[var(--color-warning)]/80 text-[var(--color-neutral-bright)] rounded-lg hover:bg-[var(--color-warning)]/60 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 flex items-center gap-2 font-medium"
             >
               {processing ? (
                 <>
