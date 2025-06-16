@@ -210,16 +210,6 @@ export default function ProfileInformationForm({ user, errors }) {
                 })}
               </p>
             </div>
-            <div>
-              <span className="text-[var(--color-neutral-bright)]/70">Estado del Correo:</span>
-              <p className={`font-medium ${
-                user.email_verified_at 
-                  ? 'text-[var(--color-success)]' 
-                  : 'text-[var(--color-warning)]'
-              }`}>
-                {user.email_verified_at ? 'Verificado' : 'Sin Verificar'}
-              </p>
-            </div>
           </div>
         </div>
       </div>
